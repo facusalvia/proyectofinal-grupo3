@@ -1,5 +1,7 @@
-package com.santander.proyectofinal.config;
+package com.santander.proyectofinal.service;
 
+import com.santander.proyectofinal.entity.UserEntity;
+import com.santander.proyectofinal.repository.IUserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,25 +14,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    IUserEntityRepository userEntityRepository;
+
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        if(s.equals("admin")){
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userEntityRepository.findByUsernameEquals(username).orElseThrow(()-> {throw new UsernameNotFoundException("User not found");} );
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        if (userEntity.getRol().equals("manager")) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            var userDetails = new User("admin", passwordEncoder.encode("admin"), grantedAuthorities);
-            return userDetails;
         }
-        if(s.equals("user")){
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        if (userEntity.getRol().equals("employed")) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            var userDetails = new User("admin", passwordEncoder.encode("user"), grantedAuthorities);
-            return userDetails;
         }
-        throw new UsernameNotFoundException("User not found");
+
+        //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
     }
 }
