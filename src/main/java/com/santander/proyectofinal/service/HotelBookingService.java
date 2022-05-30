@@ -28,6 +28,7 @@ public class HotelBookingService {
 
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
+        hotelBookingEntity.setHotel(hotelEntity);
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
 
         if(hotelBookingEntity.getId() == null){
