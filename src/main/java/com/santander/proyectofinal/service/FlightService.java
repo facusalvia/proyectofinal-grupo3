@@ -1,20 +1,14 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.FlightDTO;
-
-import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.lang.model.util.Elements;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,12 +25,16 @@ public class FlightService {
         return flightDTO;
     }
 
-    public List<FlightDTO> getFlight() {
+    public FlightListResponseDTO getFlights() {
+
         List<FlightEntity> flightEntities = flightEntityRepository.getFlights();
 
-        return new FlightListResponseDTO(flightEntities.stream().map(
-                flightEntity ->
-        ));
+        return new FlightListResponseDTO(
+                flightEntities.stream().map(
+                                flight -> modelMapper.map(flight, FlightDTO.class)
+                        )
+                        .collect(Collectors.toList())
+        );
     }
 
     public List<FlightDTO> getFlightsByDate(String origin, String destiny, LocalDate dateFrom, LocalDate dateTo) {
@@ -61,9 +59,8 @@ public class FlightService {
       FlightEntity flightEntity = flightEntityRepository
               .findByFlightNumberEquals(flightDTO.getFlightNumber())
               .orElseThrow(()->{throw new RuntimeException();});
-
         flightEntity = modelMapper.map(flightDTO,FlightEntity.class);
-
-
+        flightEntityRepository.updateFlight(flightEntity).orElseThrow(()->{throw new RuntimeException();});
+        return flightDTO;
     }
 }

@@ -2,6 +2,7 @@ package com.santander.proyectofinal.controllers;
 
 
 import com.santander.proyectofinal.dto.FlightDTO;
+import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +29,9 @@ public class FlightController {
     }
 
     @GetMapping("/api/v1/flights")
-    public ResponseEntity<List<FlightDTO>> getFlights() {
-        List<FlightDTO> vueloDtos = flightService.getFlights();
+    public ResponseEntity<FlightListResponseDTO> getFlights() {
+        FlightListResponseDTO vueloDtos = flightService.getFlights();
         return new ResponseEntity<>(vueloDtos, HttpStatus.OK);
-
     }
 
 
@@ -41,12 +41,12 @@ public class FlightController {
                                                                @RequestParam (value = "origen") @NotBlank String origen,
                                                                @RequestParam(value = "destino") @NotBlank (message = "el campo destino no puede estar en blanco") String destino) {
 
-        // parseo
+         parseo
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fechaDesdeParseo = LocalDate.parse(fechaDesde, formatter);
         LocalDate fechaHastaParseo = LocalDate.parse(fechaHasta, formatter);
 
-        //prueba
+        prueba
 
         List<FlightDTO> flightDTOs = flightService.getFlightsByDate(origen, destino, fechaDesdeParseo, fechaHastaParseo);
         return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
