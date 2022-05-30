@@ -1,6 +1,7 @@
 package com.santander.proyectofinal.controllers;
 
 import com.santander.proyectofinal.config.JwtUtils;
+import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
 import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
@@ -36,7 +37,7 @@ public class HotelController {
     }
 
     @PutMapping(value = "/edit", params = {"hotelCode"})
-    public ResponseEntity<String> updateHotel(@RequestParam(value="hotelCode") String hotelCode,@RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<SuccessDTO> updateHotel(@RequestParam(value="hotelCode") String hotelCode, @RequestBody HotelRequestDTO hotelRequestDTO){
         return ResponseEntity.ok().body(hotelService.updateHotel(hotelCode,hotelRequestDTO));
     }
 
