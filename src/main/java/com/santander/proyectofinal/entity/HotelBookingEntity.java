@@ -18,8 +18,6 @@ public class HotelBookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    //@Column
-    //private UserEntity user;
     @Column
     private LocalDate dateFrom;
     @Column
@@ -36,4 +34,6 @@ public class HotelBookingEntity {
     private List<GuestEntity> people;
     @OneToOne(cascade = CascadeType.PERSIST)
     private PaymentMethodEntity paymentMethod;
+    @Column
+    private boolean isActive;
 }

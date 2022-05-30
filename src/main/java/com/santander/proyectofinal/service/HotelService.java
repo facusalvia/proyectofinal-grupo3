@@ -4,6 +4,7 @@ import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
 import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
+import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.repository.IHotelRepository;
@@ -43,6 +44,7 @@ public class HotelService {
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
+    //TODO: agregar excepciones customizadas
     public SuccessDTO updateHotel(String hotelCode, HotelRequestDTO hotelRequestDTO) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
         Integer idHotel = hotelEntity.getId();
@@ -55,5 +57,16 @@ public class HotelService {
     public ListHotelResponseDto getHotelesWithDateFromDateToAndDestination(LocalDate from, LocalDate to, String destination) {
         List<HotelEntity> listHotels = hotelRepository.findHotelWithDateFromDateToAndDestination(from,to,destination);
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
+    }
+
+    public SuccessDTO deleteHotel(String hotelCode) {
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
+        List<HotelBookingEntity> listHotelBookingEntity = hotelRepository.findIfExisteBookings(hotelEntity.getHotelCode());
+        if (listHotelBookingEntity.isEmpty()){
+            hotelRepository.delete(hotelEntity);
+            return new SuccessDTO("Hotel dado de baja correctamente",200);
+        }
+        else
+            throw new RuntimeException("El hotel no puede ser dado de baja ya que posee reservas vigentes");
     }
 }

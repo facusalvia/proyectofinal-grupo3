@@ -60,5 +60,10 @@ public class HotelController {
         return ResponseEntity.ok().body(hotelService.getHotelesWithDateFromDateToAndDestination(from,to,destination));
     }
 
+    @DeleteMapping(value ="/delete", params= {"hotelCode"})
+    public ResponseEntity<SuccessDTO> deleteHotel(@RequestParam(value="hotelCode") String hotelCode){
+        return ResponseEntity.ok().body(hotelService.deleteHotel(hotelCode));
+    }
+
 
 }
