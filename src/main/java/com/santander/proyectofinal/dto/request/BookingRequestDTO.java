@@ -1,15 +1,12 @@
 package com.santander.proyectofinal.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.santander.proyectofinal.dto.GuestDTO;
 import com.santander.proyectofinal.dto.PaymentMethodDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,7 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class BookingRequestDTO {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateFrom;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateTo;
     private String destination;
     private String hotelCode;
