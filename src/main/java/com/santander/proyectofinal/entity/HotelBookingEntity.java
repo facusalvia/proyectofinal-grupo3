@@ -19,8 +19,6 @@ public class HotelBookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    //@Column
-    //private UserEntity user;
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateFrom;
@@ -39,4 +37,6 @@ public class HotelBookingEntity {
     private List<GuestEntity> people;
     @OneToOne(cascade = CascadeType.PERSIST)
     private PaymentMethodEntity paymentMethod;
+    @Column
+    private boolean isActive;
 }

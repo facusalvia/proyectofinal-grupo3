@@ -1,5 +1,6 @@
 package com.santander.proyectofinal.repository;
 
+import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,5 +26,7 @@ public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
             @Param("dateTo") LocalDate dateTo,
             @Param("destination") String destination);
 
-
+    //TODO: filtrar por reservas que esten como isActive
+    @Query("SELECT h.hotelBookingEntityList FROM HotelEntity h WHERE h.hotelCode = :hotelCode")
+    List<HotelBookingEntity> findIfExisteBookings(@Param("hotelCode") String hotelCode);
 }
