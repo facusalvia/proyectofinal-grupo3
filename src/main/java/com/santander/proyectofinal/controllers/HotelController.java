@@ -6,6 +6,7 @@ import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.service.HotelService;
 import com.santander.proyectofinal.service.UserDetailsServiceImpl;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +32,13 @@ public class HotelController {
 
     @GetMapping()
     public ResponseEntity<ListHotelResponseDto> getHotels(){
-
         return ResponseEntity.ok().body(hotelService.getHotels());
     }
+
+    @PutMapping(value = "/edit", params = {"hotelCode"})
+    public ResponseEntity<String> updateHotel(@RequestParam(value="hotelCode") Integer hotelCode,@RequestBody HotelRequestDTO hotelRequestDTO){
+        return ResponseEntity.ok().body(hotelService.updateHotel(hotelCode,hotelRequestDTO));
+    }
+
+
 }
