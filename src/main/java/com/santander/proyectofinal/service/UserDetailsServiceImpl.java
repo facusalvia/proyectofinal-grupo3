@@ -34,7 +34,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
-        //return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);
-        return new User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
+        return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);
     }
 }
