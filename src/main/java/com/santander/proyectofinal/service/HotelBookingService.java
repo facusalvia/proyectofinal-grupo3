@@ -2,6 +2,7 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.entity.GuestEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -11,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HotelBookingService {
-
     @Autowired
     IHotelBookingRepository hotelBookingRepository;
 
@@ -29,6 +31,14 @@ public class HotelBookingService {
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
         hotelBookingEntity.setHotel(hotelEntity);
+        // TODO: setear el id a cada guest en caso de que ya exista en la tabla pq sino el cascade genera otra entrada
+
+        // a cada guest le seteo el hotelEntity
+        List<GuestEntity> guests = hotelBookingEntity.getPeople();
+        for (GuestEntity guest: guests) {
+            guest.setHotelBookingEntity(List.of(hotelBookingEntity));
+        }
+
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
 
         if(hotelBookingEntity.getId() == null){
