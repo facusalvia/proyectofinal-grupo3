@@ -1,5 +1,6 @@
 package com.santander.proyectofinal.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,10 @@ public class HotelEntity {
     @Column
     private Double roomPrice;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate disponibilityDateFrom;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate disponibilityDateTo;
     @Column
     private Boolean isBooking;
