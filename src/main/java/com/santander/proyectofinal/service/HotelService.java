@@ -6,6 +6,7 @@ import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.UserEntity;
+import com.santander.proyectofinal.exceptions.HotelAlreadyExistsException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class HotelService {
     public HotelResponseDTO addHotel(HotelRequestDTO hotelRequestDTO) {
         HotelEntity hotelEntity = modelMapper.map(hotelRequestDTO, HotelEntity.class);
 
+        if(hotelRepository.findByHotelCode(hotelRequestDTO.getHotelCode()).isPresent()){
+            throw new HotelAlreadyExistsException();
+        }
         // TODO: validar que no existe un hotel con mismo codigo de hotel
 
         hotelEntity = hotelRepository.save(hotelEntity);
