@@ -7,6 +7,7 @@ import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.HotelAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class HotelService {
     }
 
     public SuccessDTO updateHotel(String hotelCode, HotelRequestDTO hotelRequestDTO) {
-        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(HotelDoesNotExistException::new);
         Integer idHotel = hotelEntity.getId();
         hotelEntity = modelMapper.map(hotelRequestDTO, HotelEntity.class);
         hotelEntity.setId(idHotel);
