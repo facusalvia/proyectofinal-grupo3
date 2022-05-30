@@ -34,6 +34,6 @@ public class HotelBookingEntity {
     private String roomType;
     @ManyToMany(mappedBy = "hotelBookingEntity", cascade = CascadeType.PERSIST)
     private List<GuestEntity> people;
-    //@Column
-    //private PaymentMethodEntity paymentMethod;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private PaymentMethodEntity paymentMethod;
 }
