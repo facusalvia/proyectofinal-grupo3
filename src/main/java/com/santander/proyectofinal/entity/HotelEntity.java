@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "hotels")
@@ -32,4 +33,6 @@ public class HotelEntity {
     private LocalDate disponibilityDateTo;
     @Column
     private Boolean isBooking;
+    @OneToMany(mappedBy = "hotel")
+    private List<HotelBookingEntity> hotelBookingEntityList;
 }

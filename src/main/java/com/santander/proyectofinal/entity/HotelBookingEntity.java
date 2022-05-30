@@ -24,8 +24,8 @@ public class HotelBookingEntity {
     private LocalDate dateTo;
     @Column
     private String destination;
-    //@Column
-    //private HotelEntity hotel;
+    @ManyToOne
+    private HotelEntity hotel;
     @Column
     private Integer peopleAmount;
     @Column
