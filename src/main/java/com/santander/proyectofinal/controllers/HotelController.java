@@ -36,7 +36,7 @@ public class HotelController {
     }
 
     @PutMapping(value = "/edit", params = {"hotelCode"})
-    public ResponseEntity<String> updateHotel(@RequestParam(value="hotelCode") Integer hotelCode,@RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<String> updateHotel(@RequestParam(value="hotelCode") String hotelCode,@RequestBody HotelRequestDTO hotelRequestDTO){
         return ResponseEntity.ok().body(hotelService.updateHotel(hotelCode,hotelRequestDTO));
     }
 

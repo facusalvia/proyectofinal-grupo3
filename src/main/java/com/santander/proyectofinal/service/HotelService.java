@@ -41,9 +41,9 @@ public class HotelService {
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
-    public String updateHotel(Integer hotelCode, HotelRequestDTO hotelRequestDTO) {
-        Optional<HotelEntity> hotelEntity = Optional.of(hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");}));
-        hotelRepository.save(hotelEntity.get());
+    public String updateHotel(String hotelCode, HotelRequestDTO hotelRequestDTO) {
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
+        hotelRepository.save(hotelEntity);
         return "Hotel modificado correctamente";
     }
 }

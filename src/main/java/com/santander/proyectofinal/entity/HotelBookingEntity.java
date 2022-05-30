@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "hotel_bookings")
@@ -30,8 +32,8 @@ public class HotelBookingEntity {
     private Integer peopleAmount;
     @Column
     private String roomType;
-    //@Column
-    //private List<GuestEntity> people;
+    @ManyToMany(mappedBy = "hotelBookingEntity", cascade = CascadeType.PERSIST)
+    private List<GuestEntity> people;
     //@Column
     //private PaymentMethodEntity paymentMethod;
 }
