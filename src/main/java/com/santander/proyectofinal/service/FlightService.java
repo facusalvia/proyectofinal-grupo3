@@ -54,9 +54,8 @@ public class FlightService {
       FlightEntity flightEntity = flightEntityRepository
               .findByFlightNumberEquals(flightDTO.getFlightNumber())
               .orElseThrow(()->{throw new RuntimeException();});
-
         flightEntity = modelMapper.map(flightDTO,FlightEntity.class);
-
-
+        flightEntityRepository.update(flightEntity).orElseThrow(()->{throw new RuntimeException();});
+        return flightDTO;
     }
 }

@@ -31,7 +31,6 @@ public class FlightController {
     public ResponseEntity<List<FlightDTO>> getFlights() {
         List<FlightDTO> vueloDtos = flightService.getFlights();
         return new ResponseEntity<>(vueloDtos, HttpStatus.OK);
-
     }
 
 

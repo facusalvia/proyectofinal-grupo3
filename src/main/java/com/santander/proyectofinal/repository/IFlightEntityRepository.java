@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface IFlightEntityRepository extends JpaRepository<FlightEntity,Integer> {
 
     FlightEntity save(FlightEntity flightEntity);
-    FlightEntity update(FlightEntity flightEntity);
+    Optional<FlightEntity> update(FlightEntity flightEntity);
     Optional<FlightEntity> findByFlightNumberEquals(String username);
 
     List<FlightEntity> getFlights();
