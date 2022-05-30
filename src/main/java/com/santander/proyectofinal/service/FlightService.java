@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.lang.model.util.Elements;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,17 +39,22 @@ public class FlightService {
         ));
     }
 
-    public List<FlightDTO> getFlightsByDate(String origen, String destino, LocalDate fechaDesde, LocalDate fechaHasta) {
-        List<FlightEntity> vuelos = flightEntityRepository.getFlights();
-        List<FlightEntity> vuelosEncontrados = vueloDao.obtenerVuelosDisponiblesOptimizado(origen, destino, fechaDesde, fechaHasta);
-        List<FlightDTO> vuelosDtos = vuelosEncontrados.stream().map(
-                vuelo -> new FlightDTO(vuelo.getNroVuelo(), vuelo.getFechaIda(),
-                        vuelo.getFechaVuelta(), vuelo.getPrecioPersona(),
-                        vuelo.getOrigen(), vuelo.getDestino(), vuelo.getTipoAsiento())
+    public List<FlightDTO> getFlightsByDate(String origin, String destiny, LocalDate dateFrom, LocalDate dateTo) {
+        List<FlightEntity> flights = flightEntityRepository.getFlights();
+        List<FlightEntity> filteredFlights = flights.stream().filter(vuelo -> vuelo.getOrigin().equalsIgnoreCase(origin) &&
+                vuelo.getDestiny().equalsIgnoreCase(destiny) &&
+                vuelo.getDateFrom().isAfter(dateFrom.minusDays(1)) &&
+                vuelo.getDateTo().isBefore(dateTo.plusDays(1))).collect(Collectors.toList());
+
+        List<FlightDTO> flightsDTOs = filteredFlights.stream().map(
+                vuelo -> new FlightDTO(vuelo.getFlightNumber(), vuelo.getDateFrom(),
+                        vuelo.getDateTo(), vuelo.getPricePerPerson(),
+                        vuelo.getOrigin(), vuelo.getDestiny(), vuelo.getSeatType())
         ).collect(Collectors.toList());
-        if (vuelosDtos.isEmpty()) throw new RuntimeException();
-        return vuelosDtos;
+        if (flightsDTOs.isEmpty()) throw new RuntimeException();
+        return flightsDTOs;
     }
+
 
 
     public FlightDTO update(FlightDTO flightDTO) {
