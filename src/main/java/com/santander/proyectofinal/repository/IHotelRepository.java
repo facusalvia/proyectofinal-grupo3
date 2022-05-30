@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
+    Optional<HotelEntity> findByHotelCode(String hotelCode);
 
-    Optional<HotelEntity> findByHotelCode(Integer hotelCode);
 }
