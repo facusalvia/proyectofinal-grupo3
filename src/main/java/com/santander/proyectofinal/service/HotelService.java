@@ -1,5 +1,6 @@
 package com.santander.proyectofinal.service;
 
+import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
 import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
@@ -41,9 +42,12 @@ public class HotelService {
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
-    public String updateHotel(Integer hotelCode, HotelRequestDTO hotelRequestDTO) {
-        Optional<HotelEntity> hotelEntity = Optional.of(hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");}));
-        hotelRepository.save(hotelEntity.get());
-        return "Hotel modificado correctamente";
+    public SuccessDTO updateHotel(String hotelCode, HotelRequestDTO hotelRequestDTO) {
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
+        Integer idHotel = hotelEntity.getId();
+        hotelEntity = modelMapper.map(hotelRequestDTO, HotelEntity.class);
+        hotelEntity.setId(idHotel);
+        hotelRepository.save(hotelEntity);
+        return new SuccessDTO("Hotel modificado correctamente",200);
     }
 }
