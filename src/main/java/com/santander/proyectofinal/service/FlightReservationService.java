@@ -46,20 +46,16 @@ public class FlightReservationService {
 
 
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
-        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
-        FlightReservationEntity newFlightReservationEntity = modelMapper.map(flightReservationRequestDTO, FlightReservationEntity.class);
-        flightReservationEntity.setPeople(newFlightReservationEntity.getPeople());
+          FlightReservationEntity flightReservationEntityRepo =  flightReservationRepository.findById(id).orElseThrow();
+            FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
+            flightReservationEntity.setId(id);
+            flightReservationEntity.getPaymentMethod().setId(flightReservationEntityRepo.getPaymentMethod().getId());
+            flightReservationEntity.setFlightEntity(flightReservationEntityRepo.getFlightEntity());
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
-       //List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
-       //                person -> modelMapper.map(person, PersonEntity.class)
-       //        )
-       //        .collect(Collectors.toList());
-       // for (PersonEntity person : passengers) {
-       //     person.setFlightReservationEntities(List.of(flightReservationEntity));
-       // }
-      //  flightReservationEntity.setId(id);
-       flightReservationRepository.save(flightReservationEntity);
-
+        for (int i = 0; i <flightReservationEntity.getPeople().size() ; i++) {
+            flightReservationEntity.getPeople().get(i).setId(flightReservationEntityRepo.getPeople().get(i).getId());
+        }
+            flightReservationRepository.save(flightReservationEntity);
         return flightReservationRequestDTO;
     }
 }
