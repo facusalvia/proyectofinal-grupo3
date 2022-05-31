@@ -21,14 +21,19 @@ public class HotelBookingController {
         return ResponseEntity.ok().body(hotelBookingService.addBooking(hotelBookingDTORequest));
     }
 
-    //TODO: Ver si retornar el booking request o crear otro DTO porque el username queda null
-    @GetMapping("/")
-    public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookings(){
-        return ResponseEntity.ok().body(hotelBookingService.getHotelBookings());
+    @PutMapping(value = "/edit", params = {"id"})
+    public ResponseEntity<SuccessDTO> getHotelBookings(@RequestParam(value = "id") Integer bookingId, @RequestBody HotelBookingDTORequest hotelBookingDTORequest){
+        return ResponseEntity.ok().body(hotelBookingService.updateHotelBooking(bookingId, hotelBookingDTORequest));
     }
 
     @DeleteMapping(value ="/delete", params= {"idReservation"})
     public ResponseEntity<SuccessDTO> deleteHotelBooking(@RequestParam(value="idReservation") Integer idReservation){
         return ResponseEntity.ok().body(hotelBookingService.deleteHotelBooking(idReservation));
+    }
+
+    //TODO: Ver si retornar el booking request o crear otro DTO porque el username queda null
+    @GetMapping("/")
+    public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookings(){
+        return ResponseEntity.ok().body(hotelBookingService.getHotelBookings());
     }
 }

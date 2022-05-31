@@ -35,7 +35,6 @@ public class HotelService {
         if(hotelRepository.findByHotelCode(hotelRequestDTO.getHotelCode()).isPresent()){
             throw new HotelAlreadyExistsException();
         }
-        // TODO: validar que no existe un hotel con mismo codigo de hotel
 
         hotelEntity = hotelRepository.save(hotelEntity);
         if(hotelEntity.getId() == null){

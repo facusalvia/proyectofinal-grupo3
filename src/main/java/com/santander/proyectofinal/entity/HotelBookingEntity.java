@@ -35,9 +35,9 @@ public class HotelBookingEntity {
     private Integer peopleAmount;
     @Column
     private String roomType;
-    @ManyToMany(mappedBy = "hotelBookingEntity", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "hotelBookingEntity", cascade = {CascadeType.PERSIST})
     private List<GuestEntity> people;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private PaymentMethodEntity paymentMethod;
     @Column
     private boolean isActive;
