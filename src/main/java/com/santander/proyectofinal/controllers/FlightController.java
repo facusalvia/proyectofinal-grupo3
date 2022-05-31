@@ -2,6 +2,7 @@ package com.santander.proyectofinal.controllers;
 
 
 import com.santander.proyectofinal.dto.FlightDTO;
+import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.service.FlightService;
@@ -51,6 +52,12 @@ public class FlightController {
     public ResponseEntity<TaskMessage> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightDTO flightDTO) {
         flightService.update(id, flightDTO);
         return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente", 200));
+    }
+
+    @DeleteMapping(value ="/api/v1/flight/delete", params= {"flightNumber"})
+    public ResponseEntity<SuccessDTO> deleteFlightReservation(@RequestParam(value="flightNumber") String flightNumber){
+        flightService.deleteFlight(flightNumber);
+        return ResponseEntity.ok().body(new SuccessDTO( "Vuelo dada de baja correctamente" , 200));
     }
 
 }
