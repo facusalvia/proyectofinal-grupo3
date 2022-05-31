@@ -8,7 +8,9 @@ import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.HotelAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.HotelCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
+import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +33,12 @@ public class HotelService {
 
     public SuccessDTO addHotel(HotelRequestDTO hotelRequestDTO) {
         HotelEntity hotelEntity = modelMapper.map(hotelRequestDTO, HotelEntity.class);
-
         if(hotelRepository.findByHotelCode(hotelRequestDTO.getHotelCode()).isPresent()){
             throw new HotelAlreadyExistsException();
         }
-        // TODO: validar que no existe un hotel con mismo codigo de hotel
-
         hotelEntity = hotelRepository.save(hotelEntity);
         if(hotelEntity.getId() == null){
-            throw new RuntimeException("Error al agregar hotel");
+            throw new RepositorySaveException();
         }
         return new SuccessDTO("Hotel dado de alta correctamente",200);
     }
@@ -49,7 +48,6 @@ public class HotelService {
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
-    //TODO: agregar excepciones customizadas
     public SuccessDTO updateHotel(String hotelCode, HotelRequestDTO hotelRequestDTO) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(HotelDoesNotExistException::new);
         Integer idHotel = hotelEntity.getId();
@@ -65,10 +63,10 @@ public class HotelService {
     }
 
     public SuccessDTO deleteHotel(String hotelCode) {
-        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(HotelDoesNotExistException::new);
         List<HotelBookingEntity> listHotelBookingEntity = hotelRepository.findIfExisteBookings(hotelEntity.getHotelCode());
         if (!listHotelBookingEntity.isEmpty())
-            throw new RuntimeException("El hotel no puede ser dado de baja ya que posee reservas vigentes");
+            throw new HotelCanNotDeleteException();
         hotelRepository.delete(hotelEntity);
         return new SuccessDTO("Hotel dado de baja correctamente",200);
     }

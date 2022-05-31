@@ -21,7 +21,6 @@ public class HotelBookingController {
         return ResponseEntity.ok().body(hotelBookingService.addBooking(hotelBookingDTORequest));
     }
 
-    //TODO: Ver si retornar el booking request o crear otro DTO porque el username queda null
     @GetMapping("/")
     public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookings(){
         return ResponseEntity.ok().body(hotelBookingService.getHotelBookings());

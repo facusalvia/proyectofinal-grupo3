@@ -8,7 +8,9 @@ import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.GuestEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.exceptions.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
+import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
@@ -31,7 +33,7 @@ public class HotelBookingService {
 
     public SuccessDTO addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotel
-        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow();
+        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
 
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
         // TODO: ver si dejamos el username como una columna o usamos una fk user_id a la tabla UserEntity, verificando que exista el username antes de hacer la reserva
@@ -50,9 +52,8 @@ public class HotelBookingService {
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
 
         if(hotelBookingEntity.getId() == null){
-            throw new RuntimeException("Error al reservar hotel");
+            throw new RepositorySaveException();
         }
-
         return new SuccessDTO("Reserva de hotel dada de alta correctamente", HttpStatus.OK.value());
 
     }
@@ -63,7 +64,7 @@ public class HotelBookingService {
     }
 
     public SuccessDTO deleteHotelBooking(Integer idReservation) {
-        HotelBookingEntity hotelBookingEntity = hotelBookingRepository.findById(idReservation).orElseThrow(()-> {throw new RuntimeException("Reserva inexistente");});
+        HotelBookingEntity hotelBookingEntity = hotelBookingRepository.findById(idReservation).orElseThrow(HotelBookingDoesNotExistException::new);
         hotelBookingEntity.setActive(false);
         hotelBookingRepository.save(hotelBookingEntity);
         return new SuccessDTO("La reserva ha sido eliminada correctamente",200);
