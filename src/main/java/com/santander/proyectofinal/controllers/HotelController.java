@@ -32,7 +32,7 @@ public class HotelController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<HotelResponseDTO> addHotel(@RequestBody HotelRequestDTO hotelRequestDTO){
+    public ResponseEntity<SuccessDTO> addHotel(@RequestBody HotelRequestDTO hotelRequestDTO){
         return ResponseEntity.ok().body(hotelService.addHotel(hotelRequestDTO));
     }
 
