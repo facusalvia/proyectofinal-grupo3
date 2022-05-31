@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentMethodDTO {
-    private String type;
-    private String number;
-    private Integer dues;
+public class SuccessDTO {
+    private String message;
+    private Integer code;
 }
