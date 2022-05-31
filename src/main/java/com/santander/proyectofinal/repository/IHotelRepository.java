@@ -26,7 +26,7 @@ public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
             @Param("dateTo") LocalDate dateTo,
             @Param("destination") String destination);
 
-    //TODO: filtrar por reservas que esten como isActive
-    @Query("SELECT h.hotelBookingEntityList FROM HotelEntity h WHERE h.hotelCode = :hotelCode")
+
+    @Query("SELECT h.hotelBookingEntityList FROM HotelEntity h JOIN HotelBookingEntity hb ON h.id = hb.hotel.id WHERE h.hotelCode = :hotelCode AND hb.isActive = true")
     List<HotelBookingEntity> findIfExisteBookings(@Param("hotelCode") String hotelCode);
 }

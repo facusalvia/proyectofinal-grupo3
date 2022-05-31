@@ -41,7 +41,7 @@ public class HotelService {
         if(hotelEntity.getId() == null){
             throw new RuntimeException("Error al agregar hotel");
         }
-        return new SuccessDTO("Hotel dado de alta correctamente",200)
+        return new SuccessDTO("Hotel dado de alta correctamente",200);
     }
 
     public ListHotelResponseDto getHotels(){
@@ -67,11 +67,9 @@ public class HotelService {
     public SuccessDTO deleteHotel(String hotelCode) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelCode).orElseThrow(()-> {throw new RuntimeException("Hotel inexistente");});
         List<HotelBookingEntity> listHotelBookingEntity = hotelRepository.findIfExisteBookings(hotelEntity.getHotelCode());
-        if (listHotelBookingEntity.isEmpty()){
-            hotelRepository.delete(hotelEntity);
-            return new SuccessDTO("Hotel dado de baja correctamente",200);
-        }
-        else
+        if (!listHotelBookingEntity.isEmpty())
             throw new RuntimeException("El hotel no puede ser dado de baja ya que posee reservas vigentes");
+        hotelRepository.delete(hotelEntity);
+        return new SuccessDTO("Hotel dado de baja correctamente",200);
     }
 }
