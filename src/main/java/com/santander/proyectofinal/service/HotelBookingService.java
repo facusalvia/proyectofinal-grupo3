@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class HotelBookingService {
+
     @Autowired
     IHotelBookingRepository hotelBookingRepository;
 
@@ -31,23 +32,20 @@ public class HotelBookingService {
     ModelMapper modelMapper = new ModelMapper();
 
     public SuccessDTO addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
-        // verifico que exista el hotel
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
-
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
-        // TODO: ver si dejamos el username como una columna o usamos una fk user_id a la tabla UserEntity, verificando que exista el username antes de hacer la reserva
-        //seteo el username
-        hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
 
+        // TODO: ver si dejamos el username como una columna o usamos una fk user_id a la tabla UserEntity, verificando que exista el username antes de hacer la reserva
+        hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
         hotelBookingEntity.setHotel(hotelEntity);
+        hotelBookingEntity.setActive(true);
 
         // TODO: setear el id a cada guest en caso de que ya exista en la tabla pq sino el cascade genera otra entrada
-        // a cada guest le seteo el hotelEntity
         List<GuestEntity> guests = hotelBookingEntity.getPeople();
         for (GuestEntity guest: guests) {
             guest.setHotelBookingEntity(List.of(hotelBookingEntity));
         }
-        hotelBookingEntity.setActive(true);
+
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
 
         if(hotelBookingEntity.getId() == null){
@@ -80,7 +78,6 @@ public class HotelBookingService {
         hotelBookingEntity.setHotel(hotelEntity);
 
         // actualizo datos de reserva
-        // TODO: ver si usando un modelmapper puedo setear esto sin perder la referencia a la entidad almacenada
         hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
         hotelBookingEntity.setDateFrom(bookingRequestDTO.getDateFrom());
         hotelBookingEntity.setDateTo(bookingRequestDTO.getDateTo());
