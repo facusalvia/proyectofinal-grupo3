@@ -81,9 +81,15 @@ public class HotelBookingService {
 
         updatedHotelBookingEntity.getPaymentMethod().setId(savedHotelBookingEntity.getPaymentMethod().getId());
 
-        // necesitas relacionar el guest con la reserva si no se pierde la entrada en la tabla intermedia
-        for (int i = 0; i < updatedHotelBookingEntity.getPeople().size(); i++) {
+        // modifica todas las personas hasta la cantidad que habia en la BD
+        int i = 0;
+        for (i = 0; i < savedHotelBookingEntity.getPeople().size(); i++) {
             updatedHotelBookingEntity.getPeople().get(i).setId(savedHotelBookingEntity.getPeople().get(i).getId());
+            updatedHotelBookingEntity.getPeople().get(i).setHotelBookingEntity(List.of(savedHotelBookingEntity));
+        }
+
+        // en el caso de que sean mas personas que la BD, las agrega
+        for (; i < updatedHotelBookingEntity.getPeople().size(); i++) {
             updatedHotelBookingEntity.getPeople().get(i).setHotelBookingEntity(List.of(savedHotelBookingEntity));
         }
 
