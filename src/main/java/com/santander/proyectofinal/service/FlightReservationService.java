@@ -43,4 +43,23 @@ public class FlightReservationService {
 
         return flightReservationRequestDTO;
     }
+
+
+    public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
+        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
+        FlightReservationEntity newFlightReservationEntity = modelMapper.map(flightReservationRequestDTO, FlightReservationEntity.class);
+        flightReservationEntity.setPeople(newFlightReservationEntity.getPeople());
+        flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
+       //List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
+       //                person -> modelMapper.map(person, PersonEntity.class)
+       //        )
+       //        .collect(Collectors.toList());
+       // for (PersonEntity person : passengers) {
+       //     person.setFlightReservationEntities(List.of(flightReservationEntity));
+       // }
+      //  flightReservationEntity.setId(id);
+       flightReservationRepository.save(flightReservationEntity);
+
+        return flightReservationRequestDTO;
+    }
 }

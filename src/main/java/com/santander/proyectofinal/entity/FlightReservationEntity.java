@@ -22,7 +22,7 @@ public class FlightReservationEntity {
     private String username;
     @ManyToOne
     private FlightEntity flightEntity;
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<PersonEntity> people;
     @OneToOne(cascade = CascadeType.PERSIST)
     private PaymentMethodEntity paymentMethod;

@@ -5,4 +5,5 @@ import com.santander.proyectofinal.entity.FlightReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IFlightReservationRepository extends JpaRepository<FlightReservationEntity, Integer> {
+
 }
