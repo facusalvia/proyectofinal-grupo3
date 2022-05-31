@@ -2,6 +2,7 @@ package com.santander.proyectofinal.controllers;
 
 
 import com.santander.proyectofinal.dto.FlightDTO;
+import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class FlightController {
     FlightService flightService;
 
     @PostMapping("api/v1/flights/new")
-    public ResponseEntity<FlightDTO> addFlight(@Valid @RequestBody FlightDTO flightDTO) {
-        FlightDTO response = flightService.add(flightDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<TaskMessage> addFlight(@Valid @RequestBody FlightDTO flightDTO) {
+        flightService.add(flightDTO);
+        return ResponseEntity.ok().body(new TaskMessage("Se agrego una nueva prenda", 201));
     }
 
     @GetMapping("/api/v1/flights")
@@ -47,9 +48,9 @@ public class FlightController {
 
 
     @PutMapping(value = "/api/v1/flights/edit", params = {"id"})
-    public ResponseEntity<FlightDTO> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightDTO flightDTO) {
-        FlightDTO response = flightService.update(id, flightDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<TaskMessage> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightDTO flightDTO) {
+        flightService.update(id, flightDTO);
+        return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente", 200));
     }
 
 }
