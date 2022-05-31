@@ -26,12 +26,12 @@ public class PersonEntity {
     private String lastName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
-    @ManyToMany
-    @JoinTable(
+
+    /*@JoinTable(
             name = "person_reservation",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "flight_reservation_id", referencedColumnName = "id")
-    )
-
+    )*/
+    @ManyToMany(mappedBy = "people")
     private List<FlightReservationEntity> flightReservationEntities;
 }

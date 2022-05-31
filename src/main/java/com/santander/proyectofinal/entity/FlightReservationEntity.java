@@ -29,6 +29,7 @@ public class FlightReservationEntity {
     private FlightEntity flightEntity;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<PersonEntity> people;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private PaymentMethodEntity paymentMethod;
+    private boolean isActive;
 }
