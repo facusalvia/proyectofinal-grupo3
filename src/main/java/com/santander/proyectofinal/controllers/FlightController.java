@@ -23,7 +23,7 @@ public class FlightController {
     FlightService flightService;
 
     @PostMapping("api/v1/flights/new")
-    public ResponseEntity<FlightDTO> addFlight (@Valid @RequestBody FlightDTO flightDTO) {
+    public ResponseEntity<FlightDTO> addFlight(@Valid @RequestBody FlightDTO flightDTO) {
         FlightDTO response = flightService.add(flightDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -35,28 +35,21 @@ public class FlightController {
     }
 
 
-    @GetMapping(value = "/api/v1/flights", params = {"fechaDesde", "fechaHasta", "origen", "destino"})
-    public ResponseEntity<List<FlightDTO>> getFlightsAvailable(@RequestParam(value = "fechaDesde") @NotBlank String fechaDesde,
-                                                               @RequestParam (value = "fechaHasta") @NotBlank String fechaHasta,
-                                                               @RequestParam (value = "origen") @NotBlank String origen,
-                                                               @RequestParam(value = "destino") @NotBlank (message = "el campo destino no puede estar en blanco") String destino) {
+    @GetMapping(value = "/api/v1/flights", params = {"dateFrom", "dateTo", "origin", "destiny"})
+    public ResponseEntity<FlightListResponseDTO> getFlightsAvailable(@RequestParam(value = "dateFrom") @NotBlank String dateFrom,
+                                                                     @RequestParam(value = "dateTo") @NotBlank String dateTo,
+                                                                     @RequestParam(value = "origin") @NotBlank String origin,
+                                                                     @RequestParam(value = "destiny") @NotBlank(message = "el campo destino no puede estar en blanco") String destiny) {
 
-         parseo
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaDesdeParseo = LocalDate.parse(fechaDesde, formatter);
-        LocalDate fechaHastaParseo = LocalDate.parse(fechaHasta, formatter);
-
-        prueba
-
-        List<FlightDTO> flightDTOs = flightService.getFlightsByDate(origen, destino, fechaDesdeParseo, fechaHastaParseo);
+        FlightListResponseDTO flightDTOs = flightService.getFlightsByDateAndOriginAndDestiny(origin, destiny, dateFrom, dateTo);
         return new ResponseEntity<>(flightDTOs, HttpStatus.OK);
     }
 
 
-    @PutMapping("/api/v1/flights")
-    public ResponseEntity<FlightDTO> actualizacionVuelo(@Valid @RequestBody FlightDTO flightDTO) {
-        FlightDTO respuesta = flightService.update(flightDTO);
-        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    @PutMapping(value = "/api/v1/flights/edit", params = {"id"})
+    public ResponseEntity<FlightDTO> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightDTO flightDTO) {
+        FlightDTO response = flightService.update(id, flightDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

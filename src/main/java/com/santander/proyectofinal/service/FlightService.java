@@ -7,7 +7,9 @@ import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,16 +21,13 @@ public class FlightService {
 
 
     public FlightDTO add(FlightDTO flightDTO) {
-        FlightEntity flightEntity = modelMapper.map(flightDTO,FlightEntity.class);
+        FlightEntity flightEntity = modelMapper.map(flightDTO, FlightEntity.class);
         flightEntityRepository.save(flightEntity);
-                //.orElseThrow(()->{throw new RuntimeException();});
         return flightDTO;
     }
 
     public FlightListResponseDTO getFlights() {
-
-        List<FlightEntity> flightEntities = flightEntityRepository.getFlights();
-
+        List<FlightEntity> flightEntities = flightEntityRepository.findAll();
         return new FlightListResponseDTO(
                 flightEntities.stream().map(
                                 flight -> modelMapper.map(flight, FlightDTO.class)
@@ -37,30 +36,31 @@ public class FlightService {
         );
     }
 
-    public List<FlightDTO> getFlightsByDate(String origin, String destiny, LocalDate dateFrom, LocalDate dateTo) {
-        List<FlightEntity> flights = flightEntityRepository.getFlights();
-        List<FlightEntity> filteredFlights = flights.stream().filter(vuelo -> vuelo.getOrigin().equalsIgnoreCase(origin) &&
-                vuelo.getDestiny().equalsIgnoreCase(destiny) &&
-                vuelo.getDateFrom().isAfter(dateFrom.minusDays(1)) &&
-                vuelo.getDateTo().isBefore(dateTo.plusDays(1))).collect(Collectors.toList());
+    public FlightListResponseDTO getFlightsByDateAndOriginAndDestiny(String origin, String destiny, String dateFrom, String dateTo) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dateFromParse = LocalDate.parse(dateFrom, formatter);
+        LocalDate dateToParse = LocalDate.parse(dateTo, formatter);
 
-        List<FlightDTO> flightsDTOs = filteredFlights.stream().map(
-                vuelo -> new FlightDTO(vuelo.getFlightNumber(), vuelo.getDateFrom(),
-                        vuelo.getDateTo(), vuelo.getPricePerPerson(),
-                        vuelo.getOrigin(), vuelo.getDestiny(), vuelo.getSeatType())
-        ).collect(Collectors.toList());
-        if (flightsDTOs.isEmpty()) throw new RuntimeException();
-        return flightsDTOs;
+        List<FlightEntity> flightEntities = flightEntityRepository.findAllByDateFromLessThanEqualAndDateToGreaterThanEqualAndOriginEqualsAndDestinyEquals(dateFromParse, dateToParse, origin, destiny);
+        if (flightEntities.isEmpty()) throw new RuntimeException();
+        return new FlightListResponseDTO(
+                flightEntities.stream().map(
+                                flight -> modelMapper.map(flight, FlightDTO.class)
+                        )
+                        .collect(Collectors.toList())
+        );
+
     }
 
 
-
-    public FlightDTO update(FlightDTO flightDTO) {
-      FlightEntity flightEntity = flightEntityRepository
-              .findByFlightNumberEquals(flightDTO.getFlightNumber())
-              .orElseThrow(()->{throw new RuntimeException();});
-        flightEntity = modelMapper.map(flightDTO,FlightEntity.class);
-        flightEntityRepository.updateFlight(flightEntity).orElseThrow(()->{throw new RuntimeException();});
+    public FlightDTO update(Integer id, FlightDTO flightDTO) {
+        if (flightEntityRepository.findById(id).isPresent()) {
+            FlightEntity flightEntity = modelMapper.map(flightDTO, FlightEntity.class);
+            flightEntity.setId(id);
+            flightEntityRepository.save(flightEntity);
+        } else {
+            throw new RuntimeException();
+        }
         return flightDTO;
     }
 }

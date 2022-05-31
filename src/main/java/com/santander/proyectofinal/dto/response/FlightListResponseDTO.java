@@ -12,5 +12,5 @@ import java.util.List;
 @Getter
 @Setter
 public class FlightListResponseDTO {
-    private List<FlightDTO> flightDTOList;
+    private List<FlightDTO> flightListResponseDTO;
 }
