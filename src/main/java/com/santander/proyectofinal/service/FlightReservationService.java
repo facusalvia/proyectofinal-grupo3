@@ -3,6 +3,8 @@ package com.santander.proyectofinal.service;
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
+import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
+import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
@@ -29,6 +31,7 @@ public class FlightReservationService {
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
         flightReservationEntity.setFlightEntity(flightEntity);
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
+        flightReservationEntity.setActive(true);
         List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
                         person -> modelMapper.map(person, PersonEntity.class)
                 )
@@ -62,4 +65,13 @@ public class FlightReservationService {
 
         return flightReservationRequestDTO;
     }
+
+    public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
+        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
+        flightReservationEntity.setActive(false);
+        flightReservationRepository.save(flightReservationEntity);
+        FlightReservationResponseDTO flightReservationResponseDTO = modelMapper.map(flightReservationEntity, FlightReservationResponseDTO.class);
+        return flightReservationResponseDTO;
+    }
+
 }
