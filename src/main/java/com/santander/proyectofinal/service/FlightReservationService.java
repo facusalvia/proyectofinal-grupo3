@@ -50,21 +50,27 @@ public class FlightReservationService {
 
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
         FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow();
+        FlightReservationEntity flightReservationEntity = buildFlightReservationEntity(id, flightReservationRequestDTO, flightReservationEntityRepo);
+        flightReservationRepository.save(flightReservationEntity);
+        return flightReservationRequestDTO;
+    }
+
+
+    //TODO: Verificar porque duplica en la tabla intermerdia
+    private FlightReservationEntity buildFlightReservationEntity(Integer id, FlightReservationRequestDTO flightReservationRequestDTO, FlightReservationEntity flightReservationEntityRepo) {
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
         flightReservationEntity.setId(id);
         flightReservationEntity.getPaymentMethod().setId(flightReservationEntityRepo.getPaymentMethod().getId());
         flightReservationEntity.setFlightEntity(flightReservationEntityRepo.getFlightEntity());
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
         for (int i = 0; i < flightReservationRequestDTO.getFlightReservationDTO().getPeople().size(); i++) {
-
-            if(flightReservationEntityRepo.getPeople().size()>i){
+            if (flightReservationEntityRepo.getPeople().size() > i) {
                 flightReservationEntity.getPeople().get(i).setId(flightReservationEntityRepo.getPeople().get(i).getId());
-            }else{
+            } else {
                 flightReservationEntity.getPeople().add(flightReservationEntity.getPeople().get(i));
             }
         }
-        flightReservationRepository.save(flightReservationEntity);
-        return flightReservationRequestDTO;
+        return flightReservationEntity;
     }
 
     public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
