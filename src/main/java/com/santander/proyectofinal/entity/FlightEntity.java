@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 @Getter
-@ToString
 @Table(name = "flights")
 public class FlightEntity {
     @Id

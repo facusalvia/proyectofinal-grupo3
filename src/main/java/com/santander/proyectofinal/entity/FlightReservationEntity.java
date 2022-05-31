@@ -13,13 +13,18 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Table(name = "flightsReservation")
 public class FlightReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    private LocalDate goingDate;
+    private LocalDate returnDate;
+    private String origin;
+    private String destination;
+    private Integer seats;
+    private String seatType;
     @ManyToOne
     private FlightEntity flightEntity;
     @ManyToMany(cascade = CascadeType.ALL)

@@ -1,9 +1,6 @@
 package com.santander.proyectofinal.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
@@ -12,9 +9,9 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class FlightReservationDTO {
+
     private LocalDate goingDate;
     private LocalDate returnDate;
     private String origin;

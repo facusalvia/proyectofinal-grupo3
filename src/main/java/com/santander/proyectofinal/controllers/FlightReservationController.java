@@ -4,7 +4,9 @@ import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
+import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
+import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
 import com.santander.proyectofinal.service.FlightReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,11 @@ public class FlightReservationController {
     public ResponseEntity<TaskMessage> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightReservationRequestDTO flightReservationRequestDTO) {
         flightReservationService.update(id, flightReservationRequestDTO);
         return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente", 200));
+    }
+    @GetMapping("/api/v1/flight-reservation")
+    public ResponseEntity<FlightReservationResponseListDTO> getFlights() {
+        FlightReservationResponseListDTO flightReservationResponseListDTO = flightReservationService.getReservations();
+        return new ResponseEntity<>(flightReservationResponseListDTO, HttpStatus.OK);
     }
 
 }
