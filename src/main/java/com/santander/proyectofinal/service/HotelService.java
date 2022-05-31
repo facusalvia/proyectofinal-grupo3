@@ -41,7 +41,7 @@ public class HotelService {
         if(hotelEntity.getId() == null){
             throw new RuntimeException("Error al agregar hotel");
         }
-        return new SuccessDTO("Hotel dado de alta correctamente",200)
+        return new SuccessDTO("Hotel dado de alta correctamente",200);
     }
 
     public ListHotelResponseDto getHotels(){
