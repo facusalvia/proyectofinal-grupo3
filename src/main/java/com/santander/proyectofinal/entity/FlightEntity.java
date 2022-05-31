@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,5 +25,6 @@ public class FlightEntity {
     private String origin;
     private String destiny;
     private String seatType;
-
+    @OneToMany(mappedBy = "flightEntity",cascade = CascadeType.REMOVE)
+    private List<FlightReservationEntity> flightReservationEntityList;
 }

@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/flights/new").permitAll()
                 .antMatchers("/api/v1/flights").permitAll()
                 .antMatchers("/api/v1/flights/edit").permitAll()
+                .antMatchers("/api/v1/flight/delete").permitAll()
                 .antMatchers("/api/v1/flight-reservation/new").permitAll()
                 .antMatchers("/api/v1/flight-reservation").permitAll()
                 .antMatchers("/api/v1/flight-reservation/edit").permitAll()

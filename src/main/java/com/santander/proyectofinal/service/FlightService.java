@@ -2,7 +2,11 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
+import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
+import com.santander.proyectofinal.entity.FlightReservationEntity;
+import com.santander.proyectofinal.entity.HotelBookingEntity;
+import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +67,16 @@ public class FlightService {
         }
         return flightDTO;
     }
+
+    public FlightDTO deleteFlight(String flightNumber) {
+            FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightNumber).orElseThrow();
+            List<FlightReservationEntity> flightReservationEntityList = flightEntityRepository.findIfExistReservation(flightNumber);
+            if (!flightReservationEntityList.isEmpty()) {throw new RuntimeException("no se puede borrar vuelo porque tiene reservas");}
+            flightEntityRepository.delete(flightEntity);
+            FlightDTO flightDTO = modelMapper.map(flightEntity, FlightDTO.class);
+            return flightDTO;
+
+    }
 }
+
+

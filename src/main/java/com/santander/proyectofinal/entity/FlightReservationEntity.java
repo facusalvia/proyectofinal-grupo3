@@ -27,9 +27,9 @@ public class FlightReservationEntity {
     private String seatType;
     @ManyToOne
     private FlightEntity flightEntity;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE})
     private List<PersonEntity> people;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private PaymentMethodEntity paymentMethod;
     private boolean isActive;
 }
