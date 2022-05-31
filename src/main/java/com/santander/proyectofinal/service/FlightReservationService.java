@@ -55,8 +55,13 @@ public class FlightReservationService {
         flightReservationEntity.getPaymentMethod().setId(flightReservationEntityRepo.getPaymentMethod().getId());
         flightReservationEntity.setFlightEntity(flightReservationEntityRepo.getFlightEntity());
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
-        for (int i = 0; i < flightReservationEntity.getPeople().size(); i++) {
-            flightReservationEntity.getPeople().get(i).setId(flightReservationEntityRepo.getPeople().get(i).getId());
+        for (int i = 0; i < flightReservationRequestDTO.getFlightReservationDTO().getPeople().size(); i++) {
+
+            if(flightReservationEntityRepo.getPeople().size()>i){
+                flightReservationEntity.getPeople().get(i).setId(flightReservationEntityRepo.getPeople().get(i).getId());
+            }else{
+                flightReservationEntity.getPeople().add(flightReservationEntity.getPeople().get(i));
+            }
         }
         flightReservationRepository.save(flightReservationEntity);
         return flightReservationRequestDTO;
