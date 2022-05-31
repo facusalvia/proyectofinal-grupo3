@@ -23,4 +23,6 @@ public class PaymentMethodEntity {
     private Integer dues;
     @OneToOne(mappedBy = "paymentMethod")
     private HotelBookingEntity hotelBookingEntity;
+    @OneToOne(mappedBy = "paymentMethod")
+    private FlightReservationEntity flightReservationEntity;
 }
