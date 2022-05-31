@@ -33,10 +33,13 @@ public class HotelBookingService {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow();
 
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
+        // TODO: ver si dejamos el username como una columna o usamos una fk user_id a la tabla UserEntity, verificando que exista el username antes de hacer la reserva
+        //seteo el username
+        hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
 
         hotelBookingEntity.setHotel(hotelEntity);
-        // TODO: setear el id a cada guest en caso de que ya exista en la tabla pq sino el cascade genera otra entrada
 
+        // TODO: setear el id a cada guest en caso de que ya exista en la tabla pq sino el cascade genera otra entrada
         // a cada guest le seteo el hotelEntity
         List<GuestEntity> guests = hotelBookingEntity.getPeople();
         for (GuestEntity guest: guests) {

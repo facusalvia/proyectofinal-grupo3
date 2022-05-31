@@ -16,6 +16,8 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class HotelBookingEntity {
+    @Column
+    private String username;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
