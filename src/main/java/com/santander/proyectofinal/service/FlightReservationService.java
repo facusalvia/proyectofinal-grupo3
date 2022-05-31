@@ -49,21 +49,28 @@ public class FlightReservationService {
 
 
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
-        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
-        FlightReservationEntity newFlightReservationEntity = modelMapper.map(flightReservationRequestDTO, FlightReservationEntity.class);
-        flightReservationEntity.setPeople(newFlightReservationEntity.getPeople());
-        flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
-       //List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
-       //                person -> modelMapper.map(person, PersonEntity.class)
-       //        )
-       //        .collect(Collectors.toList());
-       // for (PersonEntity person : passengers) {
-       //     person.setFlightReservationEntities(List.of(flightReservationEntity));
-       // }
-      //  flightReservationEntity.setId(id);
-       flightReservationRepository.save(flightReservationEntity);
-
+        FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow();
+        FlightReservationEntity flightReservationEntity = buildFlightReservationEntity(id, flightReservationRequestDTO, flightReservationEntityRepo);
+        flightReservationRepository.save(flightReservationEntity);
         return flightReservationRequestDTO;
+    }
+
+
+    //TODO: Verificar porque duplica en la tabla intermerdia
+    private FlightReservationEntity buildFlightReservationEntity(Integer id, FlightReservationRequestDTO flightReservationRequestDTO, FlightReservationEntity flightReservationEntityRepo) {
+        FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
+        flightReservationEntity.setId(id);
+        flightReservationEntity.getPaymentMethod().setId(flightReservationEntityRepo.getPaymentMethod().getId());
+        flightReservationEntity.setFlightEntity(flightReservationEntityRepo.getFlightEntity());
+        flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
+        for (int i = 0; i < flightReservationRequestDTO.getFlightReservationDTO().getPeople().size(); i++) {
+            if (flightReservationEntityRepo.getPeople().size() > i) {
+                flightReservationEntity.getPeople().get(i).setId(flightReservationEntityRepo.getPeople().get(i).getId());
+            } else {
+                flightReservationEntity.getPeople().add(flightReservationEntity.getPeople().get(i));
+            }
+        }
+        return flightReservationEntity;
     }
 
     public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
