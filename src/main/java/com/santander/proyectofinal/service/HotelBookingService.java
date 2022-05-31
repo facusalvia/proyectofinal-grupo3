@@ -2,6 +2,9 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.dto.response.HotelResponseDTO;
+import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
+import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.GuestEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HotelBookingService {
@@ -47,5 +51,11 @@ public class HotelBookingService {
 
         return new SuccessDTO("Reserva de hotel dada de alta correctamente", HttpStatus.OK.value());
 
+    }
+
+    public ListHotelBookingResponseDTO getHotelBookings() {
+        List<HotelBookingEntity> listHotelBookings = hotelBookingRepository.findAll();
+        return new ListHotelBookingResponseDTO(listHotelBookings.stream().map(hotelBookingEntity
+                ->modelMapper.map(hotelBookingEntity, HotelBookingDTORequest.class)).collect(Collectors.toList()));
     }
 }
