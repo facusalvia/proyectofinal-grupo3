@@ -5,6 +5,7 @@ import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
+import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
@@ -81,4 +82,15 @@ public class FlightReservationService {
         return flightReservationResponseDTO;
     }
 
+    public FlightReservationResponseListDTO getReservations() {
+
+        List<FlightReservationEntity> flightReservationEntityList = flightReservationRepository.findAll();
+
+        List<FlightReservationResponseDTO> flightReservationResponseDTOS = flightReservationEntityList.stream().map(
+                reservation -> modelMapper.map(reservation, FlightReservationResponseDTO.class)
+        ).collect(Collectors.toList());
+
+        return new FlightReservationResponseListDTO(flightReservationResponseDTOS);
+
+    }
 }
