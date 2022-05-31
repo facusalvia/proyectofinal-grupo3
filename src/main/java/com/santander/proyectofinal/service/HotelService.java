@@ -29,7 +29,7 @@ public class HotelService {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    public HotelResponseDTO addHotel(HotelRequestDTO hotelRequestDTO) {
+    public SuccessDTO addHotel(HotelRequestDTO hotelRequestDTO) {
         HotelEntity hotelEntity = modelMapper.map(hotelRequestDTO, HotelEntity.class);
 
         if(hotelRepository.findByHotelCode(hotelRequestDTO.getHotelCode()).isPresent()){
@@ -41,7 +41,7 @@ public class HotelService {
         if(hotelEntity.getId() == null){
             throw new RuntimeException("Error al agregar hotel");
         }
-        return modelMapper.map(hotelEntity, HotelResponseDTO.class);
+        return new SuccessDTO("Hotel dado de alta correctamente",200)
     }
 
     public ListHotelResponseDto getHotels(){

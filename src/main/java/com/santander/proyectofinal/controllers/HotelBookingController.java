@@ -26,4 +26,9 @@ public class HotelBookingController {
     public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookings(){
         return ResponseEntity.ok().body(hotelBookingService.getHotelBookings());
     }
+
+    @DeleteMapping(value ="/delete", params= {"idReservation"})
+    public ResponseEntity<SuccessDTO> deleteHotelBooking(@RequestParam(value="idReservation") Integer idReservation){
+        return ResponseEntity.ok().body(hotelBookingService.deleteHotelBooking(idReservation));
+    }
 }
