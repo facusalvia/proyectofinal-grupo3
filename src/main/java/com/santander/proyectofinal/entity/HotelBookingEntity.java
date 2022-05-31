@@ -36,9 +36,9 @@ public class HotelBookingEntity {
     @Column
     private String roomType;
     @ManyToMany(mappedBy = "hotelBookingEntity",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<GuestEntity> people;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private PaymentMethodEntity paymentMethod;
     @Column
     private boolean isActive;

@@ -70,47 +70,24 @@ public class HotelBookingService {
 
     public SuccessDTO updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotelBooking
-        HotelBookingEntity hotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);
+        HotelBookingEntity savedHotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);
         BookingRequestDTO bookingRequestDTO = hotelBookingDTORequest.getBooking();
 
-        // verifico que exista el hotel
-        HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow();
-        hotelBookingEntity.setHotel(hotelEntity);
+        HotelBookingEntity updatedHotelBookingEntity = modelMapper.map(bookingRequestDTO, HotelBookingEntity.class);
+        updatedHotelBookingEntity.setId(savedHotelBookingEntity.getId());
+        updatedHotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
+        updatedHotelBookingEntity.setHotel(savedHotelBookingEntity.getHotel());
+        updatedHotelBookingEntity.setActive(true);
 
-        // actualizo datos de reserva
-        hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
-        hotelBookingEntity.setDateFrom(bookingRequestDTO.getDateFrom());
-        hotelBookingEntity.setDateTo(bookingRequestDTO.getDateTo());
-        hotelBookingEntity.setDestination(bookingRequestDTO.getDestination());
-        hotelBookingEntity.setRoomType(bookingRequestDTO.getRoomType());
-        hotelBookingEntity.setPeopleAmount(bookingRequestDTO.getPeopleAmount());
-        hotelBookingEntity.setActive(true);
+        updatedHotelBookingEntity.getPaymentMethod().setId(savedHotelBookingEntity.getPaymentMethod().getId());
 
-        // actualizo metodo de pago
-        hotelBookingEntity.getPaymentMethod().setDues(bookingRequestDTO.getPaymentMethod().getDues());
-        hotelBookingEntity.getPaymentMethod().setNumber(bookingRequestDTO.getPaymentMethod().getNumber());
-        hotelBookingEntity.getPaymentMethod().setType(bookingRequestDTO.getPaymentMethod().getType());
-
-        // actualizo lista de personas
-        List<GuestEntity> savedGuests = hotelBookingEntity.getPeople();
-        List<GuestEntity> newGuests = bookingRequestDTO.getPeople().stream().map(guestDTO -> modelMapper.map(guestDTO, GuestEntity.class)).collect(Collectors.toList());
-
-        // TODO: debe coincidir la cantidad de personas, no se pueden agregar o quitar
-        GuestEntity savedGuest;
-        GuestEntity updatedGuest;
-
-        for (int i = 0; i < savedGuests.size(); i++) {
-            savedGuest = savedGuests.get(i);
-            updatedGuest = newGuests.get(i);
-
-            savedGuest.setDni(updatedGuest.getDni());
-            savedGuest.setBirthDate(updatedGuest.getBirthDate());
-            savedGuest.setLastname(updatedGuest.getLastname());
-            savedGuest.setMail(updatedGuest.getMail());
-            savedGuest.setName(updatedGuest.getName());
+        // necesitas relacionar el guest con la reserva si no se pierde la entrada en la tabla intermedia
+        for (int i = 0; i < updatedHotelBookingEntity.getPeople().size(); i++) {
+            updatedHotelBookingEntity.getPeople().get(i).setId(savedHotelBookingEntity.getPeople().get(i).getId());
+            updatedHotelBookingEntity.getPeople().get(i).setHotelBookingEntity(List.of(savedHotelBookingEntity));
         }
 
-        hotelBookingRepository.save(hotelBookingEntity);
+        hotelBookingRepository.save(updatedHotelBookingEntity);
         return new SuccessDTO("La reserva ha sido modificada correctamente", HttpStatus.OK.value());
     }
 }
