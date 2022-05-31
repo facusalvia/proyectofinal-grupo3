@@ -1,0 +1,479 @@
+{
+	"info": {
+		"_postman_id": "b95a8744-a37d-45e5-a8fa-0e4dcbb03cf7",
+		"name": "Sprint III",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20490728"
+	},
+	"item": [
+		{
+			"name": "GetHotels",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NewHotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"La Plata\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":1000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/05/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HotelAlreadyExistsException",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"La Plata\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":1000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/05/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateHotel",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"Bogota\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":3000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/03/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/edit?hotelCode=NUEVO-00012",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "hotelCode",
+							"value": "NUEVO-00012"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateHotelDoesNotExistException",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"hotelCode\":\"NOEXISTE-0001\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"Bogota\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":3000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/03/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/edit?hotelCode=NOEXISTE-0001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "hotelCode",
+							"value": "NOEXISTE-0001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchHotelsByDateAndDestination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels?dateFrom=10/02/2022&dateTo=19/03/2022&destination=Buenos Aires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels"
+					],
+					"query": [
+						{
+							"key": "dateFrom",
+							"value": "10/02/2022"
+						},
+						{
+							"key": "dateTo",
+							"value": "19/03/2022"
+						},
+						{
+							"key": "destination",
+							"value": "Buenos Aires"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OtherSearchHotelsByDateAndDestination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels?dateFrom=10/02/2022&dateTo=20/03/2022&destination=Buenos Aires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels"
+					],
+					"query": [
+						{
+							"key": "dateFrom",
+							"value": "10/02/2022"
+						},
+						{
+							"key": "dateTo",
+							"value": "20/03/2022"
+						},
+						{
+							"key": "destination",
+							"value": "Buenos Aires"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteHotel",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=NUEVO-00012",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "hotelCode",
+							"value": "NUEVO-00012"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteHotelDoesNotExistException",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=NOEXISTE-0001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "hotelCode",
+							"value": "NOEXISTE-0001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NewHotelBooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"juan\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"14/04/2022\",\r\n        \"dateTo\": \"10/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 38998262,\r\n                \"name\": \"juan\",\r\n                \"mail\": \"juan@juan.com\",\r\n                \"lastname\": \"Peréz\",\r\n                \"birthDate\": \"18/06/1992\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"CREDIT\",\r\n            \"number\": \"7567\",\r\n            \"dues\": 6\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotel-booking/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotel-booking",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateHotelBooking",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"agustin1\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"16/04/2022\",\r\n        \"dateTo\": \"17/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotel-booking/edit?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotel-booking",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HotelCanNotDeleteException",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=CH-0002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotels",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "hotelCode",
+							"value": "CH-0002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetHotelBookings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotel-booking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotel-booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteHotelBooking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotel-booking",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "idReservation",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteHotelBookingDoesNotExistsException",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"hotel-booking",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "idReservation",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

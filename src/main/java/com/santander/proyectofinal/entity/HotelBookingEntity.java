@@ -16,6 +16,8 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class HotelBookingEntity {
+    @Column
+    private String username;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,9 +35,10 @@ public class HotelBookingEntity {
     private Integer peopleAmount;
     @Column
     private String roomType;
-    @ManyToMany(mappedBy = "hotelBookingEntity", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "hotelBookingEntity",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<GuestEntity> people;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private PaymentMethodEntity paymentMethod;
     @Column
     private boolean isActive;
