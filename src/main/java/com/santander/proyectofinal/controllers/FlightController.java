@@ -26,7 +26,7 @@ public class FlightController {
     @PostMapping("api/v1/flights/new")
     public ResponseEntity<TaskMessage> addFlight(@Valid @RequestBody FlightDTO flightDTO) {
         flightService.add(flightDTO);
-        return ResponseEntity.ok().body(new TaskMessage("Se agrego una nueva prenda", 201));
+        return ResponseEntity.ok().body(new TaskMessage("Se agrego un nuevo vuelo", 201));
     }
 
     @GetMapping("/api/v1/flights")

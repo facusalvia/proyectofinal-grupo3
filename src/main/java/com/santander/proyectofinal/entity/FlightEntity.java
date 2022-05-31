@@ -1,9 +1,6 @@
 package com.santander.proyectofinal.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 @Table(name = "flights")
 public class FlightEntity {
     @Id

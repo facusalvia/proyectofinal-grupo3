@@ -2,10 +2,7 @@ package com.santander.proyectofinal.entity;
 
 import com.santander.proyectofinal.dto.PaymentMethodDTO;
 import com.santander.proyectofinal.dto.PersonDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,13 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Table(name = "flightsReservation")
 public class FlightReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String username;
     @ManyToOne
     private FlightEntity flightEntity;
-    private List<PersonDTO> people;
-    private PaymentMethodDTO paymentMethod;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<PersonEntity> people;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private PaymentMethodEntity paymentMethod;
 }

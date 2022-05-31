@@ -28,6 +28,7 @@ public class FlightReservationService {
         FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightReservationRequestDTO.getFlightReservationDTO().getFlightNumber()).orElseThrow();
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
         flightReservationEntity.setFlightEntity(flightEntity);
+        flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
         List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
                         person -> modelMapper.map(person, PersonEntity.class)
                 )
@@ -35,6 +36,7 @@ public class FlightReservationService {
         for (PersonEntity person : passengers) {
             person.setFlightReservationEntities(List.of(flightReservationEntity));
         }
+        flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
             throw new RuntimeException("Error al reservar el vuelo");
         }
