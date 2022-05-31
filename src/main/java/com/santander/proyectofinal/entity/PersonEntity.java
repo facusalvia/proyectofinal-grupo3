@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,6 +24,12 @@ public class PersonEntity {
     private String name;
     private String mail;
     private String lastName;
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
+    @JoinTable(
+            name = "person_reservation",
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "flight_reservation_id", referencedColumnName = "id")
+    )
+    private List<FlightReservationEntity> flightReservationEntities;
 }
