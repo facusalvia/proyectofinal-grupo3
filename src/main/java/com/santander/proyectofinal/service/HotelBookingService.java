@@ -54,10 +54,9 @@ public class HotelBookingService {
             throw new RepositorySaveException();
         }
 
-        // TODO: devolver el id de la nueva reserva para luego saber cual es al modificarla/deletearla
-        return new SuccessDTO("Reserva de hotel dada de alta correctamente", HttpStatus.OK.value());
-
+        return new SuccessDTO("Reserva de hotel dada de alta correctamente, con id " + hotelBookingEntity.getId(), HttpStatus.OK.value());
     }
+
     public ListHotelBookingResponseDTO getHotelBookings() {
         List<HotelBookingEntity> listHotelBookings = hotelBookingRepository.findByIsActiveTrue();
         return new ListHotelBookingResponseDTO(listHotelBookings.stream().map(hotelBookingEntity

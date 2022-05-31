@@ -18,14 +18,11 @@ import java.util.Optional;
 public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
     Optional<HotelEntity> findByHotelCode(String hotelCode);
 
-    //TODO: mejorar criterio de búsqueda por fechas
-
     @Query("FROM HotelEntity h WHERE h.disponibilityDateFrom <= :dateFrom AND h.disponibilityDateTo >= :dateTo AND h.place = :destination")
     List<HotelEntity> findHotelWithDateFromDateToAndDestination(
             @Param("dateFrom") LocalDate dateFrom,
             @Param("dateTo") LocalDate dateTo,
             @Param("destination") String destination);
-
 
     @Query("SELECT h.hotelBookingEntityList FROM HotelEntity h JOIN HotelBookingEntity hb ON h.id = hb.hotel.id WHERE h.hotelCode = :hotelCode AND hb.isActive = true")
     List<HotelBookingEntity> findIfExisteBookings(@Param("hotelCode") String hotelCode);
