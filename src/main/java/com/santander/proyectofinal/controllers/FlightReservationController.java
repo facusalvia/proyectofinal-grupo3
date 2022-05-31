@@ -29,4 +29,10 @@ public class FlightReservationController {
         return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente", 200));
     }
 
+    @DeleteMapping(value ="/api/v1/flight-reservation/delete", params= {"id"})
+    public ResponseEntity<SuccessDTO> deleteFlightReservation(@RequestParam(value="id") Integer id){
+        flightReservationService.deleteFlightReservation(id);
+        return ResponseEntity.ok().body(new SuccessDTO( "Reserva de vuelo dada de baja correctamente" , 200));
+    }
+
 }

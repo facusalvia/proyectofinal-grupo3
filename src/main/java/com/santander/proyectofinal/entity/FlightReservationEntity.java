@@ -26,4 +26,5 @@ public class FlightReservationEntity {
     private List<PersonEntity> people;
     @OneToOne(cascade = CascadeType.ALL)
     private PaymentMethodEntity paymentMethod;
+    private boolean isActive;
 }
