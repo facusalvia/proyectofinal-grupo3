@@ -36,6 +36,6 @@ public class HotelEntity {
     private LocalDate disponibilityDateTo;
     @Column
     private Boolean isBooking;
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel",cascade = CascadeType.REMOVE)
     private List<HotelBookingEntity> hotelBookingEntityList;
 }
