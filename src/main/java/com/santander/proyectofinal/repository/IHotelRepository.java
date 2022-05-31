@@ -20,7 +20,7 @@ public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
 
     //TODO: mejorar criterio de búsqueda por fechas
 
-    @Query("FROM HotelEntity h WHERE h.disponibilityDateFrom >= :dateFrom AND h.disponibilityDateTo <= :dateTo AND h.place = :destination")
+    @Query("FROM HotelEntity h WHERE h.disponibilityDateFrom <= :dateFrom AND h.disponibilityDateTo >= :dateTo AND h.place = :destination")
     List<HotelEntity> findHotelWithDateFromDateToAndDestination(
             @Param("dateFrom") LocalDate dateFrom,
             @Param("dateTo") LocalDate dateTo,
