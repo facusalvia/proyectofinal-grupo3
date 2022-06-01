@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +20,6 @@ public class TouristicPackageRequestDTO {
     private LocalDate creationDate;
     @JsonProperty(value = "client_id")
     private Integer clientId;
-    private BookingsListDTO bookings;
-    private BookingsListDTO reservations;
+    private List<Integer> bookings;
+    private List<Integer> reservations;
 }
