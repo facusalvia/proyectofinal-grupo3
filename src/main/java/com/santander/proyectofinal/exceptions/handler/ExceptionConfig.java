@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+import java.time.format.DateTimeParseException;
+
 @ControllerAdvice
 public class ExceptionConfig {
 
@@ -38,6 +41,16 @@ public class ExceptionConfig {
     public ResponseEntity<ErrorDTO> handlerException(HotelBookingDoesNotExistException hotelBookingDoesNotExistException){
         ErrorDTO errorDto = new ErrorDTO(hotelBookingDoesNotExistException.getMessage());
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(ConstraintViolationException e) {
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(DateTimeParseException e){
+        ErrorDTO error = new ErrorDTO("La fecha deberá ser de formato: dd/mm/yyyy");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
