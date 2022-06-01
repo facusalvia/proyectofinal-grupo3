@@ -42,4 +42,5 @@ public class HotelBookingEntity {
     private PaymentMethodEntity paymentMethod;
     @Column
     private boolean isActive;
+    private LocalDate createdAt;
 }
