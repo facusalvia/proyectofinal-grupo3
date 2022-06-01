@@ -5,8 +5,8 @@ import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
-import com.santander.proyectofinal.exceptions.PackageCanNotModifyException;
-import com.santander.proyectofinal.exceptions.UserDoesNotExistException;
+import com.santander.proyectofinal.exceptions.*;
+import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -39,7 +39,7 @@ public class TouristicPackageService {
 
 
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
-        isGreater(touristicPackageRequestDTO.getBookings(), touristicPackageRequestDTO.getReservations());
+        isEqualsTwo(touristicPackageRequestDTO.getBookings(), touristicPackageRequestDTO.getReservations());
         List<HotelBookingEntity> bookings = fillListBookings(touristicPackageRequestDTO);
         List<FlightReservationEntity> reservations = fillListReservation(touristicPackageRequestDTO);
         // TODO: validar que ambas sean exactamente 2 (LISTO)
@@ -63,16 +63,16 @@ public class TouristicPackageService {
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 
         if (touristicPackage.getId() == null) {
-            throw new RuntimeException("Error al cargar paquete turistico");
+            throw new RepositorySaveException();
         }
 
         return touristicPackageRequestDTO;
     }
 
 
-    private void isGreater(List<Integer> bookings, List<Integer> reservations) {
-        if (bookings.size() + reservations.size() > 2) {
-            throw new RuntimeException("error mayor a 2");
+    private void isEqualsTwo(List<Integer> bookings, List<Integer> reservations) {
+        if (bookings.size() + reservations.size() != 2) {
+            throw new CountPackageDistintTwoException();
         }
     }
 
@@ -112,7 +112,7 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
-        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(() -> new PackageDoesNotExistException());
         touristicPackageRepository.deleteById(touristicPackageEntity.getId());
         return packageNumber;
     }
@@ -148,7 +148,7 @@ public class TouristicPackageService {
     private List<HotelBookingEntity> fillListBookings(TouristicPackageRequestDTO touristicPackageRequestDTO) {
         List<HotelBookingEntity> bookings = new ArrayList<>();
         for (Integer bookingId : touristicPackageRequestDTO.getBookings()) {
-            bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow());
+            bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow(()->new HotelBookingDoesNotExistException()));
         }
         return bookings;
     }
@@ -156,8 +156,10 @@ public class TouristicPackageService {
     private List<FlightReservationEntity> fillListReservation(TouristicPackageRequestDTO touristicPackageRequestDTO) {
         List<FlightReservationEntity> reservations = new ArrayList<>();
         for (Integer reservationFlightId : touristicPackageRequestDTO.getReservations()) {
-            reservations.add(flightReservationRepository.findById(reservationFlightId).orElseThrow());
+            reservations.add(flightReservationRepository.findById(reservationFlightId).orElseThrow(()->new FlightReservationDoesNotExistException()));
         }
         return reservations;
     }
+
+
 }
