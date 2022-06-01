@@ -23,10 +23,10 @@ public class TouristicPackageEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     //private UserEntity user;
-    @OneToMany(mappedBy = "touristicPackage", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<TouristicPackageBookingEntity> touristicPackageBookings;
-    //@OneToMany
-    //private List<TouristicPackageReservationsEntity> touristicPackageReservations;
+    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<TouristicPackageReservationEntity> touristicPackageReservations;
 
 
 }
