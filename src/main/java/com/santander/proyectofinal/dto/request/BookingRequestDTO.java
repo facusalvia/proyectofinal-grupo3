@@ -1,8 +1,8 @@
 package com.santander.proyectofinal.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.santander.proyectofinal.dto.GuestDTO;
 import com.santander.proyectofinal.dto.PaymentMethodDTO;
+import com.santander.proyectofinal.dto.PersonDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +22,6 @@ public class BookingRequestDTO {
     private String hotelCode;
     private Integer peopleAmount;
     private String roomType;
-    private List<GuestDTO> people;
+    private List<PersonDTO> people;
     private PaymentMethodDTO paymentMethod;
 }

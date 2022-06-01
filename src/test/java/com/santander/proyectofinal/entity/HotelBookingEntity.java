@@ -1,7 +1,9 @@
 package com.santander.proyectofinal.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.santander.proyectofinal.dto.PersonDTO;
+import com.santander.proyectofinal.entity.GuestEntity;
+import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.entity.PaymentMethodEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +40,7 @@ public class HotelBookingEntity {
     private String roomType;
     @ManyToMany(mappedBy = "hotelBookingEntity",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    private List<PersonEntity> people;
+    private List<GuestEntity> people;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private PaymentMethodEntity paymentMethod;
     @Column

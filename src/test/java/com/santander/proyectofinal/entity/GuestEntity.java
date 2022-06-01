@@ -1,6 +1,7 @@
 package com.santander.proyectofinal.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.santander.proyectofinal.entity.HotelBookingEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
