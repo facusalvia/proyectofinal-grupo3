@@ -45,9 +45,9 @@ public class FlightController {
     }
 
 
-    @PutMapping(value = "/api/v1/flights/edit", params = {"id"})
-    public ResponseEntity<TaskMessage> updateFlight(@Valid @RequestParam(value = "id") Integer id, @RequestBody FlightDTO flightDTO) {
-        flightService.update(id, flightDTO);
+    @PutMapping(value = "/api/v1/flights/edit", params = {"flightNumber"})
+    public ResponseEntity<TaskMessage> updateFlight(@Valid @RequestParam(value = "flightNumber") String flightNumber, @RequestBody FlightDTO flightDTO) {
+        flightService.update(flightNumber, flightDTO);
         return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente", 200));
     }
 

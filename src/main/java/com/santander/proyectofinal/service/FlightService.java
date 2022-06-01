@@ -4,12 +4,14 @@ import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
+import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.exceptions.flightException.FlightAlreadyExistsException;
 import com.santander.proyectofinal.exceptions.flightException.FlightCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,15 +71,14 @@ public class FlightService {
     }
 
 
-    public FlightDTO update(Integer id, FlightDTO flightDTO) {
-        if (flightEntityRepository.findById(id).isPresent()) {
-            FlightEntity flightEntity = modelMapper.map(flightDTO, FlightEntity.class);
-            flightEntity.setId(id);
-            flightEntityRepository.save(flightEntity);
-        } else {
-            throw new FlightDoesNotExistException();
-        }
+    public FlightDTO update(String flightNumber, FlightDTO flightDTO) {
+        FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightNumber).orElseThrow(FlightDoesNotExistException::new);
+        Integer idFlight = flightEntity.getId();
+        flightEntity = modelMapper.map(flightDTO, FlightEntity.class);
+        flightEntity.setId(idFlight);
+        flightEntityRepository.save(flightEntity);
         return flightDTO;
+
     }
 
     public FlightDTO deleteFlight(String flightNumber) {
