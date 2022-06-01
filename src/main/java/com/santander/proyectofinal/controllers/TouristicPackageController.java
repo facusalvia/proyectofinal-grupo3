@@ -19,6 +19,7 @@ public class TouristicPackageController {
     TouristicPackageService touristPackageService;
 
 
+
     @PostMapping("/new")
     public ResponseEntity<SuccessDTO> addTouristicPackage(@RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO){
         touristPackageService.addTouristicPackage(touristicPackageRequestDTO);

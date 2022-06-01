@@ -32,10 +32,11 @@ public class FlightService {
         if(flightEntityRepository.findByFlightNumberEquals(flightDTO.getFlightNumber()).isPresent()){
             throw new FlightAlreadyExistsException();
         }
+
+        flightEntityRepository.save(flightEntity);
         if(flightEntity.getId() == null){
             throw new RepositorySaveException();
         }
-        flightEntityRepository.save(flightEntity);
         return flightDTO;
     }
 

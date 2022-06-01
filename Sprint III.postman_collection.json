@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "76dae684-f2f0-4ab5-8599-057257f97812",
+		"_postman_id": "dece28f7-ed32-4a49-a8be-619c1ada42fd",
 		"name": "Sprint III",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20470561"
+		"_exporter_id": "20470577"
 	},
 	"item": [
 		{
@@ -615,7 +615,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seat\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"raw": "{\r\n    \"username\":\"team\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seats\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -710,7 +710,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/flight/delete?id=1",
+							"raw": "http://localhost:8080/api/v1/flight/delete?flightNumber=NUEVO-1233",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -724,8 +724,8 @@
 							],
 							"query": [
 								{
-									"key": "id",
-									"value": "1"
+									"key": "flightNumber",
+									"value": "NUEVO-1233"
 								}
 							]
 						}
