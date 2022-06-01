@@ -7,11 +7,13 @@ import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
+import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
+import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,8 @@ public class HotelBookingService {
     @Autowired
     InterestService interestService;
 
+    @Autowired
+    ITouristicPackageRepository touristicPackageRepository;
 
 
     ModelMapper modelMapper = new ModelMapper();
@@ -74,6 +78,13 @@ public class HotelBookingService {
 
     public SuccessDTO deleteHotelBooking(Integer idReservation) {
         HotelBookingEntity hotelBookingEntity = hotelBookingRepository.findById(idReservation).orElseThrow(HotelBookingDoesNotExistException::new);
+
+        // verifico que no existan paquetes con esta reserva
+        List<TouristicPackageEntity> touristicPackageEntities = touristicPackageRepository.findPackagesByHotelBooking(hotelBookingEntity.getId());
+        if(!touristicPackageEntities.isEmpty()){
+            throw new RuntimeException("No se puede eliminar una reserva que tiene paquetes");
+        }
+
         hotelBookingEntity.setActive(false);
         hotelBookingRepository.save(hotelBookingEntity);
         return new SuccessDTO("La reserva ha sido eliminada correctamente",200);
