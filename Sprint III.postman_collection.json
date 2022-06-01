@@ -733,6 +733,69 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "CashFlow",
+			"item": [
+				{
+					"name": "DailyBenefits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dailyIncome?date=1/06/2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dailyIncome"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "1/06/2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MonthlyBenefits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/monthlyIncome?month=06&year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"monthlyIncome"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "06"
+								},
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
