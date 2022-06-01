@@ -28,4 +28,10 @@ public class TouristicPackageController {
         return ResponseEntity.ok().body(touristPackageService.getTouristicPackages());
     }
 
+    @DeleteMapping(value = "/delete", params = "packageNumber")
+    public ResponseEntity<SuccessDTO> deleteTouristicPackage(@RequestParam(value = "packageNumber") Integer packageNumber){
+        touristPackageService.deleteTouristicPackage(packageNumber);
+        return ResponseEntity.ok().body(new SuccessDTO("Paquete Turístico dado de baja correctamente", HttpStatus.OK.value()));
+    }
+
 }

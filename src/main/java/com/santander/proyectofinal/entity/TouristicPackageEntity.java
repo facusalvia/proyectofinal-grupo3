@@ -23,9 +23,9 @@ public class TouristicPackageEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     //private UserEntity user;
-    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<TouristicPackageBookingEntity> touristicPackageBookings;
-    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<TouristicPackageReservationEntity> touristicPackageReservations;
 
 

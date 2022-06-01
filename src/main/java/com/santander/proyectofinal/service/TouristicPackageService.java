@@ -104,4 +104,9 @@ public class TouristicPackageService {
         return touristicPackageResponseDTO;
     }
 
+    public Integer deleteTouristicPackage(Integer packageNumber) {
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumber(packageNumber).orElseThrow();
+        touristicPackageRepository.deleteById(touristicPackageEntity.getId());
+        return packageNumber;
+    }
 }
