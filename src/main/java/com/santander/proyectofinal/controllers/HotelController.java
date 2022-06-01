@@ -1,23 +1,15 @@
 package com.santander.proyectofinal.controllers;
 
-import com.santander.proyectofinal.config.JwtUtils;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
-import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.service.HotelService;
-import com.santander.proyectofinal.service.UserDetailsServiceImpl;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/hotels")

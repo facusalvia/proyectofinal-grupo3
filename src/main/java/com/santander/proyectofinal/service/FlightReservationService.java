@@ -1,9 +1,6 @@
 package com.santander.proyectofinal.service;
 
-import com.santander.proyectofinal.dto.FlightDTO;
-import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
-import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
 import com.santander.proyectofinal.entity.FlightEntity;

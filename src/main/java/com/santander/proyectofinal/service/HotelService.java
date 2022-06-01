@@ -6,7 +6,6 @@ import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
-import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.HotelAlreadyExistsException;
 import com.santander.proyectofinal.exceptions.HotelCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
@@ -14,12 +13,10 @@ import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

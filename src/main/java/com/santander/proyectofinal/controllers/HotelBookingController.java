@@ -3,7 +3,6 @@ package com.santander.proyectofinal.controllers;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
-import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.service.HotelBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

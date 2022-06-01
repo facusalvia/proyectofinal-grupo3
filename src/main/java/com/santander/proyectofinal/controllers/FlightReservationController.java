@@ -1,11 +1,8 @@
 package com.santander.proyectofinal.controllers;
 
-import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
-import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
-import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
 import com.santander.proyectofinal.service.FlightReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
