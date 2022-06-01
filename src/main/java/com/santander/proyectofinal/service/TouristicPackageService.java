@@ -76,30 +76,32 @@ public class TouristicPackageService {
         List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
 
         for (TouristicPackageEntity touristicPackageEntity: touristicPackageEntityList) {
-            List<Integer> bookingsId = new ArrayList<>();
-            List<Integer> reservationsId = new ArrayList<>();
 
-            for (TouristicPackageBookingEntity touristicPackageBookingEntity: touristicPackageEntity.getTouristicPackageBookings()) {
-                bookingsId.add(touristicPackageBookingEntity.getId());
-            }
-            for (TouristicPackageReservationEntity touristicPackageReservationEntity: touristicPackageEntity.getTouristicPackageReservations()) {
-                reservationsId.add(touristicPackageReservationEntity.getId());
-            }
-            TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
-            touristicPackageResponseDTO.setReservations(reservationsId);
-            touristicPackageResponseDTO.setBookings(bookingsId);
+            TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
 
-            TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = new TouristicPackageInfoResponseDTO();
-            touristicPackageInfoResponseDTO.setPackageNumber(touristicPackageEntity.getPackageNumber());
-            touristicPackageInfoResponseDTO.setCreationDate(touristicPackageEntity.getCreationDate());
-            touristicPackageInfoResponseDTO.setId(touristicPackageEntity.getId());
-            touristicPackageInfoResponseDTO.setName(touristicPackageEntity.getName());
-
+            TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
             touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
-
             touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
         }
 
         return new ListTouristicPackageResponseDTO(touristicPackageResponseDTOList);
     }
+
+    private TouristicPackageResponseDTO getTouristicPackageResponseDTO(TouristicPackageEntity touristicPackageEntity) {
+        List<Integer> bookingsId = new ArrayList<>();
+        List<Integer> reservationsId = new ArrayList<>();
+
+        for (TouristicPackageBookingEntity touristicPackageBookingEntity: touristicPackageEntity.getTouristicPackageBookings()) {
+            bookingsId.add(touristicPackageBookingEntity.getId());
+        }
+        for (TouristicPackageReservationEntity touristicPackageReservationEntity: touristicPackageEntity.getTouristicPackageReservations()) {
+            reservationsId.add(touristicPackageReservationEntity.getId());
+        }
+        TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
+        touristicPackageResponseDTO.setReservations(reservationsId);
+        touristicPackageResponseDTO.setBookings(bookingsId);
+
+        return touristicPackageResponseDTO;
+    }
+
 }
