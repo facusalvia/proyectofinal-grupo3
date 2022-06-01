@@ -18,10 +18,6 @@ public class TouristicPackageController {
     @Autowired
     TouristicPackageService touristPackageService;
 
-    @GetMapping("/")
-    public String home(){
-        return "estas en home tourist package";
-    }
 
     @PostMapping("/new")
     public ResponseEntity<SuccessDTO> addTouristicPackage(@RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO){

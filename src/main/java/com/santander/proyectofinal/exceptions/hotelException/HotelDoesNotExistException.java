@@ -1,4 +1,4 @@
-package com.santander.proyectofinal.exceptions;
+package com.santander.proyectofinal.exceptions.hotelException;
 
 public class HotelDoesNotExistException extends RuntimeException {
     public HotelDoesNotExistException() {

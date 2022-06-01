@@ -1,10 +1,7 @@
 package com.santander.proyectofinal.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.util.List;
 @Table(name = "hotels")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
+@EqualsAndHashCode
 public class HotelEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

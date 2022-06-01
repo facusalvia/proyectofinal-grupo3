@@ -1,16 +1,15 @@
 package com.santander.proyectofinal.service;
 
-import com.santander.proyectofinal.dto.FlightDTO;
-import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
 import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
-import com.santander.proyectofinal.exceptions.HotelAlreadyExistsException;
-import com.santander.proyectofinal.exceptions.HotelCanNotDeleteException;
-import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelsNoAvailableException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,8 @@ public class HotelService {
 
     public ListHotelResponseDto getHotels(){
         List<HotelEntity> listHotels = hotelRepository.findAll();
+        if(listHotels.isEmpty())
+            throw new HotelsNoAvailableException();
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
@@ -59,6 +60,8 @@ public class HotelService {
 
     public ListHotelResponseDto getHotelesWithDateFromDateToAndDestination(LocalDate from, LocalDate to, String destination) {
         List<HotelEntity> listHotels = hotelRepository.findHotelWithDateFromDateToAndDestination(from,to,destination);
+        if(listHotels.isEmpty())
+            throw new HotelsNoAvailableException();
         return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
     }
 
