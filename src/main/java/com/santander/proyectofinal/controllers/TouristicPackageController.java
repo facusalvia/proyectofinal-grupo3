@@ -1,12 +1,14 @@
 package com.santander.proyectofinal.controllers;
-
 import com.santander.proyectofinal.dto.SuccessDTO;
+import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
 import com.santander.proyectofinal.service.TouristicPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/touristicpackage")
@@ -26,4 +28,11 @@ public class TouristicPackageController {
         return ResponseEntity.ok().body(new SuccessDTO("Paquete Turístico dado de alta correctamente", HttpStatus.OK.value()));
     }
 
+
+
+    @PutMapping(value = "/edit", params = {"packageNumber"})
+    public ResponseEntity<TaskMessage> updatePackageTouristic(@Valid @RequestParam(value = "packageNumber") Integer packageNumber, @RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        touristPackageService.update(packageNumber, touristicPackageRequestDTO);
+        return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente el paquete", 200));
+    }
 }
