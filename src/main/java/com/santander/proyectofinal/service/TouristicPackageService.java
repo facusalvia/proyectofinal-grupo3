@@ -5,6 +5,7 @@ import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
+import com.santander.proyectofinal.exceptions.PackageCanNotModifyException;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -111,7 +112,7 @@ public class TouristicPackageService {
     }
 
     public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {
-        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(()-> new PackageCanNotModifyException());
         TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber,touristicPackageRequestDTO, touristicPackage);
         touristicPackageRepository.save(touristicPackageEntity);
         return touristicPackageRequestDTO;
