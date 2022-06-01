@@ -1,6 +1,9 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
+import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
+import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
+import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TouristicPackageService {
@@ -65,4 +69,39 @@ public class TouristicPackageService {
 
         return touristicPackageRequestDTO;
     }
+
+    public ListTouristicPackageResponseDTO getTouristicPackages() {
+        List<TouristicPackageEntity> touristicPackageEntityList = touristicPackageRepository.findAll();
+
+        List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
+
+        for (TouristicPackageEntity touristicPackageEntity: touristicPackageEntityList) {
+
+            TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
+
+            TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
+            touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
+            touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
+        }
+
+        return new ListTouristicPackageResponseDTO(touristicPackageResponseDTOList);
+    }
+
+    private TouristicPackageResponseDTO getTouristicPackageResponseDTO(TouristicPackageEntity touristicPackageEntity) {
+        List<Integer> bookingsId = new ArrayList<>();
+        List<Integer> reservationsId = new ArrayList<>();
+
+        for (TouristicPackageBookingEntity touristicPackageBookingEntity: touristicPackageEntity.getTouristicPackageBookings()) {
+            bookingsId.add(touristicPackageBookingEntity.getId());
+        }
+        for (TouristicPackageReservationEntity touristicPackageReservationEntity: touristicPackageEntity.getTouristicPackageReservations()) {
+            reservationsId.add(touristicPackageReservationEntity.getId());
+        }
+        TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
+        touristicPackageResponseDTO.setReservations(reservationsId);
+        touristicPackageResponseDTO.setBookings(bookingsId);
+
+        return touristicPackageResponseDTO;
+    }
+
 }
