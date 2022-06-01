@@ -1,10 +1,7 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
-import com.santander.proyectofinal.entity.FlightReservationEntity;
-import com.santander.proyectofinal.entity.HotelBookingEntity;
-import com.santander.proyectofinal.entity.TouristicPackageBookingEntity;
-import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -45,11 +42,20 @@ public class TouristicPackageService {
         // TODO: validar que ambas sean exactamente 2
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
 
-        // creo las entidades debiles
-        TouristicPackageBookingEntity touristicPackageBookingEntity = new TouristicPackageBookingEntity(null, touristicPackage, bookings.get(0));
+        // creo las entidades "debiles" de booking y reservations
+        List<TouristicPackageBookingEntity> touristicPackageBookingEntities = new ArrayList<>();
+        for (HotelBookingEntity booking : bookings) {
+            touristicPackageBookingEntities.add(new TouristicPackageBookingEntity(null, touristicPackage, booking));
+        }
+
+        List<TouristicPackageReservationEntity> touristicPackageReservationsEntities = new ArrayList<>();
+        for (FlightReservationEntity reservation : reservations) {
+            touristicPackageReservationsEntities.add(new TouristicPackageReservationEntity(null, touristicPackage, reservation));
+        }
 
         // seteo relaciones
-        touristicPackage.setTouristicPackageBookings(List.of(touristicPackageBookingEntity));
+        touristicPackage.setTouristicPackageBookings(touristicPackageBookingEntities);
+        touristicPackage.setTouristicPackageReservations(touristicPackageReservationsEntities);
 
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 

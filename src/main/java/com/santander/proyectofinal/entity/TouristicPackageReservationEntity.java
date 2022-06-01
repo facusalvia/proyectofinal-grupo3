@@ -7,11 +7,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@Table
+@Entity
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
-@Entity
-@Table
-public class TouristicPackageBookingEntity {
+public class TouristicPackageReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,6 +21,6 @@ public class TouristicPackageBookingEntity {
     private TouristicPackageEntity touristicPackage;
 
     @ManyToOne
-    @JoinColumn(name="fk_booking_id", referencedColumnName = "id")
-    private HotelBookingEntity hotelBooking;
+    @JoinColumn(name="fk_reservation_id", referencedColumnName = "id")
+    private FlightReservationEntity flightReservation;
 }
