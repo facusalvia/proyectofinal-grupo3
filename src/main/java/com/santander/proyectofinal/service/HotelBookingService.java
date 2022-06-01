@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,11 @@ public class HotelBookingService {
 
     @Autowired
     IHotelRepository hotelRepository;
+
+    @Autowired
+    InterestService interestService;
+
+
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -47,8 +53,12 @@ public class HotelBookingService {
             guest.setHotelBookingEntity(List.of(hotelBookingEntity));
         }
         hotelBookingEntity.setCreatedAt(LocalDate.now());
+        Double interest = interestService.interestCalculator(hotelBookingDTORequest.getBooking().getPaymentMethod());
+        double amount = hotelEntity.getRoomPrice();
+        double day = ChronoUnit.DAYS.between(hotelBookingDTORequest.getBooking().getDateTo(), hotelBookingDTORequest.getBooking().getDateFrom());
+        double total = interest * amount * day;
+        hotelBookingEntity.setTotalAmount((double) Math.round(total));
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
-
         if(hotelBookingEntity.getId() == null){
             throw new RepositorySaveException();
         }
@@ -97,4 +107,6 @@ public class HotelBookingService {
         hotelBookingRepository.save(updatedHotelBookingEntity);
         return new SuccessDTO("La reserva ha sido modificada correctamente", HttpStatus.OK.value());
     }
+
+
 }

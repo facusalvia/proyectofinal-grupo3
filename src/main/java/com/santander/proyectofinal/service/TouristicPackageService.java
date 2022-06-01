@@ -1,6 +1,9 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
+import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
+import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
+import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TouristicPackageService {
@@ -32,10 +36,10 @@ public class TouristicPackageService {
         List<FlightReservationEntity> reservations = new ArrayList<>();
 
         // busco las reservas
-        for (Integer bookingId : touristicPackageRequestDTO.getBookings()) {
+        for (Integer bookingId: touristicPackageRequestDTO.getBookings()) {
             bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow());
         }
-        for (Integer reservationId : touristicPackageRequestDTO.getReservations()) {
+        for (Integer reservationId: touristicPackageRequestDTO.getReservations()) {
             reservations.add(flightReservationRepository.findById(reservationId).orElseThrow());
         }
 
@@ -59,11 +63,51 @@ public class TouristicPackageService {
 
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 
-        if (touristicPackage.getId() == null) {
+        if(touristicPackage.getId() == null){
             throw new RuntimeException("Error al cargar paquete turistico");
         }
 
         return touristicPackageRequestDTO;
+    }
+
+    public ListTouristicPackageResponseDTO getTouristicPackages() {
+        List<TouristicPackageEntity> touristicPackageEntityList = touristicPackageRepository.findAll();
+
+        List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
+
+        for (TouristicPackageEntity touristicPackageEntity: touristicPackageEntityList) {
+
+            TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
+
+            TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
+            touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
+            touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
+        }
+
+        return new ListTouristicPackageResponseDTO(touristicPackageResponseDTOList);
+    }
+
+    private TouristicPackageResponseDTO getTouristicPackageResponseDTO(TouristicPackageEntity touristicPackageEntity) {
+        List<Integer> bookingsId = new ArrayList<>();
+        List<Integer> reservationsId = new ArrayList<>();
+
+        for (TouristicPackageBookingEntity touristicPackageBookingEntity: touristicPackageEntity.getTouristicPackageBookings()) {
+            bookingsId.add(touristicPackageBookingEntity.getId());
+        }
+        for (TouristicPackageReservationEntity touristicPackageReservationEntity: touristicPackageEntity.getTouristicPackageReservations()) {
+            reservationsId.add(touristicPackageReservationEntity.getId());
+        }
+        TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
+        touristicPackageResponseDTO.setReservations(reservationsId);
+        touristicPackageResponseDTO.setBookings(bookingsId);
+
+        return touristicPackageResponseDTO;
+    }
+
+    public Integer deleteTouristicPackage(Integer packageNumber) {
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumber(packageNumber).orElseThrow();
+        touristicPackageRepository.deleteById(touristicPackageEntity.getId());
+        return packageNumber;
     }
 
     public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {

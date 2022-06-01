@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,9 @@ public class FlightReservationService {
     IFlightReservationRepository flightReservationRepository;
     @Autowired
     IFlightEntityRepository flightEntityRepository;
+    @Autowired
+    InterestService interestService;
+
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -40,7 +44,10 @@ public class FlightReservationService {
         }
 
         flightReservationEntity.setCreatedAt(LocalDate.now());
-        flightReservationEntity.setTotalAmount(flightReservationEntity.getSeats()* flightReservationEntity.getFlightEntity().getPricePerPerson());
+        Double interest = interestService.interestCalculator(flightReservationRequestDTO.getFlightReservationDTO().getPaymentMethod());
+        double amount = flightEntity.getPricePerPerson() * flightReservationRequestDTO.getFlightReservationDTO().getSeats();
+        double total = interest * amount;
+        flightReservationEntity.setTotalAmount((double) Math.round(total));
         flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
             throw new RuntimeException("Error al reservar el vuelo");

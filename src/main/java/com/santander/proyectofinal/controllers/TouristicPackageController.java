@@ -1,7 +1,8 @@
 package com.santander.proyectofinal.controllers;
+
 import com.santander.proyectofinal.dto.SuccessDTO;
-import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
+import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.service.TouristicPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +32,19 @@ public class TouristicPackageController {
 
 
     @PutMapping(value = "/edit", params = {"packageNumber"})
-    public ResponseEntity<TaskMessage> updatePackageTouristic(@Valid @RequestParam(value = "packageNumber") Integer packageNumber, @RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO) {
+    public ResponseEntity<SuccessDTO> updatePackageTouristic(@Valid @RequestParam(value = "packageNumber") Integer packageNumber, @RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO) {
         touristPackageService.update(packageNumber, touristicPackageRequestDTO);
-        return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente el paquete", 200));
+        return ResponseEntity.ok().body(new SuccessDTO("Se modifico correctamente el paquete", 200));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<ListTouristicPackageResponseDTO> getTouristicPackages(){
+        return ResponseEntity.ok().body(touristPackageService.getTouristicPackages());
+    }
+
+    @DeleteMapping(value = "/delete", params = "packageNumber")
+    public ResponseEntity<SuccessDTO> deleteTouristicPackage(@RequestParam(value = "packageNumber") Integer packageNumber){
+        touristPackageService.deleteTouristicPackage(packageNumber);
+        return ResponseEntity.ok().body(new SuccessDTO("Paquete Turístico dado de baja correctamente", HttpStatus.OK.value()));
     }
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 @Validated
@@ -33,7 +35,7 @@ public class CashSystemController {
     }
    @GetMapping("/monthlyIncome")
    public ResponseEntity<MonthBenefitsResponseDTO> monthBenefits(@Param(value = "month") @Max(value = 12,message = "El mes ingresado deberá estar entre 1 y 12") @Min(value = 1,message = "El mes ingresado deberá estar entre 1 y 12") Integer month,
-                                                                 @Param(value = "year") Integer year){
+                                                                 @Param(value = "year") @NotNull Integer year){
        return ResponseEntity.ok().body(cashSystemService.monthBenefits(month,year));
    }
 
