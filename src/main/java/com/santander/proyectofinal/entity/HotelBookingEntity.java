@@ -43,4 +43,5 @@ public class HotelBookingEntity {
     @Column
     private boolean isActive;
     private LocalDate createdAt;
+    private Double totalAmount;
 }
