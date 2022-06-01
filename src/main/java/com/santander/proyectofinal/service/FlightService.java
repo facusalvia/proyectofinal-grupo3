@@ -2,11 +2,14 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
-import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
-import com.santander.proyectofinal.entity.HotelBookingEntity;
-import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.exceptions.flightException.FlightAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.flightException.FlightCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
+import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,21 @@ public class FlightService {
 
     public FlightDTO add(FlightDTO flightDTO) {
         FlightEntity flightEntity = modelMapper.map(flightDTO, FlightEntity.class);
+        if(flightEntityRepository.findByFlightNumberEquals(flightDTO.getFlightNumber()).isPresent()){
+            throw new FlightAlreadyExistsException();
+        }
+
         flightEntityRepository.save(flightEntity);
+        if(flightEntity.getId() == null){
+            throw new RepositorySaveException();
+        }
         return flightDTO;
     }
 
     public FlightListResponseDTO getFlights() {
         List<FlightEntity> flightEntities = flightEntityRepository.findAll();
+        if (flightEntities.isEmpty())
+            throw new FlightNoAvailableException();
         return new FlightListResponseDTO(
                 flightEntities.stream().map(
                                 flight -> modelMapper.map(flight, FlightDTO.class)
@@ -46,7 +58,7 @@ public class FlightService {
         LocalDate dateToParse = LocalDate.parse(dateTo, formatter);
 
         List<FlightEntity> flightEntities = flightEntityRepository.findAllByDateFromLessThanEqualAndDateToGreaterThanEqualAndOriginEqualsAndDestinyEquals(dateFromParse, dateToParse, origin, destiny);
-        if (flightEntities.isEmpty()) throw new RuntimeException();
+        if (flightEntities.isEmpty()) throw new FlightNoAvailableException();
         return new FlightListResponseDTO(
                 flightEntities.stream().map(
                                 flight -> modelMapper.map(flight, FlightDTO.class)
@@ -63,15 +75,15 @@ public class FlightService {
             flightEntity.setId(id);
             flightEntityRepository.save(flightEntity);
         } else {
-            throw new RuntimeException();
+            throw new FlightDoesNotExistException();
         }
         return flightDTO;
     }
 
     public FlightDTO deleteFlight(String flightNumber) {
-            FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightNumber).orElseThrow();
+            FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightNumber).orElseThrow(FlightDoesNotExistException::new);
             List<FlightReservationEntity> flightReservationEntityList = flightEntityRepository.findIfExistReservation(flightNumber);
-            if (!flightReservationEntityList.isEmpty()) {throw new RuntimeException("no se puede borrar vuelo porque tiene reservas");}
+            if (!flightReservationEntityList.isEmpty()) {throw new FlightCanNotDeleteException();}
             flightEntityRepository.delete(flightEntity);
             FlightDTO flightDTO = modelMapper.map(flightEntity, FlightDTO.class);
             return flightDTO;

@@ -4,12 +4,12 @@ import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.BookingRequestDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
-import com.santander.proyectofinal.entity.GuestEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.entity.PersonEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
-import com.santander.proyectofinal.exceptions.HotelBookingDoesNotExistException;
-import com.santander.proyectofinal.exceptions.HotelDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
@@ -52,8 +52,8 @@ public class HotelBookingService {
         hotelBookingEntity.setActive(true);
 
         // TODO: setear el id a cada guest en caso de que ya exista en la tabla pq sino el cascade genera otra entrada
-        List<GuestEntity> guests = hotelBookingEntity.getPeople();
-        for (GuestEntity guest: guests) {
+        List<PersonEntity> guests = hotelBookingEntity.getPeople();
+        for (PersonEntity guest: guests) {
             guest.setHotelBookingEntity(List.of(hotelBookingEntity));
         }
         hotelBookingEntity.setCreatedAt(LocalDate.now());

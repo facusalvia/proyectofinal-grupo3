@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITouristicPackageRepository extends JpaRepository<TouristicPackageEntity, Integer> {
-    Optional<TouristicPackageEntity> findByPackageNumber(Integer packageNumber);
+    Optional<TouristicPackageEntity> findByPackageNumberEquals(Integer packageNumber);
 
     @Query("FROM TouristicPackageEntity AS tpe WHERE tpe.id IN(SELECT touristicPackage.id FROM TouristicPackageBookingEntity AS tpbe WHERE tpbe.hotelBooking.id = :id)")
     List<TouristicPackageEntity> findPackagesByHotelBooking(@Param("id") Integer id);

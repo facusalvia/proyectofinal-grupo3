@@ -5,9 +5,13 @@ import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
+import com.santander.proyectofinal.exceptions.PackageCanNotModifyException;
+import com.santander.proyectofinal.exceptions.UserDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
+import com.santander.proyectofinal.repository.IUserEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +32,15 @@ public class TouristicPackageService {
     @Autowired
     IFlightReservationRepository flightReservationRepository;
 
+    @Autowired
+    IUserEntityRepository userEntityRepository;
     ModelMapper mapper = new ModelMapper();
 
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        isGreater(touristicPackageRequestDTO.getBookings(),touristicPackageRequestDTO.getReservations());
 
         List<HotelBookingEntity> bookings = new ArrayList<>();
         List<FlightReservationEntity> reservations = new ArrayList<>();
-
         // busco las reservas
         for (Integer bookingId: touristicPackageRequestDTO.getBookings()) {
             bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow());
@@ -43,7 +49,7 @@ public class TouristicPackageService {
             reservations.add(flightReservationRepository.findById(reservationId).orElseThrow());
         }
 
-        // TODO: validar que ambas sean exactamente 2
+        // TODO: validar que ambas sean exactamente 2 (LISTO)
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
 
         // creo las entidades "debiles" de booking y reservations
@@ -60,7 +66,7 @@ public class TouristicPackageService {
         // seteo relaciones
         touristicPackage.setTouristicPackageBookings(touristicPackageBookingEntities);
         touristicPackage.setTouristicPackageReservations(touristicPackageReservationsEntities);
-
+        touristicPackage.setUser(userEntityRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(()-> new UserDoesNotExistException()));
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 
         if(touristicPackage.getId() == null){
@@ -69,6 +75,13 @@ public class TouristicPackageService {
 
         return touristicPackageRequestDTO;
     }
+
+    private void isGreater(List<Integer> bookings,List<Integer> reservations){
+        if (bookings.size()+reservations.size()>2){
+                throw new RuntimeException("error mayor a 2");
+        }
+    }
+
 
     public ListTouristicPackageResponseDTO getTouristicPackages() {
         List<TouristicPackageEntity> touristicPackageEntityList = touristicPackageRepository.findAll();
@@ -105,8 +118,32 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
-        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumber(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
         touristicPackageRepository.deleteById(touristicPackageEntity.getId());
         return packageNumber;
+    }
+
+    public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(()-> new PackageCanNotModifyException());
+        TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber,touristicPackageRequestDTO, touristicPackage);
+        touristicPackageRepository.save(touristicPackageEntity);
+        return touristicPackageRequestDTO;
+    }
+
+    private TouristicPackageEntity buildTouristicPackageEntity(Integer packageNumber,TouristicPackageRequestDTO touristicPackageRequestDTO, TouristicPackageEntity touristicPackage) {
+        TouristicPackageEntity touristicPackageEntity = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
+        Integer id = touristicPackage.getId();
+        touristicPackageEntity.setId(id);
+        touristicPackageEntity.setPackageNumber(packageNumber);
+        for (int i = 0; i < touristicPackageRequestDTO.getBookings().size(); i++) {
+            HotelBookingEntity booking = hotelBookingRepository.findById(touristicPackageRequestDTO.getBookings().get(i)).orElseThrow(()-> new HotelBookingDoesNotExistException());
+            touristicPackageEntity.getTouristicPackageBookings().add(new TouristicPackageBookingEntity(touristicPackage.getTouristicPackageBookings().get(i).getId(), touristicPackage, booking));
+        }
+        for (int i = 0; i < touristicPackageRequestDTO.getReservations().size(); i++) {
+            FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(touristicPackageRequestDTO.getReservations().get(i)).orElseThrow(()-> new PackageCanNotModifyException());
+            touristicPackageEntity.getTouristicPackageReservations().add(new TouristicPackageReservationEntity(touristicPackage.getTouristicPackageReservations().get(i).getId(), touristicPackage, flightReservationEntity));
+        }
+
+        return touristicPackageEntity;
     }
 }

@@ -2,6 +2,14 @@ package com.santander.proyectofinal.exceptions.handler;
 
 import com.santander.proyectofinal.dto.ErrorDTO;
 import com.santander.proyectofinal.exceptions.*;
+import com.santander.proyectofinal.exceptions.flightException.FlightAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.flightException.FlightCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
+import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -50,6 +58,35 @@ public class ExceptionConfig {
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<ErrorDTO> handleValidationExceptions(DateTimeParseException e){
         ErrorDTO error = new ErrorDTO("La fecha deberá ser de formato: dd/mm/yyyy");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightAlreadyExistsException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightAlreadyExistsException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightNoAvailableException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightNoAvailableException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightDoesNotExistException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightCanNotDeleteException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightCanNotDeleteException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UserDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(UserDoesNotExistException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
