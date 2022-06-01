@@ -32,4 +32,6 @@ public class FlightReservationEntity {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private PaymentMethodEntity paymentMethod;
     private boolean isActive;
+    private LocalDate createdAt;
+    private Double totalAmount;
 }

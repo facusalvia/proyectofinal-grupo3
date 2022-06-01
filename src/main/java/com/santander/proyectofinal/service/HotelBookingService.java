@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class HotelBookingService {
         for (GuestEntity guest: guests) {
             guest.setHotelBookingEntity(List.of(hotelBookingEntity));
         }
-
+        hotelBookingEntity.setCreatedAt(LocalDate.now());
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
 
         if(hotelBookingEntity.getId() == null){

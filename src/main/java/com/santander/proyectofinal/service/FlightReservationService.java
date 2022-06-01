@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,9 @@ public class FlightReservationService {
         for (PersonEntity person : passengers) {
             person.setFlightReservationEntities(List.of(flightReservationEntity));
         }
+
+        flightReservationEntity.setCreatedAt(LocalDate.now());
+        flightReservationEntity.setTotalAmount(flightReservationEntity.getSeats()* flightReservationEntity.getFlightEntity().getPricePerPerson());
         flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
             throw new RuntimeException("Error al reservar el vuelo");
