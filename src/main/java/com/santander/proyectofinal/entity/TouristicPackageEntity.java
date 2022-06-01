@@ -12,8 +12,10 @@ import java.util.List;
 
 @Table
 @Entity
-@AllArgsConstructor @NoArgsConstructor
-@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class TouristicPackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +24,8 @@ public class TouristicPackageEntity {
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
-    //private UserEntity user;
+    @ManyToOne()
+    private UserEntity user;
     @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<TouristicPackageBookingEntity> touristicPackageBookings;
     @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})

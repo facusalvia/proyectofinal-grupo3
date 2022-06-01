@@ -58,5 +58,10 @@ public class ExceptionConfig {
         ErrorDTO error = new ErrorDTO(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(UserDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(UserDoesNotExistException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }
