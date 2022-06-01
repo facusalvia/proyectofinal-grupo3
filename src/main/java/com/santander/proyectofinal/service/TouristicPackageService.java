@@ -105,7 +105,7 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
-        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumber(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
         touristicPackageRepository.deleteById(touristicPackageEntity.getId());
         return packageNumber;
     }
