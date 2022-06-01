@@ -104,4 +104,33 @@ public class TouristicPackageService {
         return touristicPackageResponseDTO;
     }
 
+    public Integer deleteTouristicPackage(Integer packageNumber) {
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
+        touristicPackageRepository.deleteById(touristicPackageEntity.getId());
+        return packageNumber;
+    }
+
+    public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber,touristicPackageRequestDTO, touristicPackage);
+        touristicPackageRepository.save(touristicPackageEntity);
+        return touristicPackageRequestDTO;
+    }
+
+    private TouristicPackageEntity buildTouristicPackageEntity(Integer packageNumber,TouristicPackageRequestDTO touristicPackageRequestDTO, TouristicPackageEntity touristicPackage) {
+        TouristicPackageEntity touristicPackageEntity = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
+        Integer id = touristicPackage.getId();
+        touristicPackageEntity.setId(id);
+        touristicPackageEntity.setPackageNumber(packageNumber);
+        for (int i = 0; i < touristicPackageRequestDTO.getBookings().size(); i++) {
+            HotelBookingEntity booking = hotelBookingRepository.findById(touristicPackageRequestDTO.getBookings().get(i)).orElseThrow();
+            touristicPackageEntity.getTouristicPackageBookings().add(new TouristicPackageBookingEntity(touristicPackage.getTouristicPackageBookings().get(i).getId(), touristicPackage, booking));
+        }
+        for (int i = 0; i < touristicPackageRequestDTO.getReservations().size(); i++) {
+            FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(touristicPackageRequestDTO.getReservations().get(i)).orElseThrow();
+            touristicPackageEntity.getTouristicPackageReservations().add(new TouristicPackageReservationEntity(touristicPackage.getTouristicPackageReservations().get(i).getId(), touristicPackage, flightReservationEntity));
+        }
+
+        return touristicPackageEntity;
+    }
 }
