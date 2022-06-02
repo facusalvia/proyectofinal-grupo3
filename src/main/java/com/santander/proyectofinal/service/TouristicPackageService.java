@@ -8,10 +8,7 @@ import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.exceptions.*;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
-import com.santander.proyectofinal.repository.IFlightReservationRepository;
-import com.santander.proyectofinal.repository.IHotelBookingRepository;
-import com.santander.proyectofinal.repository.ITouristicPackageRepository;
-import com.santander.proyectofinal.repository.IUserEntityRepository;
+import com.santander.proyectofinal.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,8 @@ import java.util.List;
 
 @Service
 public class TouristicPackageService {
+
+    private final int DEFAULT_DISCOUNT_TYPE = 1;
 
     @Autowired
     ITouristicPackageRepository touristicPackageRepository;
@@ -35,6 +34,9 @@ public class TouristicPackageService {
     @Autowired
     IUserEntityRepository userEntityRepository;
 
+    @Autowired
+    ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
+
     ModelMapper mapper = new ModelMapper();
 
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
@@ -43,6 +45,8 @@ public class TouristicPackageService {
         List<FlightReservationEntity> reservations = fillListReservation(touristicPackageRequestDTO);
 
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
+        //TODO por alguna razon toma el client_id como id y se lo setea
+        touristicPackage.setId(null);
 
         List<TouristicPackageBookingEntity> touristicPackageBookingEntities = new ArrayList<>();
         for (HotelBookingEntity booking : bookings) {
@@ -58,6 +62,10 @@ public class TouristicPackageService {
         touristicPackage.setTouristicPackageBookings(touristicPackageBookingEntities);
         touristicPackage.setTouristicPackageReservations(touristicPackageReservationsEntities);
         touristicPackage.setUser(userEntityRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(UserDoesNotExistException::new));
+
+        // seteo relacion con descuento
+        touristicPackage.setTouristicPackageDiscountType(touristicPackageDiscountTypeRepository.findById(DEFAULT_DISCOUNT_TYPE).orElseThrow());
+
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 
         if (touristicPackage.getId() == null) {
@@ -73,10 +81,11 @@ public class TouristicPackageService {
         List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
 
         for (TouristicPackageEntity touristicPackageEntity : touristicPackageEntityList) {
-
             TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
 
             TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
+            touristicPackageInfoResponseDTO.setClientId(touristicPackageEntity.getUser().getId());
+
             touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
             touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
         }

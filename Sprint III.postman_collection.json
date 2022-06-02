@@ -558,7 +558,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=1",
+							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -573,7 +573,7 @@
 							"query": [
 								{
 									"key": "idReservation",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
@@ -1215,6 +1215,47 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [2,3],\n    \"reservations\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewTouristicPackageFlights",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 12345,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [],\n    \"reservations\": [1,2]\n}",
 							"options": {
 								"raw": {
 									"language": "json"

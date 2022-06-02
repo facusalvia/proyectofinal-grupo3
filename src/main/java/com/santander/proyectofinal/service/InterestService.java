@@ -1,6 +1,7 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.PaymentMethodDTO;
+import com.santander.proyectofinal.exceptions.PaymentMethodDebitCanNotMoreThanOneDueException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,7 @@ public class InterestService {
         String paymentType = paymentMethodDTO.getType();
         if (paymentType.equalsIgnoreCase("debit")) {
             if (paymentMethodDTO.getDues() != 1) {
-                throw new RuntimeException("compras con debito solo 1 cuota");
+                throw new PaymentMethodDebitCanNotMoreThanOneDueException();
             }
         }
         return interest;
