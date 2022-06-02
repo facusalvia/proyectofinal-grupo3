@@ -17,11 +17,12 @@ import java.util.List;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class HotelBookingEntity {
-    @Column
+
     private String username;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dateFrom;
@@ -36,6 +37,8 @@ public class HotelBookingEntity {
     private Integer peopleAmount;
     @Column
     private String roomType;
+    @ManyToOne
+    private ClientEntity client;
     @ManyToMany(mappedBy = "hotelBookingEntity",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<PersonEntity> people;

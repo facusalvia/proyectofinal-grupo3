@@ -26,6 +26,8 @@ public class FlightReservationEntity {
     private Integer seats;
     private String seatType;
     @ManyToOne
+    private ClientEntity client;
+    @ManyToOne
     private FlightEntity flightEntity;
     @ManyToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE})
     private List<PersonEntity> people;

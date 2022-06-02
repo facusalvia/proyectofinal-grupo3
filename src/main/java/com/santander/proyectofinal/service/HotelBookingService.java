@@ -90,6 +90,7 @@ public class HotelBookingService {
         return hotelBookingDTORequest;
     }
 
+    // TODO: fix created_at y total_amount quedan en null
     public HotelBookingDTORequest updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotelBooking
         HotelBookingEntity savedHotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);

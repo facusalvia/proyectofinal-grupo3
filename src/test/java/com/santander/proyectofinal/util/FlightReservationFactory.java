@@ -50,7 +50,7 @@ public class FlightReservationFactory {
                 "origin",
                 "destination",
                  1,
-                "Prestige",
+                "Prestige",null,
                 FlightEntityFactory.newFlightEntity(),
                 newListPerson(),
                 PaymentMethodEntityFactory.newPaymentMethodEntity(),

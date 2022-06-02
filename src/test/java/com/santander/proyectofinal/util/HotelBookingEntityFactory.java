@@ -21,7 +21,7 @@ public class HotelBookingEntityFactory {
 
         return new HotelBookingEntity("Juan",1, LocalDate.of(2022,06,05),
                 LocalDate.of(2022,06,10),"La Plata",HotelEntityFactory.newHotelEntity(),1,
-                "Double",listPersonEntity,paymentMethodEntity,true,LocalDate.now(),31000D);
+                "Double", null,listPersonEntity,paymentMethodEntity,true,LocalDate.now(),31000D);
     }
 
     public static HotelBookingDTORequest newHotelBookingDTORequest(){
