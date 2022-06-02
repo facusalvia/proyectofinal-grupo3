@@ -7,6 +7,7 @@ import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.repository.*;
 import com.santander.proyectofinal.service.TouristicPackageService;
+import com.santander.proyectofinal.util.FlightEntityFactory;
 import com.santander.proyectofinal.util.FlightReservationFactory;
 import com.santander.proyectofinal.util.HotelBookingEntityFactory;
 import com.santander.proyectofinal.util.TouristicPackageFactory;
@@ -91,6 +92,17 @@ public class PackageTouristicTest {
         //Assert
         assertAll(()-> assertEquals(obtainedPackageRequestDTO.getPackageNumber(),obtainedTouristicPackageNumber));
     }
-
-
+    @Test
+    void shouldUpdateATouristicPackage(){
+        //Arrange
+        TouristicPackageRequestDTO expectedTouristicPackageDTO = TouristicPackageFactory.newTouristicPackageRequestDTO();
+        TouristicPackageEntity touristicPackage = TouristicPackageFactory.newTouristicPackageEntity();
+        //Act
+        lenient().when(touristicPackageRepository.findByPackageNumberEquals(any())).thenReturn(Optional.of(touristicPackage));
+        lenient().when(hotelBookingRepository.findById(any())).thenReturn(Optional.of(HotelBookingEntityFactory.newHotelBookingEntity()));
+        lenient().when(flightReservationRepository.findById(any())).thenReturn(Optional.of(FlightReservationFactory.newFlightReservationEntity()));
+        TouristicPackageRequestDTO obtainedTouristicPackageDTO = TouristicPackageFactory.newTouristicPackageRequestDTO();
+        //Assert
+        assertEquals(expectedTouristicPackageDTO,obtainedTouristicPackageDTO);
+    }
 }
