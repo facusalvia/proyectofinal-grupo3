@@ -26,6 +26,8 @@ public class TouristicPackageEntity {
     private LocalDate creationDate;
     @ManyToOne()
     private UserEntity user;
+    @ManyToOne
+    private TouristicPackageDiscountTypeEntity touristicPackageDiscountType;
     @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<TouristicPackageBookingEntity> touristicPackageBookings;
     @OneToMany(mappedBy = "touristicPackage", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
