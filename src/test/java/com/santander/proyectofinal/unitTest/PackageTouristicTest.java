@@ -1,10 +1,10 @@
 package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
+import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
+import com.santander.proyectofinal.entity.TouristicPackageDiscountTypeEntity;
+import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.entity.UserEntity;
-import com.santander.proyectofinal.repository.IFlightReservationRepository;
-import com.santander.proyectofinal.repository.IHotelBookingRepository;
-import com.santander.proyectofinal.repository.ITouristicPackageRepository;
-import com.santander.proyectofinal.repository.IUserEntityRepository;
+import com.santander.proyectofinal.repository.*;
 import com.santander.proyectofinal.service.TouristicPackageService;
 import com.santander.proyectofinal.util.FlightReservationFactory;
 import com.santander.proyectofinal.util.HotelBookingEntityFactory;
@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,6 +27,8 @@ import static org.mockito.Mockito.*;
 public class PackageTouristicTest {
     @Mock
     ITouristicPackageRepository touristicPackageRepository;
+    @Mock
+    ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
 
     @Mock
     IHotelBookingRepository hotelBookingRepository;
@@ -47,6 +50,7 @@ public class PackageTouristicTest {
 
         //Act
         when(hotelBookingRepository.findById(any())).thenReturn(Optional.of(HotelBookingEntityFactory.newHotelBookingEntity()));
+        when(touristicPackageDiscountTypeRepository.findById(1)).thenReturn(Optional.of(new TouristicPackageDiscountTypeEntity(1,0.1,null)));
         when(flightReservationRepository.findById(any())).thenReturn(Optional.of(FlightReservationFactory.newFlightReservationEntity()));
         when(userEntityRepository.findById(any())).thenReturn(Optional.of(new UserEntity(1,"test user","1234","admin")));
         when(touristicPackageRepository.save(any())).thenReturn(TouristicPackageFactory.newTouristicPackageEntity());
@@ -56,5 +60,17 @@ public class PackageTouristicTest {
         assertAll(()-> assertEquals(obtainedTouristicPackage,touristicPackageRequestDTO));
 
     }
+
+    /*@Test
+    void shouldReturnAllPackageTouristics(){
+        //Arrange
+        List<TouristicPackageEntity> touristicPackageEntityList = n
+        //Act
+        when(flightReservationRepository.findAll()).thenReturn(listTouristicPackageResponseDTO);
+
+        //Assert
+    }*/
+
+
 
 }
