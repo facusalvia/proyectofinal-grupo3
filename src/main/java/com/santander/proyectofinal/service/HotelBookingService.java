@@ -3,6 +3,7 @@ package com.santander.proyectofinal.service;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.request.BookingRequestDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
@@ -42,7 +43,7 @@ public class HotelBookingService {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    public SuccessDTO addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
+    public HotelBookingDTORequest addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
@@ -66,8 +67,8 @@ public class HotelBookingService {
         if(hotelBookingEntity.getId() == null){
             throw new RepositorySaveException();
         }
+        return hotelBookingDTORequest;
 
-        return new SuccessDTO("Reserva de hotel dada de alta correctamente, con id " + hotelBookingEntity.getId(), HttpStatus.OK.value());
     }
 
     public ListHotelBookingResponseDTO getHotelBookings() {
@@ -76,7 +77,7 @@ public class HotelBookingService {
                 ->modelMapper.map(hotelBookingEntity, HotelBookingDTORequest.class)).collect(Collectors.toList()));
     }
 
-    public SuccessDTO deleteHotelBooking(Integer idReservation) {
+    public HotelBookingDTORequest deleteHotelBooking(Integer idReservation) {
         HotelBookingEntity hotelBookingEntity = hotelBookingRepository.findById(idReservation).orElseThrow(HotelBookingDoesNotExistException::new);
 
         // verifico que no existan paquetes con esta reserva
@@ -87,10 +88,11 @@ public class HotelBookingService {
 
         hotelBookingEntity.setActive(false);
         hotelBookingRepository.save(hotelBookingEntity);
-        return new SuccessDTO("La reserva ha sido eliminada correctamente",200);
+        HotelBookingDTORequest hotelBookingDTORequest = modelMapper.map(hotelBookingEntity,HotelBookingDTORequest.class);
+        return hotelBookingDTORequest;
     }
 
-    public SuccessDTO updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
+    public HotelBookingDTORequest updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotelBooking
         HotelBookingEntity savedHotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);
         BookingRequestDTO bookingRequestDTO = hotelBookingDTORequest.getBooking();
@@ -116,7 +118,8 @@ public class HotelBookingService {
         }
 
         hotelBookingRepository.save(updatedHotelBookingEntity);
-        return new SuccessDTO("La reserva ha sido modificada correctamente", HttpStatus.OK.value());
+        return hotelBookingDTORequest;
+
     }
 
 
