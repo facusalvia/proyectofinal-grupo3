@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @RestController
 @Validated
@@ -35,8 +36,8 @@ public class FlightController {
 
 
     @GetMapping(value = "/api/v1/flights", params = {"dateFrom", "dateTo", "origin", "destiny"})
-    public ResponseEntity<FlightListResponseDTO> getFlightsAvailable(@RequestParam(value = "dateFrom") @NotBlank String dateFrom,
-                                                                     @RequestParam(value = "dateTo") @NotBlank String dateTo,
+    public ResponseEntity<FlightListResponseDTO> getFlightsAvailable(@RequestParam(value = "dateFrom") @NotBlank LocalDate dateFrom,
+                                                                     @RequestParam(value = "dateTo") @NotBlank LocalDate dateTo,
                                                                      @RequestParam(value = "origin") @NotBlank String origin,
                                                                      @RequestParam(value = "destiny") @NotBlank(message = "el campo destino no puede estar en blanco") String destiny) {
 
