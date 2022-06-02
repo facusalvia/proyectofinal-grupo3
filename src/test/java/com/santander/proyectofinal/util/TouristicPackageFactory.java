@@ -21,22 +21,8 @@ public class TouristicPackageFactory {
 
     public static TouristicPackageEntity newTouristicPackageEntity() {
         UserEntity user = new UserEntity(1, "team", "123", "admin");
-        List<PersonEntity> people = refillPeople();
-        List<TouristicPackageBookingEntity> touristicPackageBookings = refillBookings();
-        List<TouristicPackageReservationEntity> touristicPackagesReservations = new ArrayList<>();
-        List<FlightReservationEntity> flightReservationEntities = new ArrayList<>();
-        TouristicPackageEntity touristicPackage =
+        return buildTouristicPackageEntity(user);
 
-                TouristicPackageEntity
-        touristicPackageEntity = new TouristicPackageEntity(1, 123, "paquete turistico", LocalDate.of(2022, 03, 12), user, touristicPackageBookings, touristicPackagesReservations);
-
-        FlightEntity flightEntity = FlightEntityFactory.newFlightEntity();
-
-
-        HotelBookingEntity hotelBooking = new HotelBookingEntity("team", 1, LocalDate.of(2022, 03, 12), LocalDate.of(2022, 04, 12), "lugano", new HotelEntity(), 2, "double", );
-
-        touristicPackageBookings.add(new TouristicPackageBookingEntity(1, touristicPackageEntity, hotelBooking));
-        return touristicPackage;
     }
 
     private static List<TouristicPackageBookingEntity> refillBookings(TouristicPackageEntity touristicPackageEntity) {
@@ -48,16 +34,11 @@ public class TouristicPackageFactory {
 
     private static List<TouristicPackageReservationEntity> refillReservations(TouristicPackageEntity touristicPackageEntity) {
         List<TouristicPackageReservationEntity> touristicPackageReservationEntities = new ArrayList<>();
-        touristicPackageReservationEntities.add(new TouristicPackageReservationEntity(1, touristicPackageEntity, FlightReservationFactory.));
+        touristicPackageReservationEntities.add(new TouristicPackageReservationEntity(1, touristicPackageEntity, FlightReservationFactory.newFlightReservationEntity()));
         return touristicPackageReservationEntities;
     }
 
-    private static List<PersonEntity> refillPeople() {
-        List<PersonEntity> people = new ArrayList<>();
-        people.add(PersonEntityFactory.newPersonEntity());
-        people.add(PersonEntityFactory.newPersonEntity());
-        return people;
-    }
+
 
     private static TouristicPackageEntity buildTouristicPackageEntity(UserEntity user) {
         TouristicPackageEntity touristicPackageEntity = new TouristicPackageEntity();
@@ -65,6 +46,7 @@ public class TouristicPackageFactory {
         touristicPackageEntity.setUser(user);
         touristicPackageEntity.setTouristicPackageBookings(refillBookings(touristicPackageEntity));
         touristicPackageEntity.setTouristicPackageReservations(refillReservations(touristicPackageEntity));
+        touristicPackageEntity.setId(1);
         return touristicPackageEntity;
     }
 }
