@@ -1,6 +1,7 @@
 package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
 import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
+import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.TouristicPackageDiscountTypeEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.entity.UserEntity;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,6 @@ public class PackageTouristicTest {
     ITouristicPackageRepository touristicPackageRepository;
     @Mock
     ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
-
     @Mock
     IHotelBookingRepository hotelBookingRepository;
 
@@ -60,15 +61,24 @@ public class PackageTouristicTest {
         assertAll(()-> assertEquals(obtainedTouristicPackage,touristicPackageRequestDTO));
 
     }
-
-    /*@Test
+/*
+    @Test
     void shouldReturnAllPackageTouristics(){
         //Arrange
-        List<TouristicPackageEntity> touristicPackageEntityList = n
+        List<TouristicPackageEntity> touristicPackageEntityList = new ArrayList<>();
+        touristicPackageEntityList.add(1,TouristicPackageFactory.newTouristicPackageEntity());
+        ListTouristicPackageResponseDTO listTouristicPackageResponseDTOExpected = new ListTouristicPackageResponseDTO();
+        List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
+        touristicPackageResponseDTOList.add(TouristicPackageFactory.newTouristicPackageResponseDTO());
+        listTouristicPackageResponseDTOExpected.setTouristicPackages(touristicPackageResponseDTOList);
         //Act
-        when(flightReservationRepository.findAll()).thenReturn(listTouristicPackageResponseDTO);
+        when(touristicPackageRepository.findAll()).thenReturn(touristicPackageEntityList);
+        ListTouristicPackageResponseDTO listTouristicPackageResponseDTO =  touristicPackageService.getTouristicPackages();
 
         //Assert
+        assertAll(()-> assertEquals(listTouristicPackageResponseDTOExpected,listTouristicPackageResponseDTO));
+
+
     }*/
 
 
