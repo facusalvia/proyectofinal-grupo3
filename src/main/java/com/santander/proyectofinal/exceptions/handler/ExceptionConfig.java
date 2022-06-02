@@ -119,4 +119,11 @@ public class ExceptionConfig {
         ErrorDTO errorDto = new ErrorDTO(paymentMethodDebitCanNotMoreThanOneDue.getMessage());
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(TouristicPackageAlreadyExistsException.class)
+    public ResponseEntity<ErrorDTO> handlerException(TouristicPackageAlreadyExistsException touristicPackageAlreadyExistsException){
+        ErrorDTO errorDto = new ErrorDTO(touristicPackageAlreadyExistsException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }

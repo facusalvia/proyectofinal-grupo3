@@ -40,12 +40,17 @@ public class TouristicPackageService {
     ModelMapper mapper = new ModelMapper();
 
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        //verifica que no exista otro paquete con el mismo packagenumber
+        if(touristicPackageRepository.findByPackageNumberEquals(touristicPackageRequestDTO.getPackageNumber()).isPresent()){
+            throw new TouristicPackageAlreadyExistsException();
+        }
+
         isEqualsTwo(touristicPackageRequestDTO.getBookings(), touristicPackageRequestDTO.getReservations());
         List<HotelBookingEntity> bookings = fillListBookings(touristicPackageRequestDTO);
         List<FlightReservationEntity> reservations = fillListReservation(touristicPackageRequestDTO);
 
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
-        //TODO por alguna razon toma el client_id como id y se lo setea
+        //TODO por alguna razon toma el client_id como id y se lo setea, por esa razon le seteo a null el id
         touristicPackage.setId(null);
 
         List<TouristicPackageBookingEntity> touristicPackageBookingEntities = new ArrayList<>();
