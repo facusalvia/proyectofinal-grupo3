@@ -30,9 +30,6 @@ public class FlightReservationFactory {
                 newPaymentMethod());
     }
 
-    public static FlightEntity newFlightEntity() {
-        return new FlightEntity();
-    }
     public static  List<PersonDTO> newListPerson() {
         List<PersonDTO> personDTOList = new ArrayList<>();
         return personDTOList;
