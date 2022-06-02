@@ -57,6 +57,5 @@ public class FlightReservationServiceTest {
         assertEquals(expectedFlightReservationRequestDTO,obtainedFlightReservationRequestDTO);
 
     }
-    void shouldAddAFlightReservation()
 
 }
