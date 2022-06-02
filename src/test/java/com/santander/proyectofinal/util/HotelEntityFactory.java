@@ -11,8 +11,6 @@ import java.util.List;
 
 public class HotelEntityFactory {
 
-
-
     public static HotelEntity newHotelEntity(){
         List<HotelBookingEntity> listBookings=new ArrayList<>();
         return new HotelEntity(1,"NUEVO-001","Hotel Nuevo",
