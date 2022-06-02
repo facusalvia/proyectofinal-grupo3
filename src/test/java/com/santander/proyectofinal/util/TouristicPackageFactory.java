@@ -53,6 +53,12 @@ public class TouristicPackageFactory {
     private static TouristicPackageResponseDTO buildTouristicPackageDTO() {
         TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
         touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(buildTouristicPackageDTOInfo());
+        List<Integer> idBookings = new ArrayList<>();
+        idBookings.add(1);
+        List<Integer> idReservation = new ArrayList<>();
+        idReservation.add(1);
+        touristicPackageResponseDTO.setReservations(idReservation);
+        touristicPackageResponseDTO.setBookings(idBookings);
         return touristicPackageResponseDTO;
     }
 
@@ -77,7 +83,7 @@ public class TouristicPackageFactory {
         TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = new TouristicPackageInfoResponseDTO();
         touristicPackageInfoResponseDTO.setPackageNumber(123);
         touristicPackageInfoResponseDTO.setId(1);
-        touristicPackageInfoResponseDTO.setName("paquete");
+        touristicPackageInfoResponseDTO.setName(null);
         touristicPackageInfoResponseDTO.setClientId(1);
         return touristicPackageInfoResponseDTO;
     }
