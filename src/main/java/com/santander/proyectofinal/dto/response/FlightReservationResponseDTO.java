@@ -1,18 +1,14 @@
 package com.santander.proyectofinal.dto.response;
 
 import com.santander.proyectofinal.dto.FlightReservationDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class FlightReservationResponseDTO {
     private String username;
     private FlightReservationDTO flightEntity;
