@@ -892,7 +892,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seats\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"raw": "{\r\n    \"username\":\"juan\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seats\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1175,7 +1175,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=1234",
+							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=123",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1190,7 +1190,7 @@
 							"query": [
 								{
 									"key": "packageNumber",
-									"value": "1234"
+									"value": "123"
 								}
 							]
 						}
@@ -1214,7 +1214,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [2,3],\n    \"reservations\": []\n}\n",
+							"raw": "{\n   \"packageNumber\": 123,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [2,3],\n    \"reservations\": []\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1341,6 +1341,39 @@
 								"v1",
 								"user",
 								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "GetTop3Clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/clients/top3?year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"clients",
+								"top3"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
 							]
 						}
 					},
