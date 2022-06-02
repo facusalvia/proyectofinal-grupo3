@@ -5,7 +5,13 @@ import com.santander.proyectofinal.dto.PaymentMethodDTO;
 import com.santander.proyectofinal.dto.PersonDTO;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
+import com.santander.proyectofinal.entity.FlightReservationEntity;
+import com.santander.proyectofinal.entity.PersonEntity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +32,33 @@ public class FlightReservationFactory {
          "flightNumber",
                 1,
          "seatType",
-                newListPerson(),
-                newPaymentMethod());
+                newListPersonDTO(),
+                PaymentMethodEntityFactory.newPaymentMethodDTO());
     }
 
-    public static  List<PersonDTO> newListPerson() {
+    public static  List<PersonEntity> newListPerson() {
+        List<PersonEntity> personEntityList = new ArrayList<>();
+        return personEntityList;
+    }
+
+    public static  List<PersonDTO> newListPersonDTO() {
         List<PersonDTO> personDTOList = new ArrayList<>();
         return personDTOList;
     }
-    public static  PaymentMethodDTO newPaymentMethod() {
-        return new  PaymentMethodDTO();
+    public static FlightReservationEntity newFlightReservationEntity() {
+        return new FlightReservationEntity(1,"username",
+                LocalDate.of(2022,06,05),
+                LocalDate.of(2022,06,05),
+                "origin",
+                "destination",
+                 1,
+                "seatType",
+                FlightEntityFactory.newFlightEntity(),
+                newListPerson(),
+                PaymentMethodEntityFactory.newPaymentMethodEntity(),
+                false,
+                LocalDate.of(2022,06,05),
+                0.0);
     }
 }
+
