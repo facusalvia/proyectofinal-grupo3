@@ -2,10 +2,7 @@ package com.santander.proyectofinal.exceptions.handler;
 
 import com.santander.proyectofinal.dto.ErrorDTO;
 import com.santander.proyectofinal.exceptions.*;
-import com.santander.proyectofinal.exceptions.flightException.FlightAlreadyExistsException;
-import com.santander.proyectofinal.exceptions.flightException.FlightCanNotDeleteException;
-import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
-import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
+import com.santander.proyectofinal.exceptions.flightException.*;
 import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelCanNotDeleteException;
@@ -90,4 +87,21 @@ public class ExceptionConfig {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(FlightReservationDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightReservationDoesNotExistException e) {
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PackageDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(PackageDoesNotExistException e) {
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CountPackageDistintTwoException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(CountPackageDistintTwoException e) {
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }

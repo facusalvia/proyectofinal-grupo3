@@ -5,8 +5,8 @@ import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
-import com.santander.proyectofinal.exceptions.PackageCanNotModifyException;
-import com.santander.proyectofinal.exceptions.UserDoesNotExistException;
+import com.santander.proyectofinal.exceptions.*;
+import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class TouristicPackageService {
@@ -36,19 +36,12 @@ public class TouristicPackageService {
     IUserEntityRepository userEntityRepository;
     ModelMapper mapper = new ModelMapper();
 
+
+
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
-        isGreater(touristicPackageRequestDTO.getBookings(),touristicPackageRequestDTO.getReservations());
-
-        List<HotelBookingEntity> bookings = new ArrayList<>();
-        List<FlightReservationEntity> reservations = new ArrayList<>();
-        // busco las reservas
-        for (Integer bookingId: touristicPackageRequestDTO.getBookings()) {
-            bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow());
-        }
-        for (Integer reservationId: touristicPackageRequestDTO.getReservations()) {
-            reservations.add(flightReservationRepository.findById(reservationId).orElseThrow());
-        }
-
+        isEqualsTwo(touristicPackageRequestDTO.getBookings(), touristicPackageRequestDTO.getReservations());
+        List<HotelBookingEntity> bookings = fillListBookings(touristicPackageRequestDTO);
+        List<FlightReservationEntity> reservations = fillListReservation(touristicPackageRequestDTO);
         // TODO: validar que ambas sean exactamente 2 (LISTO)
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
 
@@ -66,19 +59,20 @@ public class TouristicPackageService {
         // seteo relaciones
         touristicPackage.setTouristicPackageBookings(touristicPackageBookingEntities);
         touristicPackage.setTouristicPackageReservations(touristicPackageReservationsEntities);
-        touristicPackage.setUser(userEntityRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(()-> new UserDoesNotExistException()));
+        touristicPackage.setUser(userEntityRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(() -> new UserDoesNotExistException()));
         touristicPackage = touristicPackageRepository.save(touristicPackage);
 
-        if(touristicPackage.getId() == null){
-            throw new RuntimeException("Error al cargar paquete turistico");
+        if (touristicPackage.getId() == null) {
+            throw new RepositorySaveException();
         }
 
         return touristicPackageRequestDTO;
     }
 
-    private void isGreater(List<Integer> bookings,List<Integer> reservations){
-        if (bookings.size()+reservations.size()>2){
-                throw new RuntimeException("error mayor a 2");
+
+    private void isEqualsTwo(List<Integer> bookings, List<Integer> reservations) {
+        if (bookings.size() + reservations.size() != 2) {
+            throw new CountPackageDistintTwoException();
         }
     }
 
@@ -88,7 +82,7 @@ public class TouristicPackageService {
 
         List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
 
-        for (TouristicPackageEntity touristicPackageEntity: touristicPackageEntityList) {
+        for (TouristicPackageEntity touristicPackageEntity : touristicPackageEntityList) {
 
             TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
 
@@ -104,10 +98,10 @@ public class TouristicPackageService {
         List<Integer> bookingsId = new ArrayList<>();
         List<Integer> reservationsId = new ArrayList<>();
 
-        for (TouristicPackageBookingEntity touristicPackageBookingEntity: touristicPackageEntity.getTouristicPackageBookings()) {
+        for (TouristicPackageBookingEntity touristicPackageBookingEntity : touristicPackageEntity.getTouristicPackageBookings()) {
             bookingsId.add(touristicPackageBookingEntity.getId());
         }
-        for (TouristicPackageReservationEntity touristicPackageReservationEntity: touristicPackageEntity.getTouristicPackageReservations()) {
+        for (TouristicPackageReservationEntity touristicPackageReservationEntity : touristicPackageEntity.getTouristicPackageReservations()) {
             reservationsId.add(touristicPackageReservationEntity.getId());
         }
         TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
@@ -118,32 +112,54 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
-        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow();
+        TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(() -> new PackageDoesNotExistException());
         touristicPackageRepository.deleteById(touristicPackageEntity.getId());
         return packageNumber;
     }
 
     public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {
-        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(()-> new PackageCanNotModifyException());
-        TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber,touristicPackageRequestDTO, touristicPackage);
+        TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(() -> new PackageCanNotModifyException());
+        TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber, touristicPackageRequestDTO, touristicPackage);
         touristicPackageRepository.save(touristicPackageEntity);
         return touristicPackageRequestDTO;
     }
 
-    private TouristicPackageEntity buildTouristicPackageEntity(Integer packageNumber,TouristicPackageRequestDTO touristicPackageRequestDTO, TouristicPackageEntity touristicPackage) {
+
+    private TouristicPackageEntity buildTouristicPackageEntity(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO, TouristicPackageEntity touristicPackage) {
         TouristicPackageEntity touristicPackageEntity = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
         Integer id = touristicPackage.getId();
         touristicPackageEntity.setId(id);
         touristicPackageEntity.setPackageNumber(packageNumber);
         for (int i = 0; i < touristicPackageRequestDTO.getBookings().size(); i++) {
-            HotelBookingEntity booking = hotelBookingRepository.findById(touristicPackageRequestDTO.getBookings().get(i)).orElseThrow(()-> new HotelBookingDoesNotExistException());
+            HotelBookingEntity booking = hotelBookingRepository.findById(touristicPackageRequestDTO.getBookings().get(i)).orElseThrow(() -> new HotelBookingDoesNotExistException());
             touristicPackageEntity.getTouristicPackageBookings().add(new TouristicPackageBookingEntity(touristicPackage.getTouristicPackageBookings().get(i).getId(), touristicPackage, booking));
         }
         for (int i = 0; i < touristicPackageRequestDTO.getReservations().size(); i++) {
-            FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(touristicPackageRequestDTO.getReservations().get(i)).orElseThrow(()-> new PackageCanNotModifyException());
+            FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(touristicPackageRequestDTO.getReservations().get(i)).orElseThrow(() -> new PackageCanNotModifyException());
             touristicPackageEntity.getTouristicPackageReservations().add(new TouristicPackageReservationEntity(touristicPackage.getTouristicPackageReservations().get(i).getId(), touristicPackage, flightReservationEntity));
         }
 
         return touristicPackageEntity;
     }
+
+
+
+
+    private List<HotelBookingEntity> fillListBookings(TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        List<HotelBookingEntity> bookings = new ArrayList<>();
+        for (Integer bookingId : touristicPackageRequestDTO.getBookings()) {
+            bookings.add(hotelBookingRepository.findById(bookingId).orElseThrow(()->new HotelBookingDoesNotExistException()));
+        }
+        return bookings;
+    }
+
+    private List<FlightReservationEntity> fillListReservation(TouristicPackageRequestDTO touristicPackageRequestDTO) {
+        List<FlightReservationEntity> reservations = new ArrayList<>();
+        for (Integer reservationFlightId : touristicPackageRequestDTO.getReservations()) {
+            reservations.add(flightReservationRepository.findById(reservationFlightId).orElseThrow(()->new FlightReservationDoesNotExistException()));
+        }
+        return reservations;
+    }
+
+
 }
