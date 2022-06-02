@@ -1,4 +1,5 @@
 package com.santander.proyectofinal.util;
+import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
@@ -13,8 +14,12 @@ public class TouristicPackageFactory {
 
     }
 
-    public static TouristicPackageResponseDTO newTouristicPackageDTO() {
+    public static TouristicPackageResponseDTO newTouristicPackageResponseDTO() {
         return buildTouristicPackageDTO();
+    }
+
+    public static TouristicPackageRequestDTO newTouristicPackageRequestDTO() {
+        return buildTouristicPackageDTORequest();
     }
 
     private static List<TouristicPackageBookingEntity> refillBookings(TouristicPackageEntity touristicPackageEntity) {
@@ -42,11 +47,28 @@ public class TouristicPackageFactory {
         return touristicPackageEntity;
     }
 
+
     private static TouristicPackageResponseDTO buildTouristicPackageDTO() {
         TouristicPackageResponseDTO touristicPackageResponseDTO = new TouristicPackageResponseDTO();
-        touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(new TouristicPackageInfoResponseDTO());
+        touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(buildTouristicPackageDTOInfo());
         return touristicPackageResponseDTO;
     }
+
+
+    private static TouristicPackageRequestDTO buildTouristicPackageDTORequest() {
+        TouristicPackageRequestDTO touristicPackageInfoResponseDTO = new TouristicPackageRequestDTO();
+        touristicPackageInfoResponseDTO.setPackageNumber(123);
+        touristicPackageInfoResponseDTO.setName("paquete");
+        touristicPackageInfoResponseDTO.setClientId(1);
+        List<Integer> idBookings = new ArrayList<>();
+        idBookings.add(1);
+        idBookings.add(2);
+        List<Integer> idReservation = new ArrayList<>();
+        touristicPackageInfoResponseDTO.setBookings(idBookings);
+        touristicPackageInfoResponseDTO.setReservations(idReservation);
+        return touristicPackageInfoResponseDTO;
+    }
+
 
     private static TouristicPackageInfoResponseDTO buildTouristicPackageDTOInfo() {
         TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = new TouristicPackageInfoResponseDTO();
