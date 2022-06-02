@@ -35,7 +35,7 @@ public class FlightService {
             throw new FlightAlreadyExistsException();
         }
 
-        flightEntityRepository.save(flightEntity);
+        flightEntity=flightEntityRepository.save(flightEntity);
         if(flightEntity.getId() == null){
             throw new RepositorySaveException();
         }
