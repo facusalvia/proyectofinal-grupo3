@@ -54,12 +54,10 @@ public class FlightService {
         );
     }
 
-    public FlightListResponseDTO getFlightsByDateAndOriginAndDestiny(String origin, String destiny, String dateFrom, String dateTo) {
+    public FlightListResponseDTO getFlightsByDateAndOriginAndDestiny(String origin, String destiny, LocalDate dateFrom, LocalDate dateTo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dateFromParse = LocalDate.parse(dateFrom, formatter);
-        LocalDate dateToParse = LocalDate.parse(dateTo, formatter);
 
-        List<FlightEntity> flightEntities = flightEntityRepository.findAllByDateFromLessThanEqualAndDateToGreaterThanEqualAndOriginEqualsAndDestinyEquals(dateFromParse, dateToParse, origin, destiny);
+        List<FlightEntity> flightEntities = flightEntityRepository.findAllByDateFromLessThanEqualAndDateToGreaterThanEqualAndOriginEqualsAndDestinyEquals(dateFrom, dateTo, origin, destiny);
         if (flightEntities.isEmpty()) throw new FlightNoAvailableException();
         return new FlightListResponseDTO(
                 flightEntities.stream().map(
