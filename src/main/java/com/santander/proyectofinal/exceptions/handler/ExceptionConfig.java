@@ -3,10 +3,7 @@ package com.santander.proyectofinal.exceptions.handler;
 import com.santander.proyectofinal.dto.ErrorDTO;
 import com.santander.proyectofinal.exceptions.*;
 import com.santander.proyectofinal.exceptions.flightException.*;
-import com.santander.proyectofinal.exceptions.hotelException.HotelAlreadyExistsException;
-import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
-import com.santander.proyectofinal.exceptions.hotelException.HotelCanNotDeleteException;
-import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -103,5 +100,17 @@ public class ExceptionConfig {
     public ResponseEntity<ErrorDTO> handleValidationExceptions(CountPackageDistintTwoException e) {
         ErrorDTO error = new ErrorDTO(e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HotelBookingCanNotDeleteException.class)
+    public ResponseEntity<ErrorDTO> handlerException(HotelBookingCanNotDeleteException hotelBookingCanNotDeleteException){
+        ErrorDTO errorDto = new ErrorDTO(hotelBookingCanNotDeleteException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightReservationCanNotDeleteException.class)
+    public ResponseEntity<ErrorDTO> handlerException(FlightReservationCanNotDeleteException flightReservationCanNotDeleteException){
+        ErrorDTO errorDto = new ErrorDTO(flightReservationCanNotDeleteException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 }
