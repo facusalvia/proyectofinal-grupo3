@@ -1,15 +1,11 @@
 package com.santander.proyectofinal.dto.request;
 
 import com.santander.proyectofinal.dto.FlightReservationDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class FlightReservationRequestDTO {
     private String username;
     private FlightReservationDTO flightReservationDTO;
