@@ -47,17 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         String apiURL = "/api/v1";
+        String manager = "MANAGER";
+        String employee = "EMPLOYEE";
 
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(apiURL + "/user").permitAll()
-                .antMatchers(apiURL + "/hotels/**").hasRole("ADMIN")
-                .antMatchers(apiURL + "/hotel-booking/**").hasRole("ADMIN")
-                .antMatchers(apiURL + "/flights/**").hasRole("ADMIN")
-                .antMatchers(apiURL + "/flight-reservation/**").hasRole("ADMIN")
-                .antMatchers(apiURL + "/touristicpackage/**").hasRole("USER")
-                .antMatchers(apiURL + "/dailyIncome").hasRole("USER")
-                .antMatchers(apiURL + "/monthlyIncome").hasRole("USER")
+                .antMatchers(apiURL + "/hotels/**").hasRole(manager)
+                .antMatchers(apiURL + "/hotel-booking/**").hasRole(manager)
+                .antMatchers(apiURL + "/flights/**").hasRole(manager)
+                .antMatchers(apiURL + "/flight-reservation/**").hasRole(manager)
+                .antMatchers(apiURL + "/touristicpackage/**").hasRole(employee)
+                .antMatchers(apiURL + "/dailyIncome").hasRole(employee)
+                .antMatchers(apiURL + "/monthlyIncome").hasRole(employee)
                 .and()
                 .httpBasic()
                 .and()

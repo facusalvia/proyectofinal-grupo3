@@ -1304,38 +1304,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "HelloManager",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZWFtIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNjU0MTc5MzA2LCJpYXQiOjE2NTQxNzkwMDZ9.zNwfuLM4gZOq38w1gKId_u-H0emXWc7z6VMGHCj5CjTvSLsMbr7efHD-CgIIYshBeiVf0zDsmCg_gqnTI84bFg",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/user/hola",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"user",
-								"hola"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}

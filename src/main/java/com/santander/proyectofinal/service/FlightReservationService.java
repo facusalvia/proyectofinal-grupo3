@@ -6,8 +6,12 @@ import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
+import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
+import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ public class FlightReservationService {
     IFlightReservationRepository flightReservationRepository;
     @Autowired
     IFlightEntityRepository flightEntityRepository;
+    @Autowired
+    ITouristicPackageRepository touristicPackageRepository;
     @Autowired
     InterestService interestService;
 
@@ -48,7 +54,7 @@ public class FlightReservationService {
         double amount = flightEntity.getPricePerPerson() * flightReservationRequestDTO.getFlightReservationDTO().getSeats();
         double total = interest * amount;
         flightReservationEntity.setTotalAmount((double) Math.round(total));
-        flightReservationRepository.save(flightReservationEntity);
+        flightReservationEntity = flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
             throw new RuntimeException("Error al reservar el vuelo");
         }
@@ -84,6 +90,13 @@ public class FlightReservationService {
 
     public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
         FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
+
+        // verifico que no existan paquetes con esta reserva
+        List<TouristicPackageEntity> touristicPackageEntities = touristicPackageRepository.findPackagesByFlightReservation(flightReservationEntity.getId());
+        if(!touristicPackageEntities.isEmpty()){
+            throw new FlightReservationCanNotDeleteException();
+        }
+
         flightReservationEntity.setActive(false);
         flightReservationRepository.save(flightReservationEntity);
         FlightReservationResponseDTO flightReservationResponseDTO = modelMapper.map(flightReservationEntity, FlightReservationResponseDTO.class);

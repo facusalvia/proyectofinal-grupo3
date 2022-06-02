@@ -28,10 +28,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserEntity userEntity = userEntityRepository.findByUsernameEquals(username).orElseThrow(()-> {throw new UsernameNotFoundException("User not found");} );
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if (userEntity.getRol().equals("manager")) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
         }
         if (userEntity.getRol().equals("employee")) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
         }
 
         return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);

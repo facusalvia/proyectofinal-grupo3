@@ -57,7 +57,7 @@ public class FlightReservationFactory {
                 newListPerson(),
                 PaymentMethodEntityFactory.newPaymentMethodEntity(),
                 false,
-                LocalDate.of(2022,06,05),
+                LocalDate.now(),
                 0.0);
     }
 }
