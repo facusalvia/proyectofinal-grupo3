@@ -27,7 +27,8 @@ public class TouristicPackageFactory {
         List<FlightReservationEntity> flightReservationEntities = new ArrayList<>();
         TouristicPackageEntity touristicPackage =
 
-        TouristicPackageEntity touristicPackageEntity = new TouristicPackageEntity(1, 123, "paquete turistico", LocalDate.of(2022, 03, 12), user, touristicPackageBookings, touristicPackagesReservations);
+                TouristicPackageEntity
+        touristicPackageEntity = new TouristicPackageEntity(1, 123, "paquete turistico", LocalDate.of(2022, 03, 12), user, touristicPackageBookings, touristicPackagesReservations);
 
         FlightEntity flightEntity = FlightEntityFactory.newFlightEntity();
 
@@ -40,14 +41,14 @@ public class TouristicPackageFactory {
 
     private static List<TouristicPackageBookingEntity> refillBookings(TouristicPackageEntity touristicPackageEntity) {
         List<TouristicPackageBookingEntity> touristicPackageBookings = new ArrayList<>();
-        touristicPackageBookings.add(new TouristicPackageBookingEntity(1,touristicPackageEntity,HotelBookingEntityFactory.newHotelBookingEntity()));
+        touristicPackageBookings.add(new TouristicPackageBookingEntity(1, touristicPackageEntity, HotelBookingEntityFactory.newHotelBookingEntity()));
         return touristicPackageBookings;
     }
 
 
     private static List<TouristicPackageReservationEntity> refillReservations(TouristicPackageEntity touristicPackageEntity) {
         List<TouristicPackageReservationEntity> touristicPackageReservationEntities = new ArrayList<>();
-        touristicPackageReservationEntities.add(new TouristicPackageReservationEntity(1,touristicPackageEntity,FlightEntityFactory.newFlightEntity()));
+        touristicPackageReservationEntities.add(new TouristicPackageReservationEntity(1, touristicPackageEntity, FlightReservationFactory.));
         return touristicPackageReservationEntities;
     }
 
@@ -59,12 +60,12 @@ public class TouristicPackageFactory {
     }
 
     private static TouristicPackageEntity buildTouristicPackageEntity(UserEntity user) {
-        TouristicPackageEntity touristicPackageEntity =  new TouristicPackageEntity();
+        TouristicPackageEntity touristicPackageEntity = new TouristicPackageEntity();
         touristicPackageEntity.setPackageNumber(123);
         touristicPackageEntity.setUser(user);
         touristicPackageEntity.setTouristicPackageBookings(refillBookings(touristicPackageEntity));
         touristicPackageEntity.setTouristicPackageReservations(refillReservations(touristicPackageEntity));
-
+        return touristicPackageEntity;
     }
 }
 
