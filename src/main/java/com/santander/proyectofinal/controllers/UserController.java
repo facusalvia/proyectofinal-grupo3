@@ -49,9 +49,4 @@ public class UserController {
         return ResponseEntity.ok(new UserResponseDTO(token));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = "/hola")
-    public String hola(){
-        return "hola Admin";
-    }
 }
