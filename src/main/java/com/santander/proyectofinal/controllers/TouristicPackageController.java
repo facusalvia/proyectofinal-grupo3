@@ -18,15 +18,11 @@ public class TouristicPackageController {
     @Autowired
     TouristicPackageService touristPackageService;
 
-
-
     @PostMapping("/new")
     public ResponseEntity<SuccessDTO> addTouristicPackage(@RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO){
         touristPackageService.addTouristicPackage(touristicPackageRequestDTO);
         return ResponseEntity.ok().body(new SuccessDTO("Paquete Turístico dado de alta correctamente", HttpStatus.OK.value()));
     }
-
-
 
     @PutMapping(value = "/edit", params = {"packageNumber"})
     public ResponseEntity<SuccessDTO> updatePackageTouristic(@Valid @RequestParam(value = "packageNumber") Integer packageNumber, @RequestBody TouristicPackageRequestDTO touristicPackageRequestDTO) {
