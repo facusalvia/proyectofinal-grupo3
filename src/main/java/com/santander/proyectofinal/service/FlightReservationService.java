@@ -66,6 +66,9 @@ public class FlightReservationService {
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
         FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow();
         FlightReservationEntity flightReservationEntity = buildFlightReservationEntity(id, flightReservationRequestDTO, flightReservationEntityRepo);
+        flightReservationEntity.setCreatedAt(flightReservationEntityRepo.getCreatedAt());
+        flightReservationEntity.setTotalAmount(flightReservationEntityRepo.getTotalAmount());
+        flightReservationEntity.setSeats(flightReservationEntityRepo.getSeats());
         flightReservationRepository.save(flightReservationEntity);
         return flightReservationRequestDTO;
     }

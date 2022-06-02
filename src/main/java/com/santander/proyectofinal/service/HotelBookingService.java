@@ -100,6 +100,8 @@ public class HotelBookingService {
         updatedHotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
         updatedHotelBookingEntity.setHotel(savedHotelBookingEntity.getHotel());
         updatedHotelBookingEntity.setActive(true);
+        updatedHotelBookingEntity.setCreatedAt(savedHotelBookingEntity.getCreatedAt());
+        updatedHotelBookingEntity.setTotalAmount(savedHotelBookingEntity.getTotalAmount());
 
         updatedHotelBookingEntity.getPaymentMethod().setId(savedHotelBookingEntity.getPaymentMethod().getId());
 
