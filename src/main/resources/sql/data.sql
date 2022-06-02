@@ -6,3 +6,5 @@ INSERT INTO hotels VALUES(5,'2022-04-17','2022-05-23','SH-002',false,'Sheraton',
 
 INSERT INTO users VALUES (1, "123","manager","team")
 INSERT INTO users VALUES (2, "123","employee","teamemployee")
+
+INSERT INTO touristic_package_discounts VALUES (1, 0.10)

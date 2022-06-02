@@ -12,10 +12,10 @@ import java.time.LocalDate;
 
 public class PaymentMethodEntityFactory {
     public static PaymentMethodEntity newPaymentMethodEntity(){
-        return new PaymentMethodEntity(1,"type","number",2,null,null);
+        return new PaymentMethodEntity(1,"type","number",1,null,null);
 
     }
     public static PaymentMethodDTO newPaymentMethodDTO(){
-        return new PaymentMethodDTO("type","number",1);
+        return new PaymentMethodDTO(null,"number",1);
     }
 }
