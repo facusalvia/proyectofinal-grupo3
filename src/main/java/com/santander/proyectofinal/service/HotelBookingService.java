@@ -11,6 +11,7 @@ import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotD
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -38,6 +39,9 @@ public class HotelBookingService {
     @Autowired
     ITouristicPackageRepository touristicPackageRepository;
 
+    @Autowired
+    IClientRepository clientRepository;
+
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -45,7 +49,9 @@ public class HotelBookingService {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
-        // TODO: ver si dejamos el username como una columna o usamos una fk user_id a la tabla UserEntity, verificando que exista el username antes de hacer la reserva
+        //valido que exista cliente
+        hotelBookingEntity.setClient(clientRepository.findByUsernameEquals(hotelBookingDTORequest.getUsername()).orElseThrow());
+
         hotelBookingEntity.setUsername(hotelBookingDTORequest.getUsername());
         hotelBookingEntity.setHotel(hotelEntity);
         hotelBookingEntity.setActive(true);

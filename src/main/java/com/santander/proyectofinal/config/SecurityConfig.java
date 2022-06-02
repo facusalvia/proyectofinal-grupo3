@@ -61,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(apiURL + "/touristicpackage/**").hasRole(employee)
                 .antMatchers(apiURL + "/dailyIncome").hasRole(employee)
                 .antMatchers(apiURL + "/monthlyIncome").hasRole(employee)
-
                 .and()
 
                 .httpBasic()

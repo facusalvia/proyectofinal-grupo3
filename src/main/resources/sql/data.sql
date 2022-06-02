@@ -7,4 +7,8 @@ INSERT INTO hotels VALUES(5,'2022-04-17','2022-05-23','SH-002',false,'Sheraton',
 INSERT INTO users VALUES (1, "123","manager","team")
 INSERT INTO users VALUES (2, "123","employee","teamemployee")
 
+INSERT INTO clients VALUES (1, "Bernardo","Norberto","nor")
+INSERT INTO clients VALUES (2, "Juan","Carlos","juan")
+INSERT INTO clients VALUES (3, "Marcelo","Martin","mar")
+
 INSERT INTO touristic_package_discounts VALUES (1, 0.10)

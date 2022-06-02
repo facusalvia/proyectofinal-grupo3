@@ -12,6 +12,7 @@ import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExist
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
+import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -34,6 +35,8 @@ public class FlightReservationService {
     ITouristicPackageRepository touristicPackageRepository;
     @Autowired
     InterestService interestService;
+    @Autowired
+    IClientRepository clientRepository;
 
 
     ModelMapper modelMapper = new ModelMapper();
@@ -41,9 +44,13 @@ public class FlightReservationService {
     public FlightReservationRequestDTO reservation(FlightReservationRequestDTO flightReservationRequestDTO) {
         FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightReservationRequestDTO.getFlightReservationDTO().getFlightNumber()).orElseThrow(FlightDoesNotExistException::new);
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
+
+        flightReservationEntity.setClient(clientRepository.findByUsernameEquals(flightReservationRequestDTO.getUsername()).orElseThrow());
+
         flightReservationEntity.setFlightEntity(flightEntity);
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
         flightReservationEntity.setActive(true);
+
         List<PersonEntity> passengers = flightReservationEntity.getPeople().stream().map(
                         person -> modelMapper.map(person, PersonEntity.class)
                 )
