@@ -18,8 +18,11 @@ public class PackageTouristicTest {
 
     @Test
     void shouldReturnAnAddePackageTouristic(){
+        //Arrange
 
+        //Act
 
+        //Assert
 
     }
 
