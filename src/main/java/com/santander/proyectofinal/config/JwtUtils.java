@@ -16,8 +16,8 @@ public class JwtUtils {
     private int jwtExpirationInMs;
     private int refreshExpirationDateInMs;
     private final Map<String, String> isRoleToRole = new HashMap<String, String>(){{
-        put("isAdmin", "ADMIN");
-        put("isUser", "USER");
+        put("isManager", "MANAGER");
+        put("isEmployee", "EMPLOYEE");
     }};
 
     @Value("${jwt.secret}")
@@ -38,11 +38,11 @@ public class JwtUtils {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
-        if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-            claims.put("isAdmin", true);
+        if (roles.contains(new SimpleGrantedAuthority("ROLE_" + isRoleToRole.get("isManager")))) {
+            claims.put("isManager", true);
         }
-        if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-            claims.put("isUser", true);
+        if (roles.contains(new SimpleGrantedAuthority("ROLE_" + isRoleToRole.get("isEmployee")))) {
+            claims.put("isEmployee", true);
         }
         return doGenerateToken(claims, userDetails.getUsername());
     }
@@ -76,8 +76,8 @@ public class JwtUtils {
 
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
 
-        addRole(claims, roles, "isAdmin");
-        addRole(claims, roles, "isUser");
+        addRole(claims, roles, "isManager");
+        addRole(claims, roles, "isEmployee");
 
         return roles;
     }
