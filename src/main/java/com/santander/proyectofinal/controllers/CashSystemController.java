@@ -20,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 @Validated
 @RestController
 @RequestMapping("/api/v1")
@@ -28,16 +29,17 @@ public class CashSystemController {
     CashSystemService cashSystemService;
 
     @GetMapping("/dailyIncome")
-    public ResponseEntity<DayBenefitsResponseDTO> dayBenefits(@Param(value = "date") String date){
+    public ResponseEntity<DayBenefitsResponseDTO> dayBenefits(@Param(value = "date") String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate parcedDate = LocalDate.parse(date, formatter);
         return ResponseEntity.ok().body(cashSystemService.dayBenefits(parcedDate));
     }
-   @GetMapping("/monthlyIncome")
-   public ResponseEntity<MonthBenefitsResponseDTO> monthBenefits(@Param(value = "month") @Max(value = 12,message = "El mes ingresado deberá estar entre 1 y 12") @Min(value = 1,message = "El mes ingresado deberá estar entre 1 y 12") Integer month,
-                                                                 @Param(value = "year") @NotNull Integer year){
-       return ResponseEntity.ok().body(cashSystemService.monthBenefits(month,year));
-   }
+
+    @GetMapping("/monthlyIncome")
+    public ResponseEntity<MonthBenefitsResponseDTO> monthBenefits(@Param(value = "month") @Max(value = 12, message = "El mes ingresado deberá estar entre 1 y 12") @Min(value = 1, message = "El mes ingresado deberá estar entre 1 y 12") Integer month,
+                                                                  @Param(value = "year") @NotNull Integer year) {
+        return ResponseEntity.ok().body(cashSystemService.monthBenefits(month, year));
+    }
 
 
 }
