@@ -36,7 +36,7 @@ public class HotelServiceTest {
     @Test
     void shouldReturnAnAddedHotel(){
 
-        HotelEntity hotelEntity = HotelEntityFactory.newHotelEntity();
+        //HotelEntity hotelEntity = HotelEntityFactory.newHotelEntity();
 
         HotelRequestDTO hotelToAdd= HotelEntityFactory.newHotelRequestDTO();
         HotelEntity mockedHotel = HotelEntityFactory.newHotelEntity();
