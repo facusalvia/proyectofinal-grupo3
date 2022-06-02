@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class PaymentMethodEntityFactory {
     public static PaymentMethodEntity newPaymentMethodEntity(){
-        return new PaymentMethodEntity(1,"type","number",2,HotelBookingEntityFactory.newHotelBookingEntity(),FlightReservationFactory.newFlightReservationEntity());
+        return new PaymentMethodEntity(1,"type","number",2,null,null);
 
     }
     public static PaymentMethodDTO newPaymentMethodDTO(){

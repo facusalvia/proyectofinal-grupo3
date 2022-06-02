@@ -3,6 +3,8 @@ import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
 import com.santander.proyectofinal.entity.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +64,9 @@ public class TouristicPackageFactory {
         touristicPackageInfoResponseDTO.setClientId(1);
         List<Integer> idBookings = new ArrayList<>();
         idBookings.add(1);
-        idBookings.add(2);
         List<Integer> idReservation = new ArrayList<>();
+        idReservation.add(1);
+        touristicPackageInfoResponseDTO.setCreationDate(LocalDate.of(2022,02,12));
         touristicPackageInfoResponseDTO.setBookings(idBookings);
         touristicPackageInfoResponseDTO.setReservations(idReservation);
         return touristicPackageInfoResponseDTO;

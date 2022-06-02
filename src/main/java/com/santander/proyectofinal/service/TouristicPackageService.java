@@ -43,6 +43,7 @@ public class TouristicPackageService {
         List<HotelBookingEntity> bookings = fillListBookings(touristicPackageRequestDTO);
         List<FlightReservationEntity> reservations = fillListReservation(touristicPackageRequestDTO);
         // TODO: validar que ambas sean exactamente 2 (LISTO)
+
         TouristicPackageEntity touristicPackage = mapper.map(touristicPackageRequestDTO, TouristicPackageEntity.class);
 
         // creo las entidades "debiles" de booking y reservations
