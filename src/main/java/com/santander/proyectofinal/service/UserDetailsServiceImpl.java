@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userEntity.getRol().equals("manager")) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        if (userEntity.getRol().equals("employed")) {
+        if (userEntity.getRol().equals("employee")) {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 

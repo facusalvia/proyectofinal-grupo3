@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(apiURL + "/hotel-booking/**").hasRole("ADMIN")
                 .antMatchers(apiURL + "/flights/**").hasRole("ADMIN")
                 .antMatchers(apiURL + "/flight-reservation/**").hasRole("ADMIN")
+                .antMatchers(apiURL + "/touristicpackage/**").hasRole("USER")
                 .and()
                 .httpBasic()
                 .and()
