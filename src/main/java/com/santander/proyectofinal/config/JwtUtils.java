@@ -11,10 +11,14 @@ import java.util.*;
 
 @Service
 public class JwtUtils {
+
     private String secret;
     private int jwtExpirationInMs;
     private int refreshExpirationDateInMs;
-
+    private final Map<String, String> isRoleToRole = new HashMap<String, String>(){{
+        put("isAdmin", "ADMIN");
+        put("isUser", "USER");
+    }};
 
     @Value("${jwt.secret}")
     public void setSecret(String secret) {
@@ -30,7 +34,6 @@ public class JwtUtils {
     public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
         this.refreshExpirationDateInMs = refreshExpirationDateInMs;
     }
-
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -69,16 +72,13 @@ public class JwtUtils {
     }
 
     public List<SimpleGrantedAuthority> getRolesFromToken(String authToken) {
-        List<SimpleGrantedAuthority> roles = null;
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken).getBody();
-        Boolean isAdmin = claims.get("isAdmin", Boolean.class);
-        Boolean isUser = claims.get("isUser", Boolean.class);
-        if (isAdmin != null && isAdmin == true) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        if (isUser != null && isUser == true) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-        }
+
+        List<SimpleGrantedAuthority> roles = new ArrayList<>();
+
+        addRole(claims, roles, "isAdmin");
+        addRole(claims, roles, "isUser");
+
         return roles;
     }
 
@@ -86,5 +86,14 @@ public class JwtUtils {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
+    private boolean addRole(Claims claims, List<SimpleGrantedAuthority> roles, String expectedRole){
+        Boolean isRole = claims.get(expectedRole, Boolean.class);
+        boolean added = (isRole != null && isRole);
+        if(added){
+            roles.add(new SimpleGrantedAuthority("ROLE_" + isRoleToRole.get(expectedRole)));
+        }
+        return added;
     }
 }
