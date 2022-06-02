@@ -1,21 +1,18 @@
 package com.santander.proyectofinal.unitTest;
 
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
-import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
-import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
-import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
-import com.santander.proyectofinal.entity.HotelBookingEntity;
+import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
+import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import com.santander.proyectofinal.service.FlightReservationService;
 import com.santander.proyectofinal.service.InterestService;
 import com.santander.proyectofinal.util.FlightEntityFactory;
 import com.santander.proyectofinal.util.FlightReservationFactory;
-import com.santander.proyectofinal.util.HotelBookingEntityFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -36,13 +32,15 @@ public class FlightReservationServiceTest {
 
     @Mock
     IFlightEntityRepository flightEntityRepository;
+
     @Mock
     IFlightReservationRepository flightReservationRepository;
 
     @Mock
     InterestService interestService;
 
-
+    @Mock
+    ITouristicPackageRepository touristicPackageRepository;
 
     @InjectMocks
     FlightReservationService flightReservationService;
@@ -94,4 +92,23 @@ public class FlightReservationServiceTest {
 
         assertEquals(expectedFlightListResponseDTO,obtainedFlightListResponseDTO);
     }
+    @Test
+    void shouldDeleteAFlightReservation(){
+        //Arrange
+        FlightReservationResponseDTO expectedFlightReservationRequestDTO = FlightReservationFactory.newFlightReservationResponseDTO();
+        FlightReservationEntity flightReservationEntity = FlightReservationFactory.newFlightReservationEntity();
+        List<TouristicPackageEntity> touristicPackageEntitiesVoid = new ArrayList<>();
+        //Act
+        when(flightReservationRepository.findById(any())).thenReturn(Optional.of(flightReservationEntity));
+        when(touristicPackageRepository.findPackagesByFlightReservation(flightReservationEntity.getId())).thenReturn(touristicPackageEntitiesVoid);
+        when(flightReservationRepository.save(any())).thenReturn(flightReservationEntity);
+
+        FlightReservationResponseDTO obtainedFlightReservationRequestDTO = flightReservationService.deleteFlightReservation(flightReservationEntity.getId());
+
+        //Assert
+        assertEquals(expectedFlightReservationRequestDTO,obtainedFlightReservationRequestDTO);
+
+    }
+
+
 }
