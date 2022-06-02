@@ -61,15 +61,16 @@ public class PackageTouristicTest {
         assertAll(()-> assertEquals(obtainedTouristicPackage,touristicPackageRequestDTO));
 
     }
-/*
+
     @Test
     void shouldReturnAllPackageTouristics(){
         //Arrange
         List<TouristicPackageEntity> touristicPackageEntityList = new ArrayList<>();
-        touristicPackageEntityList.add(1,TouristicPackageFactory.newTouristicPackageEntity());
+        touristicPackageEntityList.add(TouristicPackageFactory.newTouristicPackageEntity());
         ListTouristicPackageResponseDTO listTouristicPackageResponseDTOExpected = new ListTouristicPackageResponseDTO();
         List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
-        touristicPackageResponseDTOList.add(TouristicPackageFactory.newTouristicPackageResponseDTO());
+        TouristicPackageResponseDTO algo = TouristicPackageFactory.newTouristicPackageResponseDTO();
+        touristicPackageResponseDTOList.add(algo);
         listTouristicPackageResponseDTOExpected.setTouristicPackages(touristicPackageResponseDTOList);
         //Act
         when(touristicPackageRepository.findAll()).thenReturn(touristicPackageEntityList);
@@ -77,10 +78,19 @@ public class PackageTouristicTest {
 
         //Assert
         assertAll(()-> assertEquals(listTouristicPackageResponseDTOExpected,listTouristicPackageResponseDTO));
+    }
 
-
-    }*/
-
+    @Test
+    void shouldDeleteATouristicPackage(){
+        //Arrange
+        TouristicPackageEntity touristicPackageEntity = TouristicPackageFactory.newTouristicPackageEntity();
+        TouristicPackageRequestDTO obtainedPackageRequestDTO = TouristicPackageFactory.newTouristicPackageRequestDTO();
+        //Act
+        when(touristicPackageRepository.findByPackageNumberEquals(any())).thenReturn(Optional.of(touristicPackageEntity));
+        Integer obtainedTouristicPackageNumber = touristicPackageService.deleteTouristicPackage(touristicPackageEntity.getPackageNumber());
+        //Assert
+        assertAll(()-> assertEquals(obtainedPackageRequestDTO.getPackageNumber(),obtainedTouristicPackageNumber));
+    }
 
 
 }

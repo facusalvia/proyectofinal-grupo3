@@ -7,7 +7,10 @@ import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
+import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
@@ -36,7 +39,7 @@ public class FlightReservationService {
     ModelMapper modelMapper = new ModelMapper();
 
     public FlightReservationRequestDTO reservation(FlightReservationRequestDTO flightReservationRequestDTO) {
-        FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightReservationRequestDTO.getFlightReservationDTO().getFlightNumber()).orElseThrow();
+        FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightReservationRequestDTO.getFlightReservationDTO().getFlightNumber()).orElseThrow(FlightDoesNotExistException::new);
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
         flightReservationEntity.setFlightEntity(flightEntity);
         flightReservationEntity.setUsername(flightReservationRequestDTO.getUsername());
@@ -56,7 +59,7 @@ public class FlightReservationService {
         flightReservationEntity.setTotalAmount((double) Math.round(total));
         flightReservationEntity = flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
-            throw new RuntimeException("Error al reservar el vuelo");
+            throw new RepositorySaveException();
         }
 
         return flightReservationRequestDTO;
@@ -64,7 +67,7 @@ public class FlightReservationService {
 
 
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
-        FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow();
+        FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow(FlightReservationDoesNotExistException::new);
         FlightReservationEntity flightReservationEntity = buildFlightReservationEntity(id, flightReservationRequestDTO, flightReservationEntityRepo);
         flightReservationEntity.setCreatedAt(flightReservationEntityRepo.getCreatedAt());
         flightReservationEntity.setTotalAmount(flightReservationEntityRepo.getTotalAmount());
@@ -92,7 +95,7 @@ public class FlightReservationService {
     }
 
     public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
-        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow();
+        FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow(FlightReservationDoesNotExistException::new);
 
         // verifico que no existan paquetes con esta reserva
         List<TouristicPackageEntity> touristicPackageEntities = touristicPackageRepository.findPackagesByFlightReservation(flightReservationEntity.getId());

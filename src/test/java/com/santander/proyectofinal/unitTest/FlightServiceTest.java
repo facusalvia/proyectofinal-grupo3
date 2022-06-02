@@ -31,8 +31,6 @@ public class FlightServiceTest {
     @InjectMocks
     FlightService flightService;
 
-    //TODO: Borrar los toString de los DTO´s
-
     @Test
     void shouldReturnAnAddedFlight(){
         //Arrange

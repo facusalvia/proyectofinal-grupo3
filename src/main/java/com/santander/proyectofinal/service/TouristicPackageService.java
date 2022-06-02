@@ -96,6 +96,9 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
+        if (touristicPackageRepository.findByPackageNumberEquals(packageNumber)==null){
+            throw new PackageDoesNotExistException();
+        }
         TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(PackageDoesNotExistException::new);
         touristicPackageRepository.deleteById(touristicPackageEntity.getId());
         return packageNumber;
