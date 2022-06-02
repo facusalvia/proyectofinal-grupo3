@@ -48,7 +48,7 @@ public class FlightReservationService {
         double amount = flightEntity.getPricePerPerson() * flightReservationRequestDTO.getFlightReservationDTO().getSeats();
         double total = interest * amount;
         flightReservationEntity.setTotalAmount((double) Math.round(total));
-        flightReservationRepository.save(flightReservationEntity);
+        flightReservationEntity = flightReservationRepository.save(flightReservationEntity);
         if (flightReservationEntity.getId() == null) {
             throw new RuntimeException("Error al reservar el vuelo");
         }
