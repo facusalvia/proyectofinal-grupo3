@@ -113,4 +113,10 @@ public class ExceptionConfig {
         ErrorDTO errorDto = new ErrorDTO(flightReservationCanNotDeleteException.getMessage());
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PaymentMethodDebitCanNotMoreThanOneDueException.class)
+    public ResponseEntity<ErrorDTO> handlerException(PaymentMethodDebitCanNotMoreThanOneDueException paymentMethodDebitCanNotMoreThanOneDue){
+        ErrorDTO errorDto = new ErrorDTO(paymentMethodDebitCanNotMoreThanOneDue.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
 }
