@@ -3,9 +3,11 @@ package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
+import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -45,6 +47,8 @@ public class FlightReservationServiceTest {
     @InjectMocks
     FlightReservationService flightReservationService;
 
+    @Mock
+    IClientRepository clientRepository;
 
     @Test
     void shouldAddAFlightReservation() {
@@ -57,7 +61,7 @@ public class FlightReservationServiceTest {
         when(flightEntityRepository.findByFlightNumberEquals(any())).thenReturn(Optional.of(flightEntityMocked));
         when(interestService.interestCalculator(any())).thenReturn(1.1);
         when(flightReservationRepository.save(any())).thenReturn(flightReservationEntity);
-        System.out.println(flightReservationEntity.getId());
+        when(clientRepository.findByUsernameEquals(any())).thenReturn(Optional.of(new ClientEntity(1, "", "", "", null, null)));
         FlightReservationRequestDTO obtainedFlightReservationRequestDTO = flightReservationService.reservation(toAddFlightReservationRequestDTO);
 
         //Assert

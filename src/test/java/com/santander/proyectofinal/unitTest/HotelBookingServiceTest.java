@@ -3,9 +3,11 @@ package com.santander.proyectofinal.unitTest;
 
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
+import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
@@ -43,6 +45,9 @@ public class HotelBookingServiceTest{
     @Mock
     ITouristicPackageRepository touristicPackageRepository;
 
+    @Mock
+    IClientRepository clientRepository;
+
     @InjectMocks
     HotelBookingService hotelBookingService;
 
@@ -57,6 +62,9 @@ public class HotelBookingServiceTest{
         when(hotelRepository.findByHotelCode(any())).thenReturn(Optional.of(expectedHotelEntity));
         when(interestService.interestCalculator(any())).thenReturn(expectedInterest);
         when(hotelBookingRepository.save(any())).thenReturn(expectedHotelBookingEntity);
+        when(hotelBookingRepository.save(any())).thenReturn(expectedHotelBookingEntity);
+        when(clientRepository.findByUsernameEquals(any()))
+                .thenReturn(Optional.of(new ClientEntity(1, "", "", "", null, null)));
 
         HotelBookingDTORequest obtainedHotelBookingDTORequest = hotelBookingService.addBooking(toAddHotelBookingDTORequest);
         assertEquals(expectedHotelBookingDTORequest,obtainedHotelBookingDTORequest);
