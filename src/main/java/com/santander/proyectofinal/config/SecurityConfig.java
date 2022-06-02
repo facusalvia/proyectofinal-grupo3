@@ -19,8 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity( prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final String apiURL = "/api/v1";
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -48,9 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        String apiURL = "/api/v1";
+
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(apiURL + "/user").permitAll()
+                .antMatchers(apiURL + "/hotels/**").hasRole("ADMIN")
+                .antMatchers(apiURL + "/hotel-booking/**").hasRole("ADMIN")
+                .antMatchers(apiURL + "/flights/**").hasRole("ADMIN")
+                .antMatchers(apiURL + "/flight-reservation/**").hasRole("ADMIN")
                 .and()
                 .httpBasic()
                 .and()
