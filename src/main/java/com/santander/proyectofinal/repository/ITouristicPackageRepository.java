@@ -13,4 +13,7 @@ public interface ITouristicPackageRepository extends JpaRepository<TouristicPack
 
     @Query("FROM TouristicPackageEntity AS tpe WHERE tpe.id IN(SELECT touristicPackage.id FROM TouristicPackageBookingEntity AS tpbe WHERE tpbe.hotelBooking.id = :id)")
     List<TouristicPackageEntity> findPackagesByHotelBooking(@Param("id") Integer id);
+
+    @Query("FROM TouristicPackageEntity AS tpe WHERE tpe.id IN(SELECT touristicPackage.id FROM TouristicPackageReservationEntity AS tpre WHERE tpre.flightReservation.id = :id)")
+    List<TouristicPackageEntity> findPackagesByFlightReservation(@Param("id") Integer id);
 }

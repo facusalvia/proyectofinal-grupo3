@@ -107,4 +107,10 @@ public class ExceptionConfig {
         ErrorDTO errorDto = new ErrorDTO(hotelBookingCanNotDeleteException.getMessage());
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(FlightReservationCanNotDeleteException.class)
+    public ResponseEntity<ErrorDTO> handlerException(FlightReservationCanNotDeleteException flightReservationCanNotDeleteException){
+        ErrorDTO errorDto = new ErrorDTO(flightReservationCanNotDeleteException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
 }
