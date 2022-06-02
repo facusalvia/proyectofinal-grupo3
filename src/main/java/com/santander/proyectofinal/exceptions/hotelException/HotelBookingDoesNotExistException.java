@@ -2,6 +2,6 @@ package com.santander.proyectofinal.exceptions.hotelException;
 
 public class HotelBookingDoesNotExistException extends RuntimeException{
     public HotelBookingDoesNotExistException() {
-        super("HotelBooking does not exists");
+        super("No existe reserva de hotel");
     }
 }
