@@ -15,12 +15,10 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
@@ -31,13 +29,9 @@ public class UserController {
 
     @Autowired
     JwtUtils jwtUtils;
+
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    //@PostMapping(value = "/user")
-    //public ResponseEntity<TaskMessage> addUser(@RequestBody UserRequestDTO userRequestDTO){
-    //    if()
-    //}
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody UserRequestDTO authenticationRequest)
@@ -50,15 +44,14 @@ public class UserController {
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtUtils.generateToken(userDetails);
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        String token = jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new UserResponseDTO(token));
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/hola")
     public String hola(){
-        return "holaADmin";
+        return "hola Admin";
     }
 }

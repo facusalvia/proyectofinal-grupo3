@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "dece28f7-ed32-4a49-a8be-619c1ada42fd",
+		"_postman_id": "f620fadd-64e0-456c-809e-275f2254ce19",
 		"name": "Sprint III",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20470577"
+		"_exporter_id": "20490728"
 	},
 	"item": [
 		{
@@ -857,6 +857,150 @@
 									"key": "year",
 									"value": "2022"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TouristicPackage",
+			"item": [
+				{
+					"name": "GetTouristicPackages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTouristicPackage",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "packageNumber",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewTouristicPackage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [2,3],\n    \"reservations\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"new"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "AuthenticateManager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"team\",\n    \"password\":\"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HelloManager",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/hola",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"hola"
 							]
 						}
 					},
