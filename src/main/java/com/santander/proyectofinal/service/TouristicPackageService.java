@@ -73,10 +73,11 @@ public class TouristicPackageService {
         List<TouristicPackageResponseDTO> touristicPackageResponseDTOList = new ArrayList<>();
 
         for (TouristicPackageEntity touristicPackageEntity : touristicPackageEntityList) {
-
             TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
 
             TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
+            touristicPackageInfoResponseDTO.setClientId(touristicPackageEntity.getUser().getId());
+
             touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
             touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
         }
