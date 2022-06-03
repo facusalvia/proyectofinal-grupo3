@@ -8,11 +8,9 @@ import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.service.SendMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -23,8 +21,8 @@ public class SendMailController {
     SendMailService sendMailService;
 
     @PostMapping("/send")
-    public ResponseEntity<SuccessDTO> sendMail(@Valid @RequestBody MailRequestDTO  mailRequestDTO) {
-        sendMailService.sendEmail(mailRequestDTO);
+    public ResponseEntity<SuccessDTO> sendMail(HttpServletResponse response, @RequestParam(value = "flightReservationId") Integer flightReservationId,@Valid @RequestBody MailRequestDTO  mailRequestDTO) {
+        sendMailService.sendEmail(response,flightReservationId,mailRequestDTO);
         return ResponseEntity.ok().body(new SuccessDTO("Send mail correct", 201));
     }
 }
