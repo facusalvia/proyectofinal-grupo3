@@ -58,7 +58,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDTO update(Integer id, UserDTO userDTO) {
-        if (!userEntityRepository.findById(id).isPresent()){throw new UserDoesNotExistException();}
+        UserEntity UserEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+        UserEntity.setUsername(null);
+        userEntityRepository.save(UserEntity);
         if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
             throw new UserAlreadyExistsException();
         }
