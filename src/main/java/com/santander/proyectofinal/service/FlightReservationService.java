@@ -1,16 +1,14 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
-import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.dto.response.FlightInfoResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
-import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
-import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,5 +124,15 @@ public class FlightReservationService {
 
         return new FlightReservationResponseListDTO(flightReservationResponseDTOS);
 
+    }
+
+    public FlightReservationResponseListDTO getFlightReservations(String flightNumber) {
+        List<FlightReservationEntity> flightReservationEntityList = flightReservationRepository.findByFlightNumber(flightNumber);
+
+        List<FlightReservationResponseDTO> flightReservationResponseDTOS = flightReservationEntityList.stream().map(
+                reservation -> modelMapper.map(reservation, FlightReservationResponseDTO.class)
+        ).collect(Collectors.toList());
+
+        return new FlightReservationResponseListDTO(flightReservationResponseDTOS);
     }
 }

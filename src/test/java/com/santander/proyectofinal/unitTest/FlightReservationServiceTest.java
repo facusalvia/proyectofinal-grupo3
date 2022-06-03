@@ -3,10 +3,8 @@ package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
-import com.santander.proyectofinal.entity.ClientEntity;
-import com.santander.proyectofinal.entity.FlightEntity;
-import com.santander.proyectofinal.entity.FlightReservationEntity;
-import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.dto.response.HotelYearBenefitsResponseDTO;
+import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
@@ -16,6 +14,7 @@ import com.santander.proyectofinal.service.InterestService;
 import com.santander.proyectofinal.util.ClientEntityFactory;
 import com.santander.proyectofinal.util.FlightEntityFactory;
 import com.santander.proyectofinal.util.FlightReservationFactory;
+import com.santander.proyectofinal.util.HotelEntityFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -116,6 +115,25 @@ public class FlightReservationServiceTest {
         //Assert
         assertEquals(expectedFlightReservationRequestDTO,obtainedFlightReservationRequestDTO);
 
+    }
+
+    @Test
+    void shouldReturnFlightReservationsByFlightNumber(){
+        FlightReservationEntity mockedFlightReservationEntity = FlightReservationFactory.newFlightReservationEntity();
+        String flightNumber = mockedFlightReservationEntity.getFlightEntity().getFlightNumber();
+
+        FlightReservationResponseListDTO expectedFlightReservationEntityList = new FlightReservationResponseListDTO(
+                List.of(FlightReservationFactory.newFlightReservationResponseDTO()));
+
+
+        List<FlightReservationEntity> mockedFlightReservationEntityList = new ArrayList<>();
+        mockedFlightReservationEntityList.add(mockedFlightReservationEntity);
+
+        when(flightReservationRepository.findByFlightNumber(flightNumber)).thenReturn(mockedFlightReservationEntityList);
+
+        FlightReservationResponseListDTO obtainedFlightReservations = flightReservationService.getFlightReservations(flightNumber);
+
+        assertEquals(expectedFlightReservationEntityList, obtainedFlightReservations);
     }
 
 

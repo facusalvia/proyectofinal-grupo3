@@ -16,4 +16,7 @@ public interface IFlightReservationRepository extends JpaRepository<FlightReserv
     Double obtainMonthlyBenefits(@Param("month") Integer month,@Param("year") Integer year);
 
     List<FlightReservationEntity> findByIsActiveTrue();
+
+    @Query("FROM FlightReservationEntity fr WHERE fr.flightEntity.flightNumber =:flightNumber")
+    List<FlightReservationEntity> findByFlightNumber(@Param("flightNumber") String flightNumber);
 }
