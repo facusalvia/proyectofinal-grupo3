@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "588beb7a-7c02-4256-9802-82545ab1d2af",
+		"name": "Sprint III - Agustin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20490728"
+	},
+	"item": [
+		{
+			"name": "Agustin",
+			"item": [
+				{
+					"name": "GetHotelMonthIncome",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/income/CH-0002?year=2022&month=06",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"income",
+								"CH-0002"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								},
+								{
+									"key": "month",
+									"value": "06"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelYearIncome",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/income/CH-0002?year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"income",
+								"CH-0002"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelMonthIncomeException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/income/ERROR-02?year=2022&month=06",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"income",
+								"ERROR-02"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								},
+								{
+									"key": "month",
+									"value": "06"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelYearIncomeException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/income/ERROR-02?year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"income",
+								"ERROR-02"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelBookingsByHotelDateFromAndDateTo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/CH-0002?dateFrom=10/04/2022&dateTo=15/04/2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"CH-0002"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "10/04/2022"
+								},
+								{
+									"key": "dateTo",
+									"value": "15/04/2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelBookingsByHotelDateFromAndDateToException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/CH-0022?dateFrom=10/04/2022&dateTo=15/04/2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"CH-0022"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "10/04/2022"
+								},
+								{
+									"key": "dateTo",
+									"value": "15/04/2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFlightReservations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/NUEVO-1233",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"NUEVO-1233"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "employee_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
