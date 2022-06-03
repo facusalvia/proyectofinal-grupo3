@@ -110,6 +110,9 @@ public class HotelBookingService {
         updatedHotelBookingEntity.setCreatedAt(savedHotelBookingEntity.getCreatedAt());
         updatedHotelBookingEntity.setTotalAmount(savedHotelBookingEntity.getTotalAmount());
 
+        //valido que exista cliente
+        updatedHotelBookingEntity.setClient(clientRepository.findByUsernameEquals(hotelBookingDTORequest.getUsername()).orElseThrow());
+
         updatedHotelBookingEntity.getPaymentMethod().setId(savedHotelBookingEntity.getPaymentMethod().getId());
 
         // modifica todas las personas hasta la cantidad que habia en la BD

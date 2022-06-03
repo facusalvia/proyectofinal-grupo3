@@ -79,6 +79,8 @@ public class FlightReservationService {
         flightReservationEntity.setCreatedAt(flightReservationEntityRepo.getCreatedAt());
         flightReservationEntity.setTotalAmount(flightReservationEntityRepo.getTotalAmount());
         flightReservationEntity.setSeats(flightReservationEntityRepo.getSeats());
+        flightReservationEntity.setClient(clientRepository.findByUsernameEquals(flightReservationRequestDTO.getUsername()).orElseThrow());
+
         flightReservationRepository.save(flightReservationEntity);
         return flightReservationRequestDTO;
     }

@@ -452,7 +452,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"agustin1\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"16/04/2022\",\r\n        \"dateTo\": \"17/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"username\": \"nor\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"16/04/2022\",\r\n        \"dateTo\": \"17/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,7 +558,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=2",
+							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -573,7 +573,7 @@
 							"query": [
 								{
 									"key": "idReservation",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
@@ -843,7 +843,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1&destiny=Pompeya",
+							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1 y 2&destiny=Pompeya",
 							"host": [
 								"localhost"
 							],
@@ -864,7 +864,7 @@
 								},
 								{
 									"key": "origin",
-									"value": "lugano 1"
+									"value": "lugano 1 y 2"
 								},
 								{
 									"key": "destiny",
@@ -933,7 +933,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seat\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"otra cosa\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"cambioMail@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"raw": "{\r\n    \"username\":\"nor\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seat\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"otra cosa\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"cambioMail@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1160,44 +1160,6 @@
 					"response": []
 				},
 				{
-					"name": "DeleteTouristicPackage",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{employee_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=123",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"touristicpackage",
-								"delete"
-							],
-							"query": [
-								{
-									"key": "packageNumber",
-									"value": "123"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "NewTouristicPackage",
 					"request": {
 						"auth": {
@@ -1214,7 +1176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n   \"packageNumber\": 123,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [2,3],\n    \"reservations\": []\n}\n",
+							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 3,\n   \"bookings\": [1,2],\n    \"reservations\": []\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1233,6 +1195,53 @@
 								"v1",
 								"touristicpackage",
 								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateTouristicPackage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"modificado\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [1,2],\n    \"reservations\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/edit?packageNumber=1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "packageNumber",
+									"value": "1234"
+								}
 							]
 						}
 					},
@@ -1274,6 +1283,44 @@
 								"v1",
 								"touristicpackage",
 								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTouristicPackage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "packageNumber",
+									"value": "123"
+								}
 							]
 						}
 					},
@@ -1354,6 +1401,16 @@
 				{
 					"name": "GetTop3Clients",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
