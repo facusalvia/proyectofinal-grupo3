@@ -2,6 +2,7 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
+import com.santander.proyectofinal.dto.response.HotelYearBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
 import com.santander.proyectofinal.exceptions.QueryDidNotReturnAnyResult;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
@@ -45,5 +46,10 @@ public class CashSystemService {
             throw new QueryDidNotReturnAnyResult();
         }
         return new HotelMonthBenefitsResponseDTO(month, year, totalHotelMonthIncome, hotelCode);
+    }
+
+    public HotelYearBenefitsResponseDTO hotelYearBenefits(String hotelCode, Integer year) {
+        Double totalHotelMonthIncome = hotelBookingRepository.obtainHotelYearBenefits(hotelCode, year);
+        return new HotelYearBenefitsResponseDTO(year, totalHotelMonthIncome, hotelCode);
     }
 }
