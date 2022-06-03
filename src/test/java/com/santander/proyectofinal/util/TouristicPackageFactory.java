@@ -11,8 +11,8 @@ import java.util.List;
 public class TouristicPackageFactory {
 
     public static TouristicPackageEntity newTouristicPackageEntity() {
-        UserEntity user = new UserEntity(1, "team", "123", "admin");
-        return buildTouristicPackageEntity(user);
+        ClientEntity client = new ClientEntity(1, "team", "juan", "carlos", null, null);
+        return buildTouristicPackageEntity(client);
 
     }
 
@@ -39,10 +39,10 @@ public class TouristicPackageFactory {
 
 
 
-    private static TouristicPackageEntity buildTouristicPackageEntity(UserEntity user) {
+    private static TouristicPackageEntity buildTouristicPackageEntity(ClientEntity client) {
         TouristicPackageEntity touristicPackageEntity = new TouristicPackageEntity();
         touristicPackageEntity.setPackageNumber(123);
-        touristicPackageEntity.setUser(user);
+        touristicPackageEntity.setClient(client);
         touristicPackageEntity.setTouristicPackageBookings(refillBookings(touristicPackageEntity));
         touristicPackageEntity.setTouristicPackageReservations(refillReservations(touristicPackageEntity));
         touristicPackageEntity.setId(1);

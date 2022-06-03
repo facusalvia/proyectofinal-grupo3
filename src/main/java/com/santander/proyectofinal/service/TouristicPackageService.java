@@ -37,6 +37,9 @@ public class TouristicPackageService {
     @Autowired
     ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
 
+    @Autowired
+    IClientRepository clientRepository;
+
     ModelMapper mapper = new ModelMapper();
 
     public TouristicPackageRequestDTO addTouristicPackage(TouristicPackageRequestDTO touristicPackageRequestDTO) {
@@ -66,7 +69,7 @@ public class TouristicPackageService {
         // seteo relaciones
         touristicPackage.setTouristicPackageBookings(touristicPackageBookingEntities);
         touristicPackage.setTouristicPackageReservations(touristicPackageReservationsEntities);
-        touristicPackage.setUser(userEntityRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(UserDoesNotExistException::new));
+        touristicPackage.setClient(clientRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(UserDoesNotExistException::new));
 
         // seteo relacion con descuento
         touristicPackage.setTouristicPackageDiscountType(touristicPackageDiscountTypeRepository.findById(DEFAULT_DISCOUNT_TYPE).orElseThrow());
@@ -88,7 +91,7 @@ public class TouristicPackageService {
         for (TouristicPackageEntity touristicPackageEntity : touristicPackageEntityList) {
             TouristicPackageResponseDTO touristicPackageResponseDTO = getTouristicPackageResponseDTO(touristicPackageEntity);
             TouristicPackageInfoResponseDTO touristicPackageInfoResponseDTO = mapper.map(touristicPackageEntity, TouristicPackageInfoResponseDTO.class);
-            touristicPackageInfoResponseDTO.setClientId(touristicPackageEntity.getUser().getId());
+            touristicPackageInfoResponseDTO.setClientId(touristicPackageEntity.getClient().getId());
             touristicPackageResponseDTO.setTouristicPackageInfoResponseDTO(touristicPackageInfoResponseDTO);
             touristicPackageResponseDTOList.add(touristicPackageResponseDTO);
         }

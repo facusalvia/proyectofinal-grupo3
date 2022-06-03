@@ -2,6 +2,7 @@ package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.TouristicPackageRequestDTO;
 import com.santander.proyectofinal.dto.response.ListTouristicPackageResponseDTO;
 import com.santander.proyectofinal.dto.response.TouristicPackageResponseDTO;
+import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.TouristicPackageDiscountTypeEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.entity.UserEntity;
@@ -34,6 +35,8 @@ public class PackageTouristicTest {
     ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
     @Mock
     IHotelBookingRepository hotelBookingRepository;
+    @Mock
+    IClientRepository clientRepository;
 
     @Mock
     IFlightReservationRepository flightReservationRepository;
@@ -54,7 +57,7 @@ public class PackageTouristicTest {
         when(hotelBookingRepository.findById(any())).thenReturn(Optional.of(HotelBookingEntityFactory.newHotelBookingEntity()));
         when(touristicPackageDiscountTypeRepository.findById(1)).thenReturn(Optional.of(new TouristicPackageDiscountTypeEntity(1,0.1,null)));
         when(flightReservationRepository.findById(any())).thenReturn(Optional.of(FlightReservationFactory.newFlightReservationEntity()));
-        when(userEntityRepository.findById(any())).thenReturn(Optional.of(new UserEntity(1,"test user","1234","admin")));
+        when(clientRepository.findById(any())).thenReturn(Optional.of(new ClientEntity(1, "team", "juan", "carlos", null, null)));
         when(touristicPackageRepository.save(any())).thenReturn(TouristicPackageFactory.newTouristicPackageEntity());
         TouristicPackageRequestDTO obtainedTouristicPackage = touristicPackageService.addTouristicPackage(touristicPackageRequestDTO);
 
