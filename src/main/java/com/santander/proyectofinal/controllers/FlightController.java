@@ -5,6 +5,7 @@ import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
+import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @Validated
@@ -56,6 +58,18 @@ public class FlightController {
     public ResponseEntity<SuccessDTO> deleteFlightReservation(@RequestParam(value="flightNumber") String flightNumber){
         flightService.deleteFlight(flightNumber);
         return ResponseEntity.ok().body(new SuccessDTO( "Vuelo dada de baja correctamente" , 200));
+    }
+
+    @GetMapping(value = "/api/v1/flights/sortedByCost", params = {"dateFrom", "dateTo"})
+    public ResponseEntity<FlightListResponseDTO> getFlightsSortedByCost
+            (@RequestParam(value="dateFrom") String dateFrom,
+             @RequestParam(value="dateTo") String dateTo) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate from = LocalDate.parse(dateFrom, formatter);
+        LocalDate to = LocalDate.parse(dateTo, formatter);
+
+        return ResponseEntity.ok().body(flightService.getFlightsSortedByCost(from, to));
     }
 
 }

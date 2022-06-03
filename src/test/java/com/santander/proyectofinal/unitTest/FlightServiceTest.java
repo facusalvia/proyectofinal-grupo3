@@ -53,7 +53,7 @@ public class FlightServiceTest {
         FlightListResponseDTO expectedFlightListResponseDTO = new FlightListResponseDTO();
         List<FlightDTO>flightDTOList = new ArrayList<>();
         flightDTOList.add(FlightEntityFactory.newFlightDTO());
-        expectedFlightListResponseDTO.setFlightListResponseDTO(flightDTOList);
+        expectedFlightListResponseDTO.setFlights(flightDTOList);
 
         //Act
         when(flightEntityRepository.findAll()).thenReturn(expectedFlights);
@@ -85,7 +85,7 @@ public class FlightServiceTest {
         FlightListResponseDTO expectedFlights = new FlightListResponseDTO();
         List<FlightDTO>flightDTOList = new ArrayList<>();
         flightDTOList.add(FlightEntityFactory.newFlightDTO());
-        expectedFlights.setFlightListResponseDTO(flightDTOList);
+        expectedFlights.setFlights(flightDTOList);
         LocalDate from = LocalDate.of(2022,06,02);
         LocalDate to = LocalDate.of(2022,06,12);
         String stringFrom = "02/06/2022";

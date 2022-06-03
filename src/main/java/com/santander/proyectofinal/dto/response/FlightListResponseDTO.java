@@ -8,5 +8,5 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class FlightListResponseDTO {
-    private List<FlightDTO> flightListResponseDTO;
+    private List<FlightDTO> flights;
 }

@@ -89,6 +89,17 @@ public class FlightService {
             return flightDTO;
 
     }
+
+    public FlightListResponseDTO getFlightsSortedByCost(LocalDate from, LocalDate to) {
+        List<FlightEntity> flightEntities = flightEntityRepository.findByDateFromAndDateToSortedByCost(from,to);
+        if (flightEntities.isEmpty()) throw new FlightNoAvailableException();
+        return new FlightListResponseDTO(
+                flightEntities.stream().map(
+                                flight -> modelMapper.map(flight, FlightDTO.class)
+                        )
+                        .collect(Collectors.toList())
+        );
+    }
 }
 
 

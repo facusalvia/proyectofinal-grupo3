@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         String manager = "MANAGER";
         String employee = "EMPLOYEE";
 
-        http.csrf().disable()
+        /*http.csrf().disable()
 
                 .authorizeRequests()
                 .antMatchers(apiURL + "/user").permitAll()
@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 
         http.addFilterBefore(customJwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);

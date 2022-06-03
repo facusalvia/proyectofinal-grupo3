@@ -28,4 +28,6 @@ public interface IFlightEntityRepository extends JpaRepository<FlightEntity, Int
     @Query("SELECT f.flightReservationEntityList FROM FlightEntity f JOIN FlightReservationEntity fr ON f.id = fr.flightEntity.id WHERE f.flightNumber = :flightNumber AND fr.isActive = true")
     List<FlightReservationEntity> findIfExistReservation(@Param("flightNumber") String flightNumber);
 
+    @Query("FROM FlightEntity f WHERE f.dateFrom = :from AND f.dateTo = :to ORDER BY f.pricePerPerson")
+    List<FlightEntity> findByDateFromAndDateToSortedByCost(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }
