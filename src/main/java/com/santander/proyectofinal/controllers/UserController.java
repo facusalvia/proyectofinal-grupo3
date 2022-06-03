@@ -68,7 +68,7 @@ public class UserController {
     @DeleteMapping(value ="/delete", params= {"id"})
     public ResponseEntity<SuccessDTO> deleteUser(@RequestParam(value="id") Integer id){
         userDetailsService.delete(id);
-        return ResponseEntity.ok().body(new SuccessDTO( "Usuario dada de baja correctamente" , 200));
+        return ResponseEntity.ok().body(new SuccessDTO( "Usuario dado de baja correctamente" , 200));
     }
 
 }

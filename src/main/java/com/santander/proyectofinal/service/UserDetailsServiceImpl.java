@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                }
        UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
        addUserEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-       userEntityRepository.save(addUserEntity);
+        addUserEntity = userEntityRepository.save(addUserEntity);
         if(addUserEntity.getId() == null){
             throw new RepositorySaveException();
         }
