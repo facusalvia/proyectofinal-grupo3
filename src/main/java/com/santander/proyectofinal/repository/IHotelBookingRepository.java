@@ -24,6 +24,8 @@ public interface IHotelBookingRepository extends JpaRepository<HotelBookingEntit
     @Query("SELECT SUM(hb.totalAmount) FROM HotelBookingEntity hb WHERE year(hb.createdAt)=:year AND hb.hotel.hotelCode = :hotelCode")
     Double obtainHotelYearBenefits(String hotelCode, Integer year);
 
-    //@Query("FROM HotelEntity h WHERE h.disponibilityDateFrom <= :dateFrom AND h.disponibilityDateTo >= :dateTo AND h.place = :destination")
-    List<HotelBookingEntity> findHotelBookingsByHotelAndDateFromAndDateTo(String hotelCode, LocalDate from, LocalDate to);
+    @Query("FROM HotelBookingEntity hb WHERE hb.dateFrom >= :dateFrom AND hb.dateTo <= :dateTo AND hb.hotel.hotelCode = :hotelCode")
+    List<HotelBookingEntity> findHotelBookingsByHotelAndDateFromAndDateTo(@Param("hotelCode") String hotelCode,
+                                                                          @Param("dateFrom") LocalDate dateFrom,
+                                                                          @Param("dateTo") LocalDate dateTo);
 }
