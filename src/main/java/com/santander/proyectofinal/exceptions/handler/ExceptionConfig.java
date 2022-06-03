@@ -84,6 +84,12 @@ public class ExceptionConfig {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorDTO> handleValidationExceptions(UserAlreadyExistsException e){
+        ErrorDTO error = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(FlightReservationDoesNotExistException.class)
     public ResponseEntity<ErrorDTO> handleValidationExceptions(FlightReservationDoesNotExistException e) {
         ErrorDTO error = new ErrorDTO(e.getMessage());

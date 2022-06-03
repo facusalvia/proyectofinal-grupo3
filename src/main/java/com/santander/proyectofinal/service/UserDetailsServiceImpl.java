@@ -1,7 +1,12 @@
 package com.santander.proyectofinal.service;
 
+import com.santander.proyectofinal.dto.UserDTO;
 import com.santander.proyectofinal.entity.UserEntity;
+import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.UserAlreadyExistsException;
+import com.santander.proyectofinal.exceptions.UserDoesNotExistException;
 import com.santander.proyectofinal.repository.IUserEntityRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
     IUserEntityRepository userEntityRepository;
 
@@ -35,5 +42,41 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);
+    }
+
+
+    public UserDTO add(UserDTO userDTO) {
+       if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
+           throw new UserAlreadyExistsException();
+               }
+       UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
+       userEntityRepository.save(addUserEntity);
+        if(addUserEntity.getId() == null){
+            throw new RepositorySaveException();
+        }
+       return userDTO;
+    }
+
+    public UserDTO update(Integer id, UserDTO userDTO) {
+        if (!userEntityRepository.findById(id).isPresent()){throw new UserDoesNotExistException();}
+        if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
+            throw new UserAlreadyExistsException();
+        }
+
+        UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
+        addUserEntity.setId(id);
+
+        userEntityRepository.save(addUserEntity);
+
+        return userDTO;
+    }
+
+    public UserDTO delete(Integer id) {
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+
+        userEntityRepository.delete(userEntity);
+
+        UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
+        return userDTO;
     }
 }

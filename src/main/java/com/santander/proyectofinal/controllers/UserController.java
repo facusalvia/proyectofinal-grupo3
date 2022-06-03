@@ -1,7 +1,10 @@
 package com.santander.proyectofinal.controllers;
 
 import com.santander.proyectofinal.config.JwtUtils;
+import com.santander.proyectofinal.dto.FlightDTO;
+import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
+import com.santander.proyectofinal.dto.UserDTO;
 import com.santander.proyectofinal.dto.request.UserRequestDTO;
 import com.santander.proyectofinal.dto.response.UserResponseDTO;
 import com.santander.proyectofinal.service.UserDetailsServiceImpl;
@@ -16,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -47,6 +52,23 @@ public class UserController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String token = jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new UserResponseDTO(token));
+    }
+
+    @PostMapping("/new")
+    public ResponseEntity<TaskMessage> addUser(@Valid @RequestBody UserDTO userDTO) {
+        userDetailsService.add(userDTO);
+        return ResponseEntity.ok().body(new TaskMessage("Se agrego un nuevo Usuario", 201));
+    }
+
+    @PutMapping(value = "/edit", params = {"id"})
+    public ResponseEntity<TaskMessage> updateUser(@Valid @RequestParam(value = "id") Integer id, @RequestBody UserDTO userDTO) {
+        userDetailsService.update(id, userDTO);
+        return ResponseEntity.ok().body(new TaskMessage("Se modifico correctamente el Usuario", 200));
+    }
+    @DeleteMapping(value ="/delete", params= {"id"})
+    public ResponseEntity<SuccessDTO> deleteUser(@RequestParam(value="id") Integer id){
+        userDetailsService.delete(id);
+        return ResponseEntity.ok().body(new SuccessDTO( "Usuario dada de baja correctamente" , 200));
     }
 
 }
