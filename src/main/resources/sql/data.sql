@@ -11,4 +11,8 @@ INSERT INTO clients VALUES (1, "Bernardo","Norberto","nor")
 INSERT INTO clients VALUES (2, "Juan","Carlos","juan")
 INSERT INTO clients VALUES (3, "Marcelo","Martin","mar")
 
+INSERT INTO flights VALUES (1,"2022-02-10","2022-02-15","Pompeya","NUEVO-1233", "Lugano 1 y 2",2500,"Economy")
+INSERT INTO payment_method VALUES (1,6,"34343434335","credit")
+INSERT INTO flights_reservation VALUES (1,"2022-06-03","Pompeya","2022-02-10",1,"Lugano 1 y 2","2022-02-15","Economy",1,2750,"juan",2,1,1)
+
 INSERT INTO touristic_package_discounts VALUES (1, 0.10)
