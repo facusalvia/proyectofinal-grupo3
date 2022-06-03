@@ -3,15 +3,14 @@ package com.santander.proyectofinal.controllers;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
+import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
 import com.santander.proyectofinal.service.CashSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -41,5 +40,9 @@ public class CashSystemController {
         return ResponseEntity.ok().body(cashSystemService.monthBenefits(month, year));
     }
 
+    @GetMapping("/income/{hotelCode}")
+    public ResponseEntity<HotelMonthBenefitsResponseDTO> getHotelIncome(@PathVariable String hotelCode, @RequestParam(value="year") Integer year, @RequestParam(value="month") Integer month){
+        return ResponseEntity.ok().body(cashSystemService.hotelMonthBenefits(hotelCode, year, month));
+    }
 
 }

@@ -1,10 +1,13 @@
 package com.santander.proyectofinal.unitTest;
 
 import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
+import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
+import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.service.CashSystemService;
+import com.santander.proyectofinal.util.HotelEntityFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -61,5 +64,23 @@ public class CashSystemServiceTest {
 
         assertEquals(expectedMonthBenefitsResponseDTO,obtainedMonthBenefitsResponseDTO);
 
+    }
+
+    @Test
+    void shouldReturnHotelMonthIncome(){
+        Integer month = 06;
+        Integer year = 2022;
+        Double expectedCashAmountHotel = 100D;
+
+        HotelEntity mockedHotelEntity = HotelEntityFactory.newHotelEntity();
+
+        HotelMonthBenefitsResponseDTO expectedHotelMonthBenefitResponseDTO =
+                new  HotelMonthBenefitsResponseDTO(month, year, expectedCashAmountHotel, mockedHotelEntity.getHotelCode());
+
+        when(hotelBookingRepository.obtainMonthlyBenefits(month, year, mockedHotelEntity.getHotelCode())).thenReturn(expectedCashAmountHotel);
+
+        HotelMonthBenefitsResponseDTO obtainedHotelMonthBenefitResponseDTO = cashSystemService.hotelMonthBenefits(mockedHotelEntity.getHotelCode(), year, month);
+
+        assertEquals(expectedHotelMonthBenefitResponseDTO, obtainedHotelMonthBenefitResponseDTO);
     }
 }

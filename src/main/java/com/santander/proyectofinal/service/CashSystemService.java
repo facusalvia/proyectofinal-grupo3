@@ -1,6 +1,7 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
+import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
@@ -34,5 +35,11 @@ public class CashSystemService {
         if(cashAmountFlightReservation==null){cashAmountFlightReservation=0D;}
         Double cashAmount = cashAmountHotelBooking + cashAmountFlightReservation;
         return new MonthBenefitsResponseDTO(month,year,cashAmount);
+    }
+
+    // con esto la agencia puede saber que hoteles le estan generando mas ganancia o menos
+    public HotelMonthBenefitsResponseDTO hotelMonthBenefits(String hotelCode, Integer year, Integer month) {
+        Double totalHotelMonthIncome = hotelBookingRepository.obtainMonthlyBenefits(month, year, hotelCode);
+        return new HotelMonthBenefitsResponseDTO(month, year, totalHotelMonthIncome, hotelCode);
     }
 }

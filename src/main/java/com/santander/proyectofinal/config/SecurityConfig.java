@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         String employee = "EMPLOYEE";
 
         http.csrf().disable()
-
+/*
                 .authorizeRequests()
                 .antMatchers(apiURL + "/user").permitAll()
                 .antMatchers(apiURL + "/hotels/**").hasRole(manager)
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(apiURL + "/monthlyIncome").hasRole(employee)
                 .antMatchers(apiURL + "/clients/**").hasRole(employee)
                 .and()
-
+*/
                 .httpBasic()
                 .and()
                 .exceptionHandling()
