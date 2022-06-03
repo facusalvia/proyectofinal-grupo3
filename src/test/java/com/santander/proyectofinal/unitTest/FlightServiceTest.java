@@ -88,12 +88,14 @@ public class FlightServiceTest {
         expectedFlights.setFlightListResponseDTO(flightDTOList);
         LocalDate from = LocalDate.of(2022,06,02);
         LocalDate to = LocalDate.of(2022,06,12);
+        String stringFrom = "2022-06-02";
+        String stringTo = "2022-06-12";
         String origin = "Florencio Varela";
         String destination = "Solano";
 
         //Act
         when(flightEntityRepository.findAllByDateFromLessThanEqualAndDateToGreaterThanEqualAndOriginEqualsAndDestinyEquals(from,to,origin,destination)).thenReturn(obtainedFlights);
-        FlightListResponseDTO obtainedFlightsDTO = flightService.getFlightsByDateAndOriginAndDestiny(origin,destination,from,to);
+        FlightListResponseDTO obtainedFlightsDTO = flightService.getFlightsByDateAndOriginAndDestiny(origin,destination,stringFrom,stringTo);
 
         //Assert
         assertEquals(expectedFlights,obtainedFlightsDTO);

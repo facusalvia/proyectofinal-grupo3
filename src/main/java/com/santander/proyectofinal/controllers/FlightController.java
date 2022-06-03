@@ -36,8 +36,8 @@ public class FlightController {
 
 
     @GetMapping(value = "/api/v1/flights", params = {"dateFrom", "dateTo", "origin", "destiny"})
-    public ResponseEntity<FlightListResponseDTO> getFlightsAvailable(@RequestParam(value = "dateFrom") @NotBlank LocalDate dateFrom,
-                                                                     @RequestParam(value = "dateTo") @NotBlank LocalDate dateTo,
+    public ResponseEntity<FlightListResponseDTO> getFlightsAvailable(@RequestParam(value = "dateFrom") String dateFrom,
+                                                                     @RequestParam(value = "dateTo") String dateTo,
                                                                      @RequestParam(value = "origin") @NotBlank String origin,
                                                                      @RequestParam(value = "destiny") @NotBlank(message = "el campo destino no puede estar en blanco") String destiny) {
 
