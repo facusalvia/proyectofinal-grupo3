@@ -74,4 +74,11 @@ public class HotelService {
         HotelRequestDTO hotelRequestDTO = modelMapper.map(hotelEntity, HotelRequestDTO.class);
         return hotelRequestDTO;
     }
+
+    public ListHotelResponseDto getHotelsByDestinationSortedByRoomPrice(String destination) {
+        List<HotelEntity> listHotels = hotelRepository.findByDestinationAndSortedByRoomPrice(destination);
+        if(listHotels.isEmpty())
+            throw new HotelsNoAvailableException();
+        return new ListHotelResponseDto(listHotels.stream().map(hotelEntity ->modelMapper.map(hotelEntity,HotelResponseDTO.class)).collect(Collectors.toList()));
+    }
 }

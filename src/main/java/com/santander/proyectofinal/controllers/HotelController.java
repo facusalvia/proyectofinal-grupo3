@@ -62,5 +62,14 @@ public class HotelController {
         return ResponseEntity.ok().body(new SuccessDTO("Se eliminó el hotel correctamente",200));
     }
 
+    @GetMapping(value = "", params = {"destination"})
+    public ResponseEntity<ListHotelResponseDto> getHotelsByDestinationSortedByRoomPrice
+            (@RequestParam(value="destination") String destination){
+
+        return ResponseEntity.ok().body(hotelService.getHotelsByDestinationSortedByRoomPrice(destination));
+    }
+
+
+
 
 }

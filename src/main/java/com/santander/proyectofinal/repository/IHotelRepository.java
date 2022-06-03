@@ -26,4 +26,7 @@ public interface IHotelRepository extends JpaRepository<HotelEntity, Integer> {
 
     @Query("SELECT h.hotelBookingEntityList FROM HotelEntity h JOIN HotelBookingEntity hb ON h.id = hb.hotel.id WHERE h.hotelCode = :hotelCode AND hb.isActive = true")
     List<HotelBookingEntity> findIfExisteBookings(@Param("hotelCode") String hotelCode);
+
+    @Query("FROM HotelEntity h WHERE h.place = :destination ORDER BY h.roomPrice")
+    List<HotelEntity> findByDestinationAndSortedByRoomPrice(@Param("destination") String destination);
 }
