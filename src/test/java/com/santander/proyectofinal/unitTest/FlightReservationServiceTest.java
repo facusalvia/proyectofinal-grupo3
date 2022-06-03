@@ -90,7 +90,7 @@ public class FlightReservationServiceTest {
         FlightReservationResponseListDTO expectedFlightListResponseDTO = new FlightReservationResponseListDTO();
         List<FlightReservationResponseDTO> flightReservationResponseDTOList = new ArrayList<>();
         flightReservationResponseDTOList.add(FlightReservationFactory.newFlightReservationResponseDTO());
-        expectedFlightListResponseDTO.setFlightReservationResponseDTOList(flightReservationResponseDTOList);
+        expectedFlightListResponseDTO.setFlightReservations(flightReservationResponseDTOList);
 
         when(flightReservationRepository.findAll()).thenReturn(expectedListFlightReservationEntity);
 
