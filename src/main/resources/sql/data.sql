@@ -15,4 +15,6 @@ INSERT INTO flights VALUES (1,"2022-02-10","2022-02-15","Pompeya","NUEVO-1233", 
 INSERT INTO payment_method VALUES (1,6,"34343434335","credit")
 INSERT INTO flights_reservation VALUES (1,"2022-06-03","Pompeya","2022-02-10",1,"Lugano 1 y 2","2022-02-15","Economy",1,2750,"juan",2,1,1)
 
+INSERT INTO hotel_bookings VALUES(1,"2022-06-03","2022-04-14","2022-04-10","Puerto Iguazú",1,1,"Single",27720,"juan",2,1,1)
+
 INSERT INTO touristic_package_discounts VALUES (1, 0.10)

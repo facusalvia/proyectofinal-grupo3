@@ -20,7 +20,7 @@ public class PdfController {
     PdfService pdfService;
 
     @GetMapping(value = "/tickets",params = {"flightReservationId"})
-    public void generateTicketPDF(HttpServletResponse response,@RequestParam(value = "flightReservationId") Integer flightReservationId)throws IOException{
+    public void generateTicketPDF(HttpServletResponse response,@RequestParam(value = "flightReservationId") Integer flightReservationId) throws IOException{
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:dd-MM-yyyy");
         String currentDateTime = dateFormat.format(new Date());
@@ -29,5 +29,17 @@ public class PdfController {
         String headerValue = "attachment;  filename = pdf_ "+currentDateTime+".pdf";
         response.setHeader(headerKey,headerValue);
         this.pdfService.exportFlightTicket(response,flightReservationId);
+    }
+
+    @GetMapping(value = "/booking",params = {"bookingReservationId"})
+    public void generateBookingPDF(HttpServletResponse response,@RequestParam(value = "bookingReservationId") Integer bookingReservationId) throws IOException{
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:dd-MM-yyyy");
+        String currentDateTime = dateFormat.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;  filename = pdf_ "+currentDateTime+".pdf";
+        response.setHeader(headerKey,headerValue);
+        this.pdfService.exportHotelBooking(response,bookingReservationId);
     }
 }
