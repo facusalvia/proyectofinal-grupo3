@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
         }
 
-        return new User(userEntity.getUsername(), passwordEncoder.encode(userEntity.getPassword()), grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
     }
 
 
@@ -50,6 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
            throw new UserAlreadyExistsException();
                }
        UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
+       addUserEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
        userEntityRepository.save(addUserEntity);
         if(addUserEntity.getId() == null){
             throw new RepositorySaveException();
@@ -58,16 +59,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDTO update(Integer id, UserDTO userDTO) {
-        UserEntity UserEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
-        UserEntity.setUsername(null);
-        userEntityRepository.save(UserEntity);
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+        userEntity.setUsername(null);
+        userEntityRepository.save(userEntity);
         if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
             throw new UserAlreadyExistsException();
         }
 
         UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
         addUserEntity.setId(id);
-
+        addUserEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userEntityRepository.save(addUserEntity);
 
         return userDTO;
