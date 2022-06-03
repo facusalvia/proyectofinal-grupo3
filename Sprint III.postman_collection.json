@@ -1353,7 +1353,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team\",\r\n    \"password\":\"123\",\r\n    \"rol\": \"manager\"\r\n}",
+							"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"123\",\r\n    \"rol\": \"manager\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1384,7 +1384,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team\",\r\n    \"password\":\"123\",\r\n    \"rol\": \"manager\"\r\n}",
+							"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"123\",\r\n    \"rol\": \"manager\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1425,7 +1425,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"team23\",\r\n    \"password\":\"12345678\",\r\n    \"rol\": \"manager\"\r\n}",
+							"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"12345678\",\r\n    \"rol\": \"manager\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1433,7 +1433,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/edit?id=2",
+							"raw": "http://localhost:8080/api/v1/user/edit?id=3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1448,7 +1448,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "3"
 								}
 							]
 						}
@@ -1457,6 +1457,53 @@
 				},
 				{
 					"name": "UpdateUserAlreadyExistException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user1\",\r\n    \"password\":\"12345678\",\r\n    \"rol\": \"manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/edit?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUserDoesNotExistException",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1556,7 +1603,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/user/delete?id=9999",
+							"raw": "http://localhost:8080/api/v1/user/delete?id=999",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1571,7 +1618,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "9999"
+									"value": "999"
 								}
 							]
 						}
