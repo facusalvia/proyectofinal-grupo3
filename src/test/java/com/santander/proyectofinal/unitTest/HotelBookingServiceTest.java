@@ -2,7 +2,9 @@ package com.santander.proyectofinal.unitTest;
 
 
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
+import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
 import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
@@ -23,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -119,4 +122,28 @@ public class HotelBookingServiceTest{
         assertEquals(expectedHotelBookingDTORequest,obtainedHotelBookingDTORequest);
 
     }
+
+    @Test
+    void shouldReturnHotelsBookingsByHotelBetweenTwoDates(){
+        //Arrange
+        LocalDate from = LocalDate.of(2022,06,05);
+        LocalDate to = LocalDate.of(2022,06,10);
+        HotelBookingEntity mockedHotelBookingEntity = HotelBookingEntityFactory.newHotelBookingEntity();
+        String hotelCode = mockedHotelBookingEntity.getHotel().getHotelCode();
+
+        List<HotelBookingEntity> mockedHotelBookings = new ArrayList<>();
+        mockedHotelBookings.add(mockedHotelBookingEntity);
+
+        ListHotelBookingResponseDTO expectedListHotelBookingResponseDTO = new ListHotelBookingResponseDTO(new ArrayList<>());
+        expectedListHotelBookingResponseDTO.getHotel_bookings().add(HotelBookingEntityFactory.newHotelBookingDTORequest());
+
+        //Act
+        when(hotelBookingRepository.findHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to)).thenReturn(mockedHotelBookings);
+        ListHotelBookingResponseDTO obtainedListHotelBookingResponseDTO = hotelBookingService.getHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to);
+
+        //Assert
+        assertEquals(expectedListHotelBookingResponseDTO, obtainedListHotelBookingResponseDTO);
+    }
+
+
 }

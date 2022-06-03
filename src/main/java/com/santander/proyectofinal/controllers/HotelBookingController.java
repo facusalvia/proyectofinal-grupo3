@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @RestController
 @RequestMapping("/api/v1/hotel-booking")
 public class HotelBookingController {
@@ -38,4 +41,19 @@ public class HotelBookingController {
     public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookings(){
         return ResponseEntity.ok().body(hotelBookingService.getHotelBookings());
     }
+
+    @GetMapping("/{hotelCode}")
+    public ResponseEntity<ListHotelBookingResponseDTO> getHotelBookingsBetween(@PathVariable String hotelCode,
+                                                                               @RequestParam(value = "dateFrom")String dateFrom,
+                                                                               @RequestParam(value = "dateTo")String dateTo
+                                                                               ){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate from = LocalDate.parse(dateFrom, formatter);
+        LocalDate to = LocalDate.parse(dateTo, formatter);
+
+        return ResponseEntity.ok().body(hotelBookingService.getHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to));
+    }
+
+
 }

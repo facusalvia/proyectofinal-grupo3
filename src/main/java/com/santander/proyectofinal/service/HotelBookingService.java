@@ -2,6 +2,7 @@ package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.BookingRequestDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
+import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
@@ -132,5 +133,11 @@ public class HotelBookingService {
 
     }
 
-
+    public ListHotelBookingResponseDTO getHotelBookingsByHotelAndDateFromAndDateTo(String hotelCode, LocalDate from, LocalDate to) {
+        List<HotelBookingEntity> hotelBookingEntities = hotelBookingRepository.findHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to);
+        return new ListHotelBookingResponseDTO(hotelBookingEntities.stream()
+                .map(hotelBookingEntity ->modelMapper.map(hotelBookingEntity, HotelBookingDTORequest.class))
+                .collect(Collectors.toList())
+        );
+    }
 }
