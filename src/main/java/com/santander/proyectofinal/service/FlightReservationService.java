@@ -1,12 +1,11 @@
 package com.santander.proyectofinal.service;
 
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
+import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
-import com.santander.proyectofinal.entity.FlightEntity;
-import com.santander.proyectofinal.entity.FlightReservationEntity;
-import com.santander.proyectofinal.entity.PersonEntity;
-import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
+import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
@@ -120,7 +119,7 @@ public class FlightReservationService {
 
     public FlightReservationResponseListDTO getReservations() {
 
-        List<FlightReservationEntity> flightReservationEntityList = flightReservationRepository.findAll();
+        List<FlightReservationEntity> flightReservationEntityList = flightReservationRepository.findByIsActiveTrue();
 
         List<FlightReservationResponseDTO> flightReservationResponseDTOS = flightReservationEntityList.stream().map(
                 reservation -> modelMapper.map(reservation, FlightReservationResponseDTO.class)
