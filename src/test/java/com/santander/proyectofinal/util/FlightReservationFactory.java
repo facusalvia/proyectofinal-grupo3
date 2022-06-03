@@ -54,7 +54,7 @@ public class FlightReservationFactory {
                 FlightEntityFactory.newFlightEntity(),
                 newListPerson(),
                 PaymentMethodEntityFactory.newPaymentMethodEntity(),
-                false,
+                true,
                 LocalDate.now(),
                 0.0);
     }
