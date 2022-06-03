@@ -99,7 +99,7 @@ public class TouristicPackageService {
     }
 
     public Integer deleteTouristicPackage(Integer packageNumber) {
-        if (touristicPackageRepository.findByPackageNumberEquals(packageNumber)==null){
+        if (touristicPackageRepository.findByPackageNumberEquals(packageNumber).isEmpty()){
             throw new PackageDoesNotExistException();
         }
         TouristicPackageEntity touristicPackageEntity = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(PackageDoesNotExistException::new);
@@ -110,6 +110,9 @@ public class TouristicPackageService {
     public TouristicPackageRequestDTO update(Integer packageNumber, TouristicPackageRequestDTO touristicPackageRequestDTO) {
         TouristicPackageEntity touristicPackage = touristicPackageRepository.findByPackageNumberEquals(packageNumber).orElseThrow(PackageCanNotModifyException::new);
         TouristicPackageEntity touristicPackageEntity = buildTouristicPackageEntity(packageNumber, touristicPackageRequestDTO, touristicPackage);
+        touristicPackageEntity.setClient(clientRepository.findById(touristicPackageRequestDTO.getClientId()).orElseThrow(UserDoesNotExistException::new));
+        touristicPackageEntity.setTouristicPackageDiscountType(touristicPackageDiscountTypeRepository.findById(DEFAULT_DISCOUNT_TYPE).orElseThrow());
+
         touristicPackageRepository.save(touristicPackageEntity);
         return touristicPackageRequestDTO;
     }
