@@ -1,10 +1,9 @@
 package com.santander.proyectofinal.service;
 
+import com.santander.proyectofinal.dto.FlightCanceledReservationDTO;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
 import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
-import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
-import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
-import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
+import com.santander.proyectofinal.dto.response.*;
 import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
@@ -21,7 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,6 +114,7 @@ public class FlightReservationService {
         }
 
         flightReservationEntity.setActive(false);
+        flightReservationEntity.setCanceledAt(LocalDate.now());
         flightReservationRepository.save(flightReservationEntity);
         FlightReservationResponseDTO flightReservationResponseDTO = modelMapper.map(flightReservationEntity, FlightReservationResponseDTO.class);
         return flightReservationResponseDTO;
@@ -128,4 +131,43 @@ public class FlightReservationService {
         return new FlightReservationResponseListDTO(flightReservationResponseDTOS);
 
     }
+
+    public CanceledReservationForMonthListResponseDTO getCanceledFlightsReservationsInYearForMonth(Integer year) {
+        List<FlightReservationEntity> canceledFlightsReservation= flightReservationRepository.findCanceledFlightsReservationsInYearForMonth(year);
+
+        List<FlightCanceledReservationDTO> reservations = canceledFlightsReservation.stream().map(
+                reservation -> modelMapper.map(reservation, FlightCanceledReservationDTO.class)
+        ).collect(Collectors.toList());
+
+        CanceledReservationForMonthListResponseDTO lista = new CanceledReservationForMonthListResponseDTO(canceledReservationForMonth(reservations));
+        System.out.println(lista);
+
+
+
+        return lista;
+
+    }
+
+    private List<CanceledFlightsReservationForMonthResponseDTO> canceledReservationForMonth (List<FlightCanceledReservationDTO> canceledList){
+
+        Map<Integer,List<FlightCanceledReservationDTO>> mapa = new HashMap<>();
+        for (int i = 1; i <= 12 ; i++) {
+            mapa.put(i,new ArrayList<>());
+        }
+        for (int i = 0; i < canceledList.size(); i++) {
+            List<FlightCanceledReservationDTO> reservationList = mapa.get(canceledList.get(i).getCanceledAt().getMonthValue());
+            reservationList.add(canceledList.get(i));
+            mapa.put(canceledList.get(i).getCanceledAt().getMonthValue(),reservationList);
+        }
+
+        List<CanceledFlightsReservationForMonthResponseDTO> lista = new ArrayList<>();
+        int mes = 1;
+        for (int i = 0; i < mapa.size() ; i++) {
+            lista.add(new CanceledFlightsReservationForMonthResponseDTO(mes,mapa.get(mes)));
+            mes++;
+        }
+        return lista;
+    }
+
+
 }

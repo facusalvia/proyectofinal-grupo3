@@ -56,7 +56,7 @@ public class FlightReservationFactory {
                 PaymentMethodEntityFactory.newPaymentMethodEntity(),
                 true,
                 LocalDate.now(),
-                0.0);
+                0.0,null);
     }
 
     public static FlightReservationResponseDTO newFlightReservationResponseDTO() {

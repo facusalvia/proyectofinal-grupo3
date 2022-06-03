@@ -36,4 +36,5 @@ public class FlightReservationEntity {
     private boolean isActive;
     private LocalDate createdAt;
     private Double totalAmount;
+    private LocalDate canceledAt;
 }

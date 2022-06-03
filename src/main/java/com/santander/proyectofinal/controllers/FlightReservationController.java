@@ -3,7 +3,10 @@ package com.santander.proyectofinal.controllers;
 import com.santander.proyectofinal.dto.SuccessDTO;
 import com.santander.proyectofinal.dto.TaskMessage;
 import com.santander.proyectofinal.dto.request.FlightReservationRequestDTO;
+import com.santander.proyectofinal.dto.response.CanceledFlightsReservationForMonthResponseDTO;
+import com.santander.proyectofinal.dto.response.CanceledReservationForMonthListResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
+import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.service.FlightReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+
 @RestController
 public class FlightReservationController {
     @Autowired
@@ -37,6 +42,11 @@ public class FlightReservationController {
     public ResponseEntity<SuccessDTO> deleteFlightReservation(@RequestParam(value="id") Integer id){
         flightReservationService.deleteFlightReservation(id);
         return ResponseEntity.ok().body(new SuccessDTO( "Reserva de vuelo dada de baja correctamente" , 200));
+    }
+
+    @GetMapping(value ="/api/v1/flight-reservation/canceled", params= {"year"})
+    public ResponseEntity<CanceledReservationForMonthListResponseDTO> getCanceledFlightsReservationsInYearForMonth(@RequestParam(value="year") Integer year) {
+        return ResponseEntity.ok().body(flightReservationService.getCanceledFlightsReservationsInYearForMonth(year));
     }
 
 }
