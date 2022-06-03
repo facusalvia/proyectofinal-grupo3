@@ -1,0 +1,1482 @@
+{
+	"info": {
+		"_postman_id": "f620fadd-64e0-456c-809e-275f2254ce19",
+		"name": "Sprint III",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20490728"
+	},
+	"item": [
+		{
+			"name": "Hotels",
+			"item": [
+				{
+					"name": "GetHotels",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewHotel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"La Plata\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":1000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/05/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HotelAlreadyExistsException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"La Plata\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":1000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/05/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateHotel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"hotelCode\":\"NUEVO-00012\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"Bogota\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":3000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/03/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/edit?hotelCode=NUEVO-00012",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "hotelCode",
+									"value": "NUEVO-00012"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateHotelDoesNotExistException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"hotelCode\":\"NOEXISTE-0001\",\r\n\t\"name\":\"Nuevo Hotel\",\r\n\t\"place\":\"Bogota\",\r\n\t\"roomType\":\"Cuadruple\",\r\n\t\"roomPrice\":3000.0,\r\n\t\"disponibilityDateFrom\":\"10/02/2022\",\r\n\t\"disponibilityDateTo\":\"20/03/2022\",\r\n\t\"isBooking\":\"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/edit?hotelCode=NOEXISTE-0001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "hotelCode",
+									"value": "NOEXISTE-0001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchHotelsByDateAndDestination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels?dateFrom=10/02/2022&dateTo=19/03/2022&destination=Buenos Aires",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "10/02/2022"
+								},
+								{
+									"key": "dateTo",
+									"value": "19/03/2022"
+								},
+								{
+									"key": "destination",
+									"value": "Buenos Aires"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OtherSearchHotelsByDateAndDestination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels?dateFrom=10/02/2022&dateTo=20/03/2022&destination=Buenos Aires",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "10/02/2022"
+								},
+								{
+									"key": "dateTo",
+									"value": "20/03/2022"
+								},
+								{
+									"key": "destination",
+									"value": "Buenos Aires"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteHotel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=NUEVO-00012",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "hotelCode",
+									"value": "NUEVO-00012"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteHotelDoesNotExistException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=NOEXISTE-0001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "hotelCode",
+									"value": "NOEXISTE-0001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewHotelBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"juan\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"14/04/2022\",\r\n        \"dateTo\": \"10/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 38998262,\r\n                \"name\": \"juan\",\r\n                \"mail\": \"juan@juan.com\",\r\n                \"lastname\": \"Peréz\",\r\n                \"birthDate\": \"18/06/1992\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"CREDIT\",\r\n            \"number\": \"7567\",\r\n            \"dues\": 6\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateHotelBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nor\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"16/04/2022\",\r\n        \"dateTo\": \"17/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/edit?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HotelCanNotDeleteException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/delete?hotelCode=CH-0002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "hotelCode",
+									"value": "CH-0002"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelBookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteHotelBooking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "idReservation",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteHotelBookingDoesNotExistsException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotel-booking/delete?idReservation=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotel-booking",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "idReservation",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flights",
+			"item": [
+				{
+					"name": "Newflight",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightNumber\" : \"NUEVO-1233\",\r\n    \"origin\" : \"Lugano 1 y 2\",\r\n    \"destiny\" : \"Pompeya\",\r\n    \"seatType\" : \"Economy\",\r\n    \"pricePerPerson\" : 2500,\r\n    \"dateFrom\" : \"2022-02-10\",\r\n    \"dateTo\" : \"2022-02-15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flights/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewflightAlreadyExistException",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightNumber\" : \"NUEVO-1233\",\r\n    \"origin\" : \"Lugano 1 y 2\",\r\n    \"destiny\" : \"Pompeya\",\r\n    \"seatType\" : \"Economy\",\r\n    \"pricePerPerson\" : 2500,\r\n    \"dateFrom\" : \"2022-02-10\",\r\n    \"dateTo\" : \"2022-02-15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flights/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFlights",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/flights",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateFlight",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightNumber\" : \"NUEVO-1233\",\r\n    \"origin\" : \"Lugano 1\",\r\n    \"destiny\" : \"Pompeya\",\r\n    \"seatType\" : \"Economy\",\r\n    \"pricePerPerson\" : 2500,\r\n    \"dateFrom\" : \"2022-02-10\",\r\n    \"dateTo\" : \"2022-02-15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/flights/edit?flightNumber=NUEVO-1233",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "flightNumber",
+									"value": "NUEVO-1233"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateFlightDoesNotExist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightNumber\" : \"NUEVO-1233\",\r\n    \"origin\" : \"Lugano 1\",\r\n    \"destiny\" : \"Pompeya\",\r\n    \"seatType\" : \"Economy\",\r\n    \"pricePerPerson\" : 2500,\r\n    \"dateFrom\" : \"2022-02-10\",\r\n    \"dateTo\" : \"2022-02-15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/flights/edit?flightNumber=NOEXISTE-1233",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "flightNumber",
+									"value": "NOEXISTE-1233"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchFlight",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1 y 2&destiny=Pompeya",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "10/02/2022"
+								},
+								{
+									"key": "dateTo",
+									"value": "15/02/2022"
+								},
+								{
+									"key": "origin",
+									"value": "lugano 1 y 2"
+								},
+								{
+									"key": "destiny",
+									"value": "Pompeya"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewReservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"juan\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seats\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateReservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"nor\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seat\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"otra cosa\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"cambioMail@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/edit?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFlightReservation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/delete?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFlight",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/delete?flightNumber=NUEVO-1233",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "flightNumber",
+									"value": "NUEVO-1233"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CashFlow",
+			"item": [
+				{
+					"name": "DailyBenefits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dailyIncome?date=01/06/2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dailyIncome"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "01/06/2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MonthlyBenefits",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/monthlyIncome?month=06&year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"monthlyIncome"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "06"
+								},
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TouristicPackage",
+			"item": [
+				{
+					"name": "GetTouristicPackages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewTouristicPackage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 3,\n   \"bookings\": [1,2],\n    \"reservations\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateTouristicPackage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 1234,\n   \"name\": \"modificado\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [1,2],\n    \"reservations\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/edit?packageNumber=1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "packageNumber",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewTouristicPackageFlights",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"packageNumber\": 12345,\n   \"name\": \"paquete\",\n   \"creation_date\": \"12/05/2010\",\n   \"client_id\": 1,\n   \"bookings\": [],\n    \"reservations\": [1,2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTouristicPackage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=1234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"touristicpackage",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "packageNumber",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "AuthenticateManager",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"team\",\n    \"password\":\"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AuthenticateEmployee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"teamemployee\",\n    \"password\":\"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "GetTop3Clients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/clients/top3?year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"clients",
+								"top3"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "admin_token",
+			"value": ""
+		},
+		{
+			"key": "employee_token",
+			"value": ""
+		}
+	]
+}
