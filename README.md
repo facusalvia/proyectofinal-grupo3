@@ -1065,7 +1065,7 @@ id : 1
 </pre>
 </details>
 
-## Eliminar un hotel (Caso fallido - no existe usuario con el id ingresado)
+## Eliminar un usuario (Caso fallido - no existe usuario con el id ingresado)
 
 `DELETE http://localhost:8080/api/v1/user/delete?id=999`
 
