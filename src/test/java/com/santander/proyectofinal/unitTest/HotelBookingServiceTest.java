@@ -9,6 +9,7 @@ import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.QueryDidNotReturnAnyResult;
 import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.repository.IHotelRepository;
@@ -143,6 +144,24 @@ public class HotelBookingServiceTest{
 
         //Assert
         assertEquals(expectedListHotelBookingResponseDTO, obtainedListHotelBookingResponseDTO);
+    }
+
+    @Test
+    void shouldReturnQueryDidNotReturnAnyResultWhenGettingHotelBookingsByHotelBetweenTwoDates(){
+        //Arrange
+        LocalDate from = LocalDate.of(2022,06,05);
+        LocalDate to = LocalDate.of(2022,06,10);
+        HotelBookingEntity mockedHotelBookingEntity = HotelBookingEntityFactory.newHotelBookingEntity();
+        String hotelCode = mockedHotelBookingEntity.getHotel().getHotelCode();
+
+        ListHotelBookingResponseDTO expectedListHotelBookingResponseDTO = new ListHotelBookingResponseDTO(new ArrayList<>());
+        expectedListHotelBookingResponseDTO.getHotel_bookings().add(HotelBookingEntityFactory.newHotelBookingDTORequest());
+
+        //Act
+        when(hotelBookingRepository.findHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to)).thenReturn(new ArrayList<>());
+
+        //Assert
+        assertThrows(QueryDidNotReturnAnyResult.class,()-> hotelBookingService.getHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to));
     }
 
 

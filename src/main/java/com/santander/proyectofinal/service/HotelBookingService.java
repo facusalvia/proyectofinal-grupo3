@@ -8,6 +8,7 @@ import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.QueryDidNotReturnAnyResult;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
@@ -135,6 +136,9 @@ public class HotelBookingService {
 
     public ListHotelBookingResponseDTO getHotelBookingsByHotelAndDateFromAndDateTo(String hotelCode, LocalDate from, LocalDate to) {
         List<HotelBookingEntity> hotelBookingEntities = hotelBookingRepository.findHotelBookingsByHotelAndDateFromAndDateTo(hotelCode, from, to);
+        if(hotelBookingEntities.isEmpty()){
+            throw new QueryDidNotReturnAnyResult();
+        }
         return new ListHotelBookingResponseDTO(hotelBookingEntities.stream()
                 .map(hotelBookingEntity ->modelMapper.map(hotelBookingEntity, HotelBookingDTORequest.class))
                 .collect(Collectors.toList())
