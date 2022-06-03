@@ -909,6 +909,178 @@ year: 2022
 </details>
 
 
+# US0005
+
+## Alta de un nuevo usuario (Caso exitoso)
+
+`POST http://localhost:8080/api/v1/user/new`
+
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    "username":"user1",
+    "password":"123",
+    "rol": "manager"
+}
+</pre>
+</details>
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "Se agrego un nuevo Usuario",
+    "code": 201
+}
+</pre>
+</details>
+
+## Alta de un nuevo usuario (Caso fallido - ya existe un usuario con mismo username)
+
+`POST (http://localhost:8080/api/v1/user/new`
+
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    "username":"user1",
+    "password":"123",
+    "rol": "manager"
+}
+</pre>
+</details>
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "User already exist"
+}
+</pre>
+</details>
+
+## Actualizar un usuario (Caso exitoso)
+
+`PUT http://localhost:8080/api/v1/user/edit?id=3`
+
+PARAMS
+id:3
+
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    "username":"user1",
+    "password":"12345678",
+    "rol": "manager"
+}
+</pre>
+</details>
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "Se modifico correctamente el Usuario",
+    "code": 200
+}
+</pre>
+</details>
+
+## Actualizar un usuario (Caso fallido - ya existe username de usuario)
+
+`PUT http://localhost:8080/api/v1/user/edit?id=1`
+
+PARAMS
+id: 1
+
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    "username":"user1",
+    "password":"12345678",
+    "rol": "manager"
+}
+</pre>
+</details>
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "User already exist"
+}
+</pre>
+</details>
+
+## Actualizar un usuario (Caso fallido - no existe el id de usuario)
+
+`PUT http://localhost:8080/api/v1/user/edit?id=999`
+
+PARAMS
+id: 999
+
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    "username":"user1",
+    "password":"12345678",
+    "rol": "manager"
+}
+</pre>
+</details>
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "User does not exist"
+}
+</pre>
+</details>
+
+## Eliminar un usuario (Caso exitoso)
+
+`DELETE http://localhost:8080/api/v1/user/delete?id=1`
+
+PARAMS
+id : 1
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "Usuario dada de baja correctamente",
+    "code": 200
+}
+</pre>
+</details>
+
+## Eliminar un hotel (Caso fallido - no existe usuario con el id ingresado)
+
+`DELETE http://localhost:8080/api/v1/user/delete?id=999`
+
+PARAMS
+id : 999
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "User does not exist"
+}
+</pre>
+</details>
 
 
 
