@@ -4,6 +4,7 @@ import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
 import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.exceptions.QueryDidNotReturnAnyResult;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import com.santander.proyectofinal.service.CashSystemService;
@@ -77,10 +78,20 @@ public class CashSystemServiceTest {
         HotelMonthBenefitsResponseDTO expectedHotelMonthBenefitResponseDTO =
                 new  HotelMonthBenefitsResponseDTO(month, year, expectedCashAmountHotel, mockedHotelEntity.getHotelCode());
 
-        when(hotelBookingRepository.obtainMonthlyBenefits(month, year, mockedHotelEntity.getHotelCode())).thenReturn(expectedCashAmountHotel);
+        when(hotelBookingRepository.obtainMonthlyBenefits(mockedHotelEntity.getHotelCode(), year, month)).thenReturn(expectedCashAmountHotel);
 
         HotelMonthBenefitsResponseDTO obtainedHotelMonthBenefitResponseDTO = cashSystemService.hotelMonthBenefits(mockedHotelEntity.getHotelCode(), year, month);
 
         assertEquals(expectedHotelMonthBenefitResponseDTO, obtainedHotelMonthBenefitResponseDTO);
+    }
+
+    @Test
+    void shouldReturnQueryDidNotHaveResultsOnWrongHotelCode(){
+        Integer month = 6;
+        Integer year = 2022;
+
+        when(hotelBookingRepository.obtainMonthlyBenefits("codigoErroneo", year, month)).thenReturn(null);
+
+        assertThrows(QueryDidNotReturnAnyResult.class,()-> cashSystemService.hotelMonthBenefits("codigoErroneo", year, month));
     }
 }

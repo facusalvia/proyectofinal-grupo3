@@ -3,6 +3,7 @@ package com.santander.proyectofinal.service;
 import com.santander.proyectofinal.dto.response.DayBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.HotelMonthBenefitsResponseDTO;
 import com.santander.proyectofinal.dto.response.MonthBenefitsResponseDTO;
+import com.santander.proyectofinal.exceptions.QueryDidNotReturnAnyResult;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,10 @@ public class CashSystemService {
 
     // con esto la agencia puede saber que hoteles le estan generando mas ganancia o menos
     public HotelMonthBenefitsResponseDTO hotelMonthBenefits(String hotelCode, Integer year, Integer month) {
-        Double totalHotelMonthIncome = hotelBookingRepository.obtainMonthlyBenefits(month, year, hotelCode);
+        Double totalHotelMonthIncome = hotelBookingRepository.obtainMonthlyBenefits(hotelCode, year, month);
+        if(totalHotelMonthIncome == null){
+            throw new QueryDidNotReturnAnyResult();
+        }
         return new HotelMonthBenefitsResponseDTO(month, year, totalHotelMonthIncome, hotelCode);
     }
 }
