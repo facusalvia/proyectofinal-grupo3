@@ -42,12 +42,16 @@ public class CashSystemController {
     }
 
     @GetMapping(value = "/income/{hotelCode}", params = {"year", "month"})
-    public ResponseEntity<HotelMonthBenefitsResponseDTO> getHotelMonthIncome(@PathVariable String hotelCode, @RequestParam(value="year") Integer year, @RequestParam(value="month") Integer month){
+    public ResponseEntity<HotelMonthBenefitsResponseDTO> getHotelMonthIncome(@PathVariable String hotelCode,
+                                                                             @RequestParam(value="year") @NotNull  Integer year,
+                                                                             @RequestParam(value="month")
+                                                                                 @Max(value = 12, message = "El mes ingresado deberá estar entre 1 y 12")
+                                                                                 @Min(value = 1, message = "El mes ingresado deberá estar entre 1 y 12") Integer month){
         return ResponseEntity.ok().body(cashSystemService.hotelMonthBenefits(hotelCode, year, month));
     }
 
     @GetMapping(value = "/income/{hotelCode}", params = {"year"})
-    public ResponseEntity<HotelYearBenefitsResponseDTO> getHotelYearIncome(@PathVariable String hotelCode, @RequestParam(value="year") Integer year){
+    public ResponseEntity<HotelYearBenefitsResponseDTO> getHotelYearIncome(@PathVariable String hotelCode, @RequestParam(value="year") @NotNull  Integer year){
         return ResponseEntity.ok().body(cashSystemService.hotelYearBenefits(hotelCode, year));
     }
 

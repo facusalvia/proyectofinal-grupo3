@@ -12,3 +12,7 @@ INSERT INTO clients VALUES (2, "Juan","Carlos","juan")
 INSERT INTO clients VALUES (3, "Marcelo","Martin","mar")
 
 INSERT INTO touristic_package_discounts VALUES (1, 0.10)
+
+INSERT INTO flights VALUES(1,'2023-01-01','2023-01-15','Cancun','CANC-001','Buenos Aires',150000.0,'FirstClass')
+INSERT INTO flights VALUES(2,'2023-01-01','2023-01-15','Cancun','CANC-002','Buenos Aires',90000.0,'Economy')
+INSERT INTO flights VALUES(3,'2023-01-01','2023-01-15','Punta Cana','PUN-001','Buenos Aires',85000.0,'Economy')

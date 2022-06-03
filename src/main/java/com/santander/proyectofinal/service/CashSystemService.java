@@ -39,7 +39,6 @@ public class CashSystemService {
         return new MonthBenefitsResponseDTO(month,year,cashAmount);
     }
 
-    // con esto la agencia puede saber que hoteles le estan generando mas ganancia o menos
     public HotelMonthBenefitsResponseDTO hotelMonthBenefits(String hotelCode, Integer year, Integer month) {
         Double totalHotelMonthIncome = hotelBookingRepository.obtainMonthlyBenefits(hotelCode, year, month);
         if(totalHotelMonthIncome == null){

@@ -66,7 +66,7 @@ public class HotelBookingService {
         hotelBookingEntity.setCreatedAt(LocalDate.now());
         Double interest = interestService.interestCalculator(hotelBookingDTORequest.getBooking().getPaymentMethod());
         double amount = hotelEntity.getRoomPrice();
-        double day = ChronoUnit.DAYS.between(hotelBookingDTORequest.getBooking().getDateTo(), hotelBookingDTORequest.getBooking().getDateFrom());
+        double day = ChronoUnit.DAYS.between(hotelBookingDTORequest.getBooking().getDateFrom(), hotelBookingDTORequest.getBooking().getDateTo());
         double total = interest * amount * day;
         hotelBookingEntity.setTotalAmount((double) Math.round(total));
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);

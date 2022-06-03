@@ -17,6 +17,6 @@ public interface IFlightReservationRepository extends JpaRepository<FlightReserv
 
     List<FlightReservationEntity> findByIsActiveTrue();
 
-    @Query("FROM FlightReservationEntity fr WHERE fr.flightEntity.flightNumber =:flightNumber")
+    @Query("FROM FlightReservationEntity AS fr WHERE fr.flightEntity.id IN (SELECT id FROM FlightEntity AS fe WHERE fe.flightNumber = :flightNumber) ")
     List<FlightReservationEntity> findByFlightNumber(@Param("flightNumber") String flightNumber);
 }
