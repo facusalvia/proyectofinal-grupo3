@@ -13,6 +13,7 @@ import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import com.santander.proyectofinal.service.FlightReservationService;
 import com.santander.proyectofinal.service.InterestService;
+import com.santander.proyectofinal.util.ClientEntityFactory;
 import com.santander.proyectofinal.util.FlightEntityFactory;
 import com.santander.proyectofinal.util.FlightReservationFactory;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,7 @@ public class FlightReservationServiceTest {
 
         when(flightReservationRepository.findById(any())).thenReturn(Optional.of(expectedFlightReservationEntity));
         when(flightReservationRepository.save(any())).thenReturn(expectedFlightReservationEntity);
+        when(clientRepository.findByUsernameEquals(any())).thenReturn(Optional.of(ClientEntityFactory.newClientEntity()));
 
         FlightReservationRequestDTO flightReservationRequestDTO = flightReservationService.update(expectedFlightReservationEntity.getId(),expectedFlightReservationRequestDTO);
 

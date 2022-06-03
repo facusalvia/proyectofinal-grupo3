@@ -13,6 +13,7 @@ import com.santander.proyectofinal.repository.IHotelRepository;
 import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import com.santander.proyectofinal.service.HotelBookingService;
 import com.santander.proyectofinal.service.InterestService;
+import com.santander.proyectofinal.util.ClientEntityFactory;
 import com.santander.proyectofinal.util.HotelBookingEntityFactory;
 import com.santander.proyectofinal.util.HotelEntityFactory;
 import com.santander.proyectofinal.util.TouristicPackageFactory;
@@ -110,6 +111,8 @@ public class HotelBookingServiceTest{
 
         when(hotelBookingRepository.findById(any())).thenReturn(Optional.of(expectedHotelBookingEntity));
         when(hotelBookingRepository.save(any())).thenReturn(expectedHotelBookingEntity);
+        when(clientRepository.findByUsernameEquals(any())).thenReturn(Optional.of(ClientEntityFactory.newClientEntity()));
+
 
         HotelBookingDTORequest obtainedHotelBookingDTORequest = hotelBookingService.updateHotelBooking(expectedHotelBookingEntity.getId(),expectedHotelBookingDTORequest);
 
