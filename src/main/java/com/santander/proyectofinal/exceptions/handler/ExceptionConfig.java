@@ -126,4 +126,10 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(QueryDidNotReturnAnyResult.class)
+    public ResponseEntity<ErrorDTO> handlerException(QueryDidNotReturnAnyResult queryDidNotReturnAnyResult){
+        ErrorDTO errorDto = new ErrorDTO(queryDidNotReturnAnyResult.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }

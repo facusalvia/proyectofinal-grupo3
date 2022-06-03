@@ -50,6 +50,9 @@ public class CashSystemService {
 
     public HotelYearBenefitsResponseDTO hotelYearBenefits(String hotelCode, Integer year) {
         Double totalHotelMonthIncome = hotelBookingRepository.obtainHotelYearBenefits(hotelCode, year);
+        if(totalHotelMonthIncome == null){
+            throw new QueryDidNotReturnAnyResult();
+        }
         return new HotelYearBenefitsResponseDTO(hotelCode, year, totalHotelMonthIncome);
     }
 }

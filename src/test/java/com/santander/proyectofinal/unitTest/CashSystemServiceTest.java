@@ -112,4 +112,13 @@ public class CashSystemServiceTest {
 
         assertEquals(expectedHotelYearBenefitResponseDTO, obtainedHotelYearBenefitsResponseDTO);
     }
+
+    @Test
+    void shouldReturnQueryDidNotHaveResultsWhenGettingHotelYearIncomeWithWrongParams(){
+        Integer year = 2022;
+
+        when(hotelBookingRepository.obtainHotelYearBenefits("codigoErroneo", year)).thenReturn(null);
+
+        assertThrows(QueryDidNotReturnAnyResult.class,()-> cashSystemService.hotelYearBenefits("codigoErroneo", year));
+    }
 }
