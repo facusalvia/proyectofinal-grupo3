@@ -18,7 +18,6 @@ public class ClientController {
 
     @GetMapping(value = "/top3", params = {"year"})
     public ResponseEntity<TopClientsResponseDTO> getTopClients(@RequestParam(value = "year") Integer year){
-
         return ResponseEntity.ok().body(clientService.getTopClients(year, 3));
     }
 }
