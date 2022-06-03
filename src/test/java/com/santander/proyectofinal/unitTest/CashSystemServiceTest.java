@@ -104,7 +104,7 @@ public class CashSystemServiceTest {
         HotelEntity mockedHotelEntity = HotelEntityFactory.newHotelEntity();
 
         HotelYearBenefitsResponseDTO expectedHotelYearBenefitResponseDTO =
-                new  HotelYearBenefitsResponseDTO(year, expectedCashAmountHotel, mockedHotelEntity.getHotelCode());
+                new  HotelYearBenefitsResponseDTO(mockedHotelEntity.getHotelCode(), year, expectedCashAmountHotel);
 
         when(hotelBookingRepository.obtainHotelYearBenefits(mockedHotelEntity.getHotelCode(), year)).thenReturn(expectedCashAmountHotel);
 

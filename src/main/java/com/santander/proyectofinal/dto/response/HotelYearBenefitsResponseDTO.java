@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class HotelYearBenefitsResponseDTO {
+    @JsonProperty(value = "hotel_code")
+    private String hotelCode;
     private Integer year;
     @JsonProperty(value = "total_income")
     private Double totalIncome;
-    @JsonProperty(value = "hotel_code")
-    private String hotelCode;
 
 }
