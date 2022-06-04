@@ -909,7 +909,299 @@ year: 2022
 </details>
 
 
+# US0005
+
+## Obtener vuelos ordenados por su costo
+
+`GET http://localhost:8080/api/v1/flights/sortedByCost?dateFrom=01/01/2023&dateTo=15/01/2023`
+
+PARAMS
+dateFrom: 01/01/2023
+dateTo: 15/01/2023
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "flights": [
+        {
+            "flightNumber": "PUN-001",
+            "dateFrom": "2023-01-01",
+            "dateTo": "2023-01-15",
+            "pricePerPerson": 85000.0,
+            "origin": "Buenos Aires",
+            "destiny": "Punta Cana",
+            "seatType": "Economy"
+        },
+        {
+            "flightNumber": "CANC-002",
+            "dateFrom": "2023-01-01",
+            "dateTo": "2023-01-15",
+            "pricePerPerson": 90000.0,
+            "origin": "Buenos Aires",
+            "destiny": "Cancun",
+            "seatType": "Economy"
+        },
+        {
+            "flightNumber": "CANC-001",
+            "dateFrom": "2023-01-01",
+            "dateTo": "2023-01-15",
+            "pricePerPerson": 150000.0,
+            "origin": "Buenos Aires",
+            "destiny": "Cancun",
+            "seatType": "FirstClass"
+        }
+    ]
+}
+</pre>
+</details>
+
+## Obtener hoteles por destino, ordenados por costo de habitación
+
+`GET http://localhost:8080/api/v1/hotels?destination=Buenos Aires`
+
+PARAMS
+destination: Buenos Aires
 
 
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "hotels": [
+        {
+            "id": 3,
+            "hotelCode": "HB-001",
+            "name": "Hotel Bristol",
+            "place": "Buenos Aires",
+            "roomType": "Single",
+            "roomPrice": 5435.0,
+            "disponibilityDateFrom": "10/02/2022",
+            "disponibilityDateTo": "19/03/2022",
+            "isBooking": false
+        },
+        {
+            "id": 4,
+            "hotelCode": "BH-002",
+            "name": "Hotel Bristol 2",
+            "place": "Buenos Aires",
+            "roomType": "Doble",
+            "roomPrice": 7200.0,
+            "disponibilityDateFrom": "08/02/2022",
+            "disponibilityDateTo": "17/04/2022",
+            "isBooking": false
+        },
+        {
+            "id": 6,
+            "hotelCode": "BA-002",
+            "name": "Park Hyatt",
+            "place": "Buenos Aires",
+            "roomType": "Doble",
+            "roomPrice": 17000.0,
+            "disponibilityDateFrom": "08/02/2022",
+            "disponibilityDateTo": "17/04/2022",
+            "isBooking": false
+        }
+    ]
+}
+</pre>
+</details>
 
+
+## Obtener todas las cancelaciones de vuelos, agrupadas por mes en un año determinado
+
+`GET http://localhost:8080/api/v1/flight-reservation/canceled?year=2022`
+
+PARAMS
+year: 2022
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "canceledReservationForMonth": [
+        {
+            "month": 1,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 2,
+            "canceledFlightsReservation": [
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-02-10"
+                }
+            ]
+        },
+        {
+            "month": 3,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 4,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 5,
+            "canceledFlightsReservation": [
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-05-10"
+                }
+            ]
+        },
+        {
+            "month": 6,
+            "canceledFlightsReservation": [
+                {
+                    "goingDate": "2022-02-10",
+                    "returnDate": "2022-02-15",
+                    "origin": "Lugano 1 y 2",
+                    "destination": "Pompeya",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [
+                        {
+                            "dni": "380592223",
+                            "name": "team",
+                            "lastname": "otra cosa",
+                            "birthDate": "25/06/1994",
+                            "mail": "cambioMail@algo.com"
+                        },
+                        {
+                            "dni": "380592223",
+                            "name": "team",
+                            "lastname": "otra cosa",
+                            "birthDate": "25/06/1994",
+                            "mail": "cambioMail@algo.com"
+                        }
+                    ],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-06-04"
+                }
+            ]
+        },
+        {
+            "month": 7,
+            "canceledFlightsReservation": [
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-07-10"
+                }
+            ]
+        },
+        {
+            "month": 8,
+            "canceledFlightsReservation": [
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-08-10"
+                },
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-08-10"
+                },
+                {
+                    "goingDate": "2023-05-15",
+                    "returnDate": "2023-05-20",
+                    "origin": "Buenos Aires",
+                    "destination": "Tucuman",
+                    "flightNumber": "COS-002",
+                    "seats": 1,
+                    "seatType": "Economy",
+                    "people": [],
+                    "paymentMethod": {
+                        "type": "credit",
+                        "number": "1234",
+                        "dues": 6
+                    },
+                    "canceledAt": "2022-08-10"
+                }
+            ]
+        },
+        {
+            "month": 9,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 10,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 11,
+            "canceledFlightsReservation": []
+        },
+        {
+            "month": 12,
+            "canceledFlightsReservation": []
+        }
+    ]
+}
+</pre>
+</details>
 
