@@ -920,29 +920,29 @@ year: 2022
 <pre>
 {
     "clients": [
-   { "top_number": int,
-     "year": int,
-     "booking_quantity": int,
-     "total_amount": Double,
-     "client_id": int,
-     "client_name": String,
-     "client_lastname": String
+   { "top_number": 1,
+     "year": 2022,
+     "booking_quantity": 5,
+     "total_amount": 25875,
+     "client_id": 1,
+     "client_name": Norberto,
+     "client_lastname": Bernardo
    },
-  { "top_number": int,
-     "year": int,
-     "booking_quantity": int,
-     "total_amount": Double,
-     "client_id": int,
-     "client_name": String,
-     "client_lastname": String
+  { "top_number": 2,
+     "year": 2022,
+     "booking_quantity": 4,
+     "total_amount": 22574,
+     "client_id": 2,
+     "client_name": Carlos,
+     "client_lastname": Juan
    },
-  { "top_number": int,
-     "year": int,
-     "booking_quantity": int,
-     "total_amount": Double,
-     "client_id": int,
-     "client_name": String,
-     "client_lastname": String
+  { "top_number": 3,
+     "year": 2022,
+     "booking_quantity": 3,
+     "total_amount": 9800,
+     "client_id": 3,
+     "client_name": Martin,
+     "client_lastname": Marcelo
    }
 ]
     
