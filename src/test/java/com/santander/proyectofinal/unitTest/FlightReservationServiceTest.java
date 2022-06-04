@@ -10,6 +10,8 @@ import com.santander.proyectofinal.entity.ClientEntity;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.flightException.CanceledFlightReservationDoesNotExistException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelsNoAvailableException;
 import com.santander.proyectofinal.repository.IClientRepository;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -151,13 +154,19 @@ public class FlightReservationServiceTest {
         when(flightReservationRepository.findCanceledFlightsReservationsInYearForMonth(any())).thenReturn(toAddFlightsReservations);
 
         CanceledReservationForMonthListResponseDTO obtainedList = flightReservationService.getCanceledFlightsReservationsInYearForMonth(2022);
-
-        System.out.println(expectedList);
-        System.out.println(obtainedList);
         assertEquals(expectedList,obtainedList);
 
+    }
 
+    @Test
+    void shouldThrowCanceledFlightReservationDoesNotExistException(){
+        List<FlightReservationEntity> toAddFlightsReservations = new ArrayList<>();
 
+        when(flightReservationRepository.findCanceledFlightsReservationsInYearForMonth(any()))
+                .thenReturn(toAddFlightsReservations);
+
+        assertThrows(CanceledFlightReservationDoesNotExistException.class,
+                ()-> flightReservationService.getCanceledFlightsReservationsInYearForMonth(2019));
     }
 
 

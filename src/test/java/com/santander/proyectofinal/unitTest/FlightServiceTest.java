@@ -1,9 +1,12 @@
 package com.santander.proyectofinal.unitTest;
 
 import com.santander.proyectofinal.dto.FlightDTO;
+import com.santander.proyectofinal.dto.PaymentMethodDTO;
 import com.santander.proyectofinal.dto.response.FlightListResponseDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
+import com.santander.proyectofinal.exceptions.PaymentMethodDebitCanNotMoreThanOneDueException;
+import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
 import com.santander.proyectofinal.repository.IFlightEntityRepository;
 import com.santander.proyectofinal.service.FlightService;
 import com.santander.proyectofinal.util.FlightEntityFactory;
@@ -18,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -137,5 +139,15 @@ public class FlightServiceTest {
 
 
         assertEquals(expectedList,obtainedList);
+    }
+
+    @Test
+    void shouldThrowFlightNoAvailableExceptionWhenSearchFlightsSortedByCostInAnyDates(){
+        LocalDate from = LocalDate.of(2024,06,02);
+        LocalDate to = LocalDate.of(2024,06,10);
+        List<FlightEntity> flightEntities = new ArrayList<>();
+
+        when(flightEntityRepository.findByDateFromAndDateToSortedByCost(any(),any())).thenReturn(flightEntities);
+        assertThrows(FlightNoAvailableException.class,()-> flightService.getFlightsSortedByCost(from,to));
     }
 }

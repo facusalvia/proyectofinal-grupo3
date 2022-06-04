@@ -3,8 +3,11 @@ package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.request.HotelRequestDTO;
 import com.santander.proyectofinal.dto.response.HotelResponseDTO;
 import com.santander.proyectofinal.dto.response.ListHotelResponseDto;
+import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
+import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
+import com.santander.proyectofinal.exceptions.hotelException.HotelsNoAvailableException;
 import com.santander.proyectofinal.repository.IHotelRepository;
 import com.santander.proyectofinal.service.HotelService;
 import com.santander.proyectofinal.util.HotelEntityFactory;
@@ -136,6 +139,13 @@ public class HotelServiceTest {
 
         assertEquals(expectedList,obtainedList);
 
+    }
+
+    @Test
+    void shouldThrowFlightNoAvailableExceptionWhenSearchFlightsSortedByCostInAnyDates(){
+        List<HotelEntity> hotelEntities = new ArrayList<>();
+        when(hotelRepository.findByDestinationAndSortedByRoomPrice(any())).thenReturn(hotelEntities);
+        assertThrows(HotelsNoAvailableException.class,()-> hotelService.getHotelsByDestinationSortedByRoomPrice("Tailandia"));
     }
 
 
