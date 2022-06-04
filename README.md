@@ -909,6 +909,46 @@ year: 2022
 </details>
 
 
+# US0004
+
+## Top 3 de Clientes
+
+`GET http://localhost:8080/api/v1/clients/top-3`
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "clients": [
+   { "top_number": int,
+     "year": int,
+     "booking_quantity": int,
+     "total_amount": Double,
+     "client_id": int,
+     "client_name": String,
+     "client_lastname": String
+   },
+  { "top_number": int,
+     "year": int,
+     "booking_quantity": int,
+     "total_amount": Double,
+     "client_id": int,
+     "client_name": String,
+     "client_lastname": String
+   },
+  { "top_number": int,
+     "year": int,
+     "booking_quantity": int,
+     "total_amount": Double,
+     "client_id": int,
+     "client_name": String,
+     "client_lastname": String
+   }
+]
+    
+}
+</pre>
+</details>
 
 
 
