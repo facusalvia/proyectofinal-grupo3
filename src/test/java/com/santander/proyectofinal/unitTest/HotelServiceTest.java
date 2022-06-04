@@ -119,6 +119,25 @@ public class HotelServiceTest {
         assertEquals(expectedHotelRequestDTO,obtainedHotelRequestDTO);
     }
 
+    @Test
+    void shouldReturnHotelsByDestinationRoomPriceSorted(){
+        List<HotelResponseDTO> expectedHotelsList = new ArrayList<>();
+        expectedHotelsList.add(HotelEntityFactory.newHotelResponseDTO());
+        expectedHotelsList.add(HotelEntityFactory.newHotelResponseDTO());
+        ListHotelResponseDto expectedList = new ListHotelResponseDto(expectedHotelsList);
+
+        List<HotelEntity> toAddHotelEntityList = new ArrayList<>();
+        toAddHotelEntityList.add(HotelEntityFactory.newHotelEntity());
+        toAddHotelEntityList.add(HotelEntityFactory.newHotelEntity());
+
+        when(hotelRepository.findByDestinationAndSortedByRoomPrice(any())).thenReturn(toAddHotelEntityList);
+
+        ListHotelResponseDto obtainedList = hotelService.getHotelsByDestinationSortedByRoomPrice("La Plata");
+
+        assertEquals(expectedList,obtainedList);
+
+    }
+
 
 
 }

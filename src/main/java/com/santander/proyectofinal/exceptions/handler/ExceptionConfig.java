@@ -126,4 +126,10 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CanceledFlightReservationDoesNotExistException.class)
+    public ResponseEntity<ErrorDTO> handlerException(CanceledFlightReservationDoesNotExistException canceledFlightReservationDoesNotExistException){
+        ErrorDTO errorDto = new ErrorDTO(canceledFlightReservationDoesNotExistException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -116,4 +116,26 @@ public class FlightServiceTest {
         //Assert
         assertEquals(expectedFlight,obtainedFlight);
     }
+
+    @Test
+    void shouldReturnFlightsSortedByCostInAnyDates(){
+        List<FlightDTO> expectedFlightsList = new ArrayList<>();
+        expectedFlightsList.add(FlightEntityFactory.newFlightDTO());
+        expectedFlightsList.add(FlightEntityFactory.newFlightDTO());
+        FlightListResponseDTO expectedList = new FlightListResponseDTO(expectedFlightsList);
+
+        List<FlightEntity> toAddFlightsEntityList = new ArrayList<>();
+        toAddFlightsEntityList.add(FlightEntityFactory.newFlightEntity());
+        toAddFlightsEntityList.add(FlightEntityFactory.newFlightEntity());
+
+        when(flightEntityRepository.findByDateFromAndDateToSortedByCost(any(),any())).thenReturn(toAddFlightsEntityList);
+
+        LocalDate from = LocalDate.of(2022,06,02);
+        LocalDate to = LocalDate.of(2022,06,10);
+
+        FlightListResponseDTO obtainedList = flightService.getFlightsSortedByCost(from,to);
+
+
+        assertEquals(expectedList,obtainedList);
+    }
 }

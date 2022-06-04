@@ -6,6 +6,7 @@ import com.santander.proyectofinal.dto.request.HotelBookingDTORequest;
 import com.santander.proyectofinal.dto.response.*;
 import com.santander.proyectofinal.entity.*;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.flightException.CanceledFlightReservationDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
@@ -135,16 +136,16 @@ public class FlightReservationService {
     public CanceledReservationForMonthListResponseDTO getCanceledFlightsReservationsInYearForMonth(Integer year) {
         List<FlightReservationEntity> canceledFlightsReservation= flightReservationRepository.findCanceledFlightsReservationsInYearForMonth(year);
 
+        if(canceledFlightsReservation.isEmpty()){
+            throw new CanceledFlightReservationDoesNotExistException();
+        }
         List<FlightCanceledReservationDTO> reservations = canceledFlightsReservation.stream().map(
                 reservation -> modelMapper.map(reservation, FlightCanceledReservationDTO.class)
         ).collect(Collectors.toList());
 
-        CanceledReservationForMonthListResponseDTO lista = new CanceledReservationForMonthListResponseDTO(canceledReservationForMonth(reservations));
-        System.out.println(lista);
+        CanceledReservationForMonthListResponseDTO reservationsList = new CanceledReservationForMonthListResponseDTO(canceledReservationForMonth(reservations));
 
-
-
-        return lista;
+        return reservationsList;
 
     }
 
@@ -152,7 +153,7 @@ public class FlightReservationService {
 
         Map<Integer,List<FlightCanceledReservationDTO>> mapa = new HashMap<>();
         for (int i = 1; i <= 12 ; i++) {
-            mapa.put(i,new ArrayList<>());
+           mapa.put(i,new ArrayList<>());
         }
         for (int i = 0; i < canceledList.size(); i++) {
             List<FlightCanceledReservationDTO> reservationList = mapa.get(canceledList.get(i).getCanceledAt().getMonthValue());
