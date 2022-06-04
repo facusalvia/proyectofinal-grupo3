@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f620fadd-64e0-456c-809e-275f2254ce19",
+		"_postman_id": "de523b20-a5b2-465c-a1b1-0f518e3ea55d",
 		"name": "Sprint III",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20490728"
+		"_exporter_id": "20470577"
 	},
 	"item": [
 		{
@@ -853,7 +853,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1 y 2&destiny=Pompeya",
+							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1&destiny=Pompeya",
 							"host": [
 								"localhost"
 							],
@@ -874,7 +874,7 @@
 								},
 								{
 									"key": "origin",
-									"value": "lugano 1 y 2"
+									"value": "lugano 1"
 								},
 								{
 									"key": "destiny",
@@ -921,6 +921,49 @@
 								"v1",
 								"flight-reservation",
 								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetReservations",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"juan\",\r\n    \"flightReservationDTO\":{\r\n        \"goingDate\":\"2022-02-10\",\r\n         \"returnDate\":\"2022-02-15\",\r\n         \"origin\" : \"Lugano 1 y 2\",\r\n         \"destination\" : \"Pompeya\",\r\n        \"flightNumber\" : \"NUEVO-1233\",\r\n        \"seats\":1,\r\n      \"seatType\" : \"Economy\",\r\n      \"people\":[{\r\n          \"dni\":\"380592223\",\r\n          \"name\":\"team\",\r\n          \"lastname\":\"algo\",\r\n          \"birthDate\":\"25/06/1994\",\r\n          \"mail\":\"team@algo.com\"\r\n      }],\r\n      \"paymentMethod\":{\r\n          \"type\":\"credit\",\r\n          \"number\":\"34343434335\",\r\n          \"dues\":6\r\n      }\r\n    }\r\n       \r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation"
 							]
 						}
 					},
@@ -1440,6 +1483,225 @@
 								{
 									"key": "year",
 									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "US0005 - Individual",
+			"item": [
+				{
+					"name": "GetFlightsSortedByCost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flights/sortedByCost?dateFrom=01/01/2023&dateTo=15/01/2023",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"sortedByCost"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "01/01/2023"
+								},
+								{
+									"key": "dateTo",
+									"value": "15/01/2023"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OtherGetFlightsSortedByCost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{employee_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flights/sortedByCost?dateFrom=15/01/2023&dateTo=31/01/2023",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flights",
+								"sortedByCost"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "15/01/2023"
+								},
+								{
+									"key": "dateTo",
+									"value": "31/01/2023"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetHotelsByDestinationAndSortedByRoomPrice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels?destination=Puerto Iguazú",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "destination",
+									"value": "Puerto Iguazú"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OtherGetHotelsByDestinationAndSortedByRoomPrice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels?destination=Tucuman",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "destination",
+									"value": "Tucuman"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCanceledFlightsReservationsInYearForMonth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/canceled?year=2022",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"canceled"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OtherGetCanceledFlightsReservationsInYearForMonth",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight-reservation/canceled?year=2021",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight-reservation",
+								"canceled"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2021"
 								}
 							]
 						}
