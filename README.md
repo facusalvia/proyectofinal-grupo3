@@ -949,7 +949,17 @@ year: 2022
 </pre>
 </details>
 
+# US0005
 
+## Requerimiento Libre
+
+### Generar comprobante de reserva de vuelo
+
+`GET http://localhost:8080/api/v1/tickets?flightReservationId=1`
+
+### Generar comprobante de reserva de hotel
+
+`GET http://localhost:8080/api/v1/booking?bookingReservationId=1`
 
 
 
