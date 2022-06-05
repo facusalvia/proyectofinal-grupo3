@@ -957,6 +957,9 @@ year: 2022
 
 `GET http://localhost:8080/api/v1/tickets?flightReservationId=1`
 
+![Reserva de Vuelo IMG]
+(https://github.com/facusalvia/proyectofinal-grupo3/blob/SalviaFacundo/src/main/resources/static/img/reserva%20de%20hotel.PNG)
+
 ### Generar comprobante de reserva de hotel
 
 `GET http://localhost:8080/api/v1/booking?bookingReservationId=1`
