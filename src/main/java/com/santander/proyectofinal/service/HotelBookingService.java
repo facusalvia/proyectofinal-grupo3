@@ -49,18 +49,7 @@ public class HotelBookingService {
     public HotelBookingDTORequest addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
 
-        // valido que la fecha del request este dentro del periodo del hotel
-        LocalDate hotelFrom = hotelEntity.getDisponibilityDateFrom();
-        LocalDate hotelTo = hotelEntity.getDisponibilityDateTo();
-
-        LocalDate bookingFrom = hotelBookingDTORequest.getBooking().getDateFrom();
-        LocalDate bookingTo = hotelBookingDTORequest.getBooking().getDateTo();
-
-        boolean low = bookingFrom.isAfter(hotelFrom) || bookingFrom.isEqual(hotelFrom);
-        boolean high = bookingTo.isBefore(hotelTo) || bookingTo.isEqual(hotelTo);
-        if(!low || !high){
-            throw new BookingPeriodOutsideHotelDisponibilityPeriodException();
-        }
+        validateBookingPeriod(hotelBookingDTORequest, hotelEntity);
 
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
@@ -112,9 +101,14 @@ public class HotelBookingService {
     }
 
     // TODO: fix created_at y total_amount quedan en null
+
     public HotelBookingDTORequest updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotelBooking
         HotelBookingEntity savedHotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);
+
+        // verifico que el nuevo periodo sea valido
+        validateBookingPeriod(hotelBookingDTORequest, savedHotelBookingEntity.getHotel());
+
         BookingRequestDTO bookingRequestDTO = hotelBookingDTORequest.getBooking();
 
         HotelBookingEntity updatedHotelBookingEntity = modelMapper.map(bookingRequestDTO, HotelBookingEntity.class);
@@ -147,5 +141,19 @@ public class HotelBookingService {
 
     }
 
+    private void validateBookingPeriod(HotelBookingDTORequest hotelBookingDTORequest, HotelEntity hotelEntity) {
+        // valido que la fecha del request este dentro del periodo del hotel
+        LocalDate hotelFrom = hotelEntity.getDisponibilityDateFrom();
+        LocalDate hotelTo = hotelEntity.getDisponibilityDateTo();
+
+        LocalDate bookingFrom = hotelBookingDTORequest.getBooking().getDateFrom();
+        LocalDate bookingTo = hotelBookingDTORequest.getBooking().getDateTo();
+
+        boolean low = bookingFrom.isAfter(hotelFrom) || bookingFrom.isEqual(hotelFrom);
+        boolean high = bookingTo.isBefore(hotelTo) || bookingTo.isEqual(hotelTo);
+        if(!low || !high){
+            throw new BookingPeriodOutsideHotelDisponibilityPeriodException();
+        }
+    }
 
 }
