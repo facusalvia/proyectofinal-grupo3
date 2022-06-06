@@ -908,6 +908,138 @@ year: 2022
 </pre>
 </details>
 
+# US0005
+
+## Obtener ganancias hotel por mes
+
+`GET http://localhost:8080/api/v1/income/CH-0002?year=2022&month=6`
+
+PARAMS
+hotel_code: CH-0002
+year: 2022
+month: 6
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+   "month": 6,
+   "year": 2022,
+   "total_income": 55440.0,
+   "hotel_code": "CH-0002"
+}
+</pre>
+</details>
+
+## Obtener ganancias hotel por año
+
+`GET http://localhost:8080/api/v1/income/CH-0002?year=2022`
+
+PARAMS
+year: 2022
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+   "year": 2022,
+   "total_income": 55440.0,
+   "hotel_code": "CH-0002"
+}
+</pre>
+</details>
+
+## Obtener reservas hotel por periodo
+
+`GET http://localhost:8080/api/v1/hotel-booking/CH-0002?dateFrom=10/04/2022&dateTo=15/04/2022`
+
+PATH VARIABLE
+hotel_code: CH-0002
+
+PARAMS
+dateFrom: 10/04/2022
+dateTo: 15/04/2022
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "hotel_bookings": [
+        {
+            "username": "juan",
+            "booking": {
+                "dateFrom": "10/04/2022",
+                "dateTo": "14/04/2022",
+                "destination": "Puerto Iguazú",
+                "hotelCode": "CH-0002",
+                "peopleAmount": 1,
+                "roomType": "Single",
+                "people": [
+                    {
+                        "dni": "38998262",
+                        "name": "juan",
+                        "lastname": "Peréz",
+                        "birthDate": "18/06/1992",
+                        "mail": "juan@juan.com"
+                    }
+                ],
+                "paymentMethod": {
+                    "type": "CREDIT",
+                    "number": "7567",
+                    "dues": 6
+                }
+            }
+        },
+        …
+    ]
+}
+</pre>
+</details>
+
+
+## Obtener reservas vuelo por periodo
+
+`GET http://localhost:8080/api/v1/flight-reservation/NUEVO-1233`
+
+PATH VARIABLE
+hotel_code: CH-0002
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+   "flightReservationResponseDTOList": [
+       {
+           "username": "juan",
+           "flightEntity": {
+               "goingDate": "2022-02-10",
+               "returnDate": "2022-02-15",
+               "origin": "Lugano 1 y 2",
+               "destination": "Pompeya",
+               "flightNumber": "NUEVO-1233",
+               "seats": 1,
+               "seatType": "Economy",
+               "people": [
+                   {
+                       "dni": "380592223",
+                       "name": "team",
+                       "lastname": "algo",
+                       "birthDate": "25/06/1994",
+                       "mail": "team@algo.com"
+                   }
+               ],
+               "paymentMethod": {
+                   "type": "Economy",
+                   "number": "34343434335",
+                   "dues": 6
+               }
+           }
+       },
+        …
+    ]
+}
+</pre>
+</details>
 
 
 
