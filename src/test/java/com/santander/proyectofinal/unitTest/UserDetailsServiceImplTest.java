@@ -2,6 +2,7 @@ package com.santander.proyectofinal.unitTest;
 
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.UserDTO;
+import com.santander.proyectofinal.dto.UserDTOResponseProtected;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.PaymentMethodDebitCanNotMoreThanOneDueException;
@@ -95,7 +96,7 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    void shouldeleteUser(){
+    void shoulDeleteUser(){
         //Arrange
         UserDTO userDTOToAdd = UserEntityFactory.newUserDTO();
         UserEntity userEntity = UserEntityFactory.newUserEntity();
@@ -107,5 +108,19 @@ public class UserDetailsServiceImplTest {
         assertAll(()->assertEquals(userDTOToAdd,addedUser));
     }
 
+    @Test
+    void shouldReturnAllUser(){
+        //Arrange
+        List<UserDTOResponseProtected> userDTOResponseProtectedList = new ArrayList<>();
+        userDTOResponseProtectedList.add(UserEntityFactory.newUserDTOProtected());
+        List<UserEntity> userEntityList = new ArrayList<>();
+        userEntityList.add(UserEntityFactory.newUserEntity());
+        //Act
+        when(userEntityRepository.findAll()).thenReturn(userEntityList);
+
+        List<UserDTOResponseProtected> userDTOListObtained = userDetailsService.userList();
+        //Assert
+        assertAll(()->assertEquals(userDTOResponseProtectedList,userDTOListObtained));
+    }
 
 }
