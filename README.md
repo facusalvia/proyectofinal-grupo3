@@ -1083,5 +1083,74 @@ id : 999
 </details>
 
 
+## Obtener todos los usuarios
+
+`GET http://localhost:8080/api/v1/user/list`
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    [
+    {
+        "id": 1,
+        "username": "user1",
+        "rol": "manager",
+        "accountNonLocked": true
+    },
+    {
+        "id": 2,
+        "username": "user2",
+        "rol": "manager",
+        "accountNonLocked": true
+    },
+    {
+        "id": 3,
+        "username": "user3",
+        "rol": "employee",
+        "accountNonLocked": true
+    }
+    ]
+}
+</pre>
+</details>
+
+## Bloquear un usuario (Caso exitoso)
+
+`PUT http://localhost:8080/api/v1/user/locked?username=user2`
+
+PARAMS
+username : user1
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "Usuario bloqueado correctamente",
+    "code": 200
+}
+</pre>
+</details>
+
+## Desbloquear un usuario (Caso exitoso)
+
+`PUT http://localhost:8080/api/v1/user/unlocked?username=user2`
+
+PARAMS
+username : user1
+
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "message": "Usuario desbloqueado correctamente",
+    "code": 200
+}
+</pre>
+</details>
+
+
 
 

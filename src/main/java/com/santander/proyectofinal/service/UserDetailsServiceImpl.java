@@ -89,15 +89,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userDTO;
     }
 
-    public UserDTO userLocked(Integer id) {
-        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+    public UserDTO userLocked(String username) {
+        UserEntity userEntity = userEntityRepository.findByUsernameEquals(username).orElseThrow(UserDoesNotExistException::new);
         userEntity.setAccountNonLocked(false);
         userEntityRepository.save(userEntity);
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
         return userDTO;
     }
-    public UserDTO userUnlocked(Integer id) {
-        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+    public UserDTO userUnlocked(String username) {
+        UserEntity userEntity = userEntityRepository.findByUsernameEquals(username).orElseThrow(UserDoesNotExistException::new);
         userEntity.setAccountNonLocked(true);
         userEntityRepository.save(userEntity);
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
