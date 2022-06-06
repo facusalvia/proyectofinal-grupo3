@@ -33,4 +33,16 @@ public class ClientServiceTest {
         assertEquals(clientRespDTOExpected,clientRespDTOObteined);
     }
 
+    @Test
+    void shoulWhenExecutingReturnClientRespDTO(){
+        //Arrange
+        ClientEntity clientEntity = ClientEntityFactory.newClientEntity();
+        ClientRespDTO clientRespDTOExpected = ClientEntityFactory.newClientRespDTO();
+        when(clientRepository.findClientWithMoreFlightBookings()).thenReturn(clientEntity);
+        //Act
+        ClientRespDTO clientRespDTOObteined = clientService.getUserWithMoreBookings();
+        //Assert
+        assertEquals(clientRespDTOExpected,clientRespDTOObteined);
+    }
+
 }
