@@ -1,5 +1,7 @@
 package com.santander.proyectofinal.controllers;
 
+import com.santander.proyectofinal.dto.response.ClientRespDTO;
+import com.santander.proyectofinal.dto.response.ClientResponseDTO;
 import com.santander.proyectofinal.dto.response.TopClientsResponseDTO;
 import com.santander.proyectofinal.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,9 @@ public class ClientController {
     @GetMapping(value = "/top3", params = {"year"})
     public ResponseEntity<TopClientsResponseDTO> getTopClients(@RequestParam(value = "year") Integer year){
         return ResponseEntity.ok().body(clientService.getTopClients(year, 3));
+    }
+    @GetMapping(value = "/userWithMoreFlightReservations")
+   public ResponseEntity<ClientRespDTO> getUserWithMoreFlightReservation(){
+       return ResponseEntity.ok().body(clientService.getUserWithMoreFlightReservation());
     }
 }
