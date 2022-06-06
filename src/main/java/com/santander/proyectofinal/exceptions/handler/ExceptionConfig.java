@@ -6,6 +6,7 @@ import com.santander.proyectofinal.exceptions.flightException.*;
 import com.santander.proyectofinal.exceptions.hotelException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -33,12 +34,21 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDTO> handlerException(MethodArgumentNotValidException e){
+        ErrorDTO errorDto = new ErrorDTO(e.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(HotelCanNotDeleteException.class)
     public ResponseEntity<ErrorDTO> handlerException(HotelCanNotDeleteException hotelCanNotDeleteException){
         ErrorDTO errorDto = new ErrorDTO(hotelCanNotDeleteException.getMessage());
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handlerException(FileNotFoundException fileNotFoundException){
+        ErrorDTO errorDto = new ErrorDTO(fileNotFoundException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(HotelBookingDoesNotExistException.class)
     public ResponseEntity<ErrorDTO> handlerException(HotelBookingDoesNotExistException hotelBookingDoesNotExistException){
         ErrorDTO errorDto = new ErrorDTO(hotelBookingDoesNotExistException.getMessage());
