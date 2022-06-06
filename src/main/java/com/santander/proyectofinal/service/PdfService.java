@@ -8,8 +8,11 @@ import com.lowagie.text.alignment.VerticalAlignment;
 import com.lowagie.text.pdf.PdfWriter;
 import com.santander.proyectofinal.entity.FlightReservationEntity;
 import com.santander.proyectofinal.entity.HotelBookingEntity;
+import com.santander.proyectofinal.entity.TouristicPackageEntity;
 import com.santander.proyectofinal.repository.IFlightReservationRepository;
 import com.santander.proyectofinal.repository.IHotelBookingRepository;
+import com.santander.proyectofinal.repository.ITouristicPackageDiscountTypeRepository;
+import com.santander.proyectofinal.repository.ITouristicPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,12 @@ public class PdfService {
 
     @Autowired
     IHotelBookingRepository hotelBookingRepository;
+
+    @Autowired
+    ITouristicPackageRepository touristicPackageRepository;
+
+    @Autowired
+    ITouristicPackageDiscountTypeRepository touristicPackageDiscountTypeRepository;
 
     public Document exportFlightTicket(HttpServletResponse response, Integer flightReservationId) throws IOException{
         FlightReservationEntity myFlight = (flightReservationRepository.findById(flightReservationId)).get();
@@ -423,6 +432,254 @@ public class PdfService {
         ticketPDF.add(tableSpace);
         ticketPDF.add(tableSpace);
         ticketPDF.add(tableSpace);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(new Paragraph("Observaciones:"));
+        ticketPDF.add(footerTable);
+        ticketPDF.close();
+
+        return ticketPDF;
+    }
+    public Document exportTouristPackage(HttpServletResponse response, Integer touristPackageId) throws IOException{
+        TouristicPackageEntity myPackage = (touristicPackageRepository.findById(touristPackageId)).get();
+        HotelBookingEntity myBooking = (hotelBookingRepository.findById(myPackage.getTouristicPackageBookings().get(0).getId())).get();
+        FlightReservationEntity myFlight = (flightReservationRepository.findById(myPackage.getTouristicPackageReservations().get(0).getId())).get();
+
+        Document ticketPDF = new Document(PageSize.A4);
+        PdfWriter.getInstance(ticketPDF,response.getOutputStream());
+
+        //Fonts
+        Font font25 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        font25.setSize(25);
+        font25.setColor(Color.getHSBColor(97,86,95));
+        Font font20 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        font20.setSize(20);
+        Font font15 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        font15.setSize(15);
+        Font font10 = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        font10.setSize(15);
+        //Header del PDF
+        Table tableHeader = new Table(2,1);
+        Image logo = Image.getInstance("src/main/resources/static/img/logo.png");
+        Paragraph reservationConfirmation = new Paragraph("Reserva de Paquete turístico Confirmado",font25);
+        tableHeader.setBorder(0);
+        Cell cellLogo = new Cell(logo);
+        cellLogo.setBorder(0);
+        cellLogo.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        cellLogo.setVerticalAlignment(VerticalAlignment.CENTER);
+        Cell cellReservationConfirmation = new Cell(reservationConfirmation);
+        cellReservationConfirmation.setBorder(0);
+        cellReservationConfirmation.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        cellReservationConfirmation.setVerticalAlignment(VerticalAlignment.CENTER);
+        tableHeader.addCell(cellLogo);
+        tableHeader.addCell(cellReservationConfirmation);
+        tableHeader.setPadding(5);
+
+        //Banner de reserva
+        Table tableBanner = new Table(1,1);
+        Paragraph reservationCode = new Paragraph("RESERVATION CODE: "+myPackage.getId()+"-"+myPackage.getPackageNumber()+"-"+myBooking.getHotel().getHotelCode()+"-"+myFlight.getFlightEntity().getFlightNumber(),font15);
+        Cell cellBanner = new Cell(reservationCode);
+        tableBanner.setPadding(2);
+        cellBanner.setBorder(0);
+        cellBanner.setBackgroundColor(Color.getHSBColor(97,86,95));
+        cellBanner.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        cellBanner.setVerticalAlignment(VerticalAlignment.CENTER);
+        tableBanner.addCell(cellBanner);
+        tableBanner.setSpacing(1);
+        tableBanner.setWidth(100);
+
+        //Tabla de titulos del area cliente
+        Table clientTable = new Table(2,1);
+        clientTable.setBorder(0);
+        Cell cellClient = new Cell(new Paragraph("Cliente",font15));
+        cellClient.setBorder(0);
+        Cell infoCell = new Cell(new Paragraph("Información",font15));
+        infoCell.setBorder(0);
+        clientTable.addCell(cellClient);
+        clientTable.addCell(infoCell);
+        clientTable.setWidth(90);
+
+        //Tabla de datos del cliente
+        Table clientDataTable = new Table(2,1);
+        clientDataTable.setBorder(0);
+        Cell cellDataClient1 = new Cell(new Paragraph("Nombre: "+myPackage.getClient().getName()));
+        cellDataClient1.setBorder(0);
+        Cell infoContent = new Cell("Reserva de Hotel realizada con éxito");
+        infoContent.setBorder(0);
+        clientDataTable.addCell(cellDataClient1);
+        clientDataTable.addCell(infoContent);
+        clientDataTable.setWidth(90);
+
+        Cell cellDataClient2 = new Cell(new Paragraph("Apellido: "+myPackage.getClient().getLastname()));
+        cellDataClient2.setBorder(0);
+        Cell infoContent2 = new Cell(" ");
+        infoContent2.setBorder(0);
+        clientDataTable.addCell(cellDataClient2);
+        clientDataTable.addCell(infoContent2);
+
+        Cell cellDataClient3 = new Cell(new Paragraph("Nombre de Usuario: "+myPackage.getClient().getUsername()));
+        cellDataClient3.setBorder(0);
+        Cell infoContent3 = new Cell(" ");
+        infoContent3.setBorder(0);
+        clientDataTable.addCell(cellDataClient3);
+        clientDataTable.addCell(infoContent3);
+
+        Table tableSpace = new Table(1,1);
+        Cell vacia = new Cell(new Paragraph("\n"));
+        vacia.setBorder(0);
+        tableSpace.addCell(vacia);
+        tableSpace.setBorder(0);
+
+        Table hotelTable = new Table(2,1);
+        hotelTable.setBorder(0);
+        Cell cellFlight = new Cell(new Paragraph("Datos del Hotel",font15));
+        cellFlight.setBorder(0);
+        Cell cellFlightDer = new Cell(new Paragraph("Detalles de la Reserva",font15));
+        cellFlightDer.setBorder(0);
+        hotelTable.addCell(cellFlight);
+        hotelTable.addCell(cellFlightDer);
+        hotelTable.setWidth(90);
+
+
+        Table hotelTable2 = new Table(2,1);
+        hotelTable2.setWidth(90);
+        hotelTable2.setBorder(0);
+        Cell cellDataFlight = new Cell(new Paragraph("Nombre del Hotel: "+myBooking.getHotel().getName()));
+        cellDataFlight.setBorder(0);
+        Cell cellDataFlightDer = new Cell("Cantidad de Personas: "+myBooking.getPeopleAmount());
+        cellDataFlightDer.setBorder(0);
+        hotelTable2.addCell(cellDataFlight);
+        hotelTable2.addCell(cellDataFlightDer);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Cell cellDataFlight2 = new Cell(new Paragraph("Ubicación: "+myBooking.getHotel().getPlace()));
+        cellDataFlight2.setBorder(0);
+        Cell cellDataFlightDer2 = new Cell("Fecha de Ingreso: "+myBooking.getDateFrom().format(formatter));
+        cellDataFlightDer2.setBorder(0);
+        hotelTable2.addCell(cellDataFlight2);
+        hotelTable2.addCell(cellDataFlightDer2);
+
+        Cell cellDataFlight3 = new Cell(new Paragraph(""));
+        cellDataFlight3.setBorder(0);
+        Cell cellDataFlightDer3 = new Cell("Fecha de Egreso: "+myBooking.getDateTo().format(formatter));
+        cellDataFlightDer3.setBorder(0);
+        hotelTable2.addCell(cellDataFlight3);
+        hotelTable2.addCell(cellDataFlightDer3);
+
+        Cell cellDataFlight4 = new Cell(new Paragraph(""));
+        cellDataFlight4.setBorder(0);
+        Cell cellDataFlightDer4 = new Cell("Habitación Tipo: "+myBooking.getRoomType());
+        cellDataFlightDer4.setBorder(0);
+        hotelTable2.addCell(cellDataFlight4);
+        hotelTable2.addCell(cellDataFlightDer4);
+
+        Table flightPkTable = new Table(2,1);
+        flightPkTable.setBorder(0);
+        Cell cellPkFlight = new Cell(new Paragraph("Vuelo de Ida",font15));
+        cellPkFlight.setBorder(0);
+        Cell cellPkFlightDer = new Cell(new Paragraph("Vuelo de Vuelta",font15));
+        cellPkFlightDer.setBorder(0);
+        flightPkTable.addCell(cellPkFlight);
+        flightPkTable.addCell(cellPkFlightDer);
+        flightPkTable.setWidth(90);
+
+        Cell cellPkDataFlight = new Cell(new Paragraph("Aeropuerto: "+myFlight.getOrigin()));
+        cellPkDataFlight.setBorder(0);
+        Cell cellPkDataFlightDer = new Cell("Aeropuerto: "+myFlight.getDestination());
+        cellPkDataFlightDer.setBorder(0);
+        flightPkTable.addCell(cellPkDataFlight);
+        flightPkTable.addCell(cellPkDataFlightDer);
+
+        DateTimeFormatter Pkformatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Cell cellPkDataFlight2 = new Cell(new Paragraph("Fecha: "+myFlight.getGoingDate().format(Pkformatter)));
+        cellPkDataFlight2.setBorder(0);
+        Cell cellPkDataFlightDer2 = new Cell("Fecha: "+myFlight.getReturnDate().format(formatter));
+        cellPkDataFlightDer2.setBorder(0);
+        flightPkTable.addCell(cellPkDataFlight2);
+        flightPkTable.addCell(cellPkDataFlightDer2);
+
+        Cell seats = new Cell(new Paragraph("Cantidad de plazas: "+myFlight.getSeats()));
+        seats.setBorder(0);
+        Cell seatsDer = new Cell("Cantidad de plazas: "+myFlight.getSeats());
+        seatsDer.setBorder(0);
+        flightPkTable.addCell(seats);
+        flightPkTable.addCell(seatsDer);
+
+        //Banner de metodo de pago
+        Table tablePaymentBanner = new Table(1,1);
+        Paragraph payment = new Paragraph("Datos de Pago",font10);
+        Cell cellPaymentBanner = new Cell(payment);
+        tablePaymentBanner.setPadding(2);
+        cellPaymentBanner.setBorder(0);
+        cellPaymentBanner.setBackgroundColor(Color.getHSBColor(97,86,95));
+        cellPaymentBanner.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        cellPaymentBanner.setVerticalAlignment(VerticalAlignment.CENTER);
+        tablePaymentBanner.addCell(cellPaymentBanner);
+        tablePaymentBanner.setSpacing(1);
+        tablePaymentBanner.setWidth(100);
+
+        Table paymentTable = new Table(2,1);
+        paymentTable.setBorder(0);
+        Cell cellPayment = new Cell(new Paragraph("Método de Pago ",font15));
+        cellPayment.setBorder(0);
+        Cell cellPaymentDer = new Cell(new Paragraph("Cuotas",font15));
+        cellPaymentDer.setBorder(0);
+        paymentTable.addCell(cellPayment);
+        paymentTable.addCell(cellPaymentDer);
+        paymentTable.setWidth(90);
+
+        Cell paymentTable2 = new Cell(new Paragraph("Tarjeta de "+myBooking.getPaymentMethod().getType()));
+        paymentTable2.setBorder(0);
+        Cell paymentTableDer2 = new Cell("Cantidad: "+myBooking.getPaymentMethod().getDues());
+        paymentTableDer2.setBorder(0);
+        paymentTable.addCell(paymentTable2);
+        paymentTable.addCell(paymentTableDer2);
+
+        Cell paymentTable3 = new Cell(new Paragraph("Numero de Tarjeta: "+myBooking.getPaymentMethod().getNumber()));
+        paymentTable3.setBorder(0);
+        Cell paymentTable4 = new Cell(new Paragraph(" "));
+        paymentTable4.setBorder(0);
+        double totalAmount = myPackage.getTouristicPackageReservations().get(0).getFlightReservation().getTotalAmount()+myPackage.getTouristicPackageBookings().get(0).getHotelBooking().getTotalAmount();
+        Cell paymentTableDer3 = new Cell("Monto total sin Descuentos: $"+totalAmount);
+        double descTotal = totalAmount-(totalAmount*myPackage.getTouristicPackageDiscountType().getDiscount());
+        Cell paymentTableDer4 = new Cell("Monto total con Descuentos: $"+descTotal);
+        paymentTableDer3.setBorder(0);
+        paymentTableDer4.setBorder(0);
+        paymentTable.addCell(paymentTable3);
+        paymentTable.addCell(paymentTableDer3);
+        paymentTable.addCell(paymentTable4);
+        paymentTable.addCell(paymentTableDer4);
+
+        //Tabla footer
+        Table footerTable = new Table(1,1);
+        Cell footer = new Cell(new Paragraph("El check-in se realiza a partir de las 11:00AM del dia de entrada de la reserva. Presentarse 2.5hs antes de la salida del vuelo."));
+        footer.setBorder(0);
+        footer.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        footerTable.addCell(footer);
+        Cell emptyFooter = new Cell(new Paragraph("\n"));
+        emptyFooter.setBorder(0);
+        footerTable.addCell(emptyFooter);
+        footerTable.setWidth(100);
+
+
+        //Incorporación de partes al PDF
+        ticketPDF.open();
+        ticketPDF.add(tableHeader);
+        ticketPDF.add(tableBanner);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(clientTable);
+        ticketPDF.add(clientDataTable);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(hotelTable);
+        ticketPDF.add(hotelTable2);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(flightPkTable);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(tablePaymentBanner);
+        ticketPDF.add(tableSpace);
+        ticketPDF.add(paymentTable);
+        ticketPDF.add(paymentTable2);
+        ticketPDF.add(paymentTable3);
+
         ticketPDF.add(tableSpace);
         ticketPDF.add(new Paragraph("Observaciones:"));
         ticketPDF.add(footerTable);

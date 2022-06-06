@@ -22,11 +22,9 @@ public class PdfController {
     @GetMapping(value = "/tickets",params = {"flightReservationId"})
     public void generateTicketPDF(HttpServletResponse response,@RequestParam(value = "flightReservationId") Integer flightReservationId) throws IOException{
         response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:dd-MM-yyyy");
-        String currentDateTime = dateFormat.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment;  filename = pdf_ "+currentDateTime+".pdf";
+        String headerValue = "attachment;  filename = FlightReservation.pdf";
         response.setHeader(headerKey,headerValue);
         this.pdfService.exportFlightTicket(response,flightReservationId);
     }
@@ -34,12 +32,19 @@ public class PdfController {
     @GetMapping(value = "/booking",params = {"bookingReservationId"})
     public void generateBookingPDF(HttpServletResponse response,@RequestParam(value = "bookingReservationId") Integer bookingReservationId) throws IOException{
         response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss:dd-MM-yyyy");
-        String currentDateTime = dateFormat.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment;  filename = pdf_ "+currentDateTime+".pdf";
+        String headerValue = "attachment;  filename = HotelReservation.pdf";
         response.setHeader(headerKey,headerValue);
         this.pdfService.exportHotelBooking(response,bookingReservationId);
+    }
+    @GetMapping(value = "/touristicPackage",params = {"touristicPackageId"})
+    public void exportTouristPackage(HttpServletResponse response,@RequestParam(value = "touristicPackageId") Integer touristicPackageId) throws IOException{
+        response.setContentType("application/pdf");
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;  filename = TouristicPackageReservation.pdf";
+        response.setHeader(headerKey,headerValue);
+        this.pdfService.exportTouristPackage(response,touristicPackageId);
     }
 }

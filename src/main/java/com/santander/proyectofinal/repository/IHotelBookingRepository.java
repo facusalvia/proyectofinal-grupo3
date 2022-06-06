@@ -16,4 +16,5 @@ public interface IHotelBookingRepository extends JpaRepository<HotelBookingEntit
     Double obtainDailyBenefits(@Param("date") LocalDate date);
     @Query("SELECT SUM(hb.totalAmount) FROM HotelBookingEntity hb WHERE year(hb.createdAt)=:year AND month(hb.createdAt)=:month")
     Double obtainMonthlyBenefits(@Param("month") Integer month,@Param("year") Integer year);
+
 }
