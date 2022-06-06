@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ClientRespDTO {
-    private Integer clientId;
     private String name;
     private String lastname;
 }
