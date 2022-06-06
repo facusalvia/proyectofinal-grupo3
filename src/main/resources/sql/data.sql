@@ -21,4 +21,15 @@ INSERT INTO flights_reservation VALUES (5,"2022-06-03","Pompeya","2022-02-10",1,
 INSERT INTO flights_reservation VALUES (6,"2022-06-03","Pompeya","2022-02-10",1,"Lugano 1 y 2","2022-02-15","Economy",1,2750,"carla",3,1,1)
 INSERT INTO flights_reservation VALUES (7,"2022-06-03","Pompeya","2022-02-10",1,"Lugano 1 y 2","2022-02-15","Economy",1,2750,"lucila",1,1,1)
 
+
+INSERT INTO hotel_bookings VALUES (1,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,1,"Single",200,"pepe",1,1,1)
+INSERT INTO hotel_bookings VALUES (2,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,2,"Single",200,"juan",2,1,1)
+INSERT INTO hotel_bookings VALUES (3,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,2,"Single",200,"lucila",2,1,1)
+INSERT INTO hotel_bookings VALUES (4,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,2,"Single",200,"carla",2,1,1)
+INSERT INTO hotel_bookings VALUES (5,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,3,"Single",200,"pepe",3,1,1)
+INSERT INTO hotel_bookings VALUES (6,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,2,"Single",200,"pepe",2,1,1)
+INSERT INTO hotel_bookings VALUES (7,"2022-06-03","2022-06-03","2022-06-03","Pompeya",true,3,"Single",200,"pepe",3,1,1)
+
+
+
 INSERT INTO touristic_package_discounts VALUES (1, 0.10)
