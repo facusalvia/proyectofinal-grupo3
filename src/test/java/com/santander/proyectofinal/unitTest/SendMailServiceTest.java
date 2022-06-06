@@ -12,8 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import java.io.File;
 import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -32,14 +34,13 @@ public class SendMailServiceTest {
 
     @Test
     void shouldSendMail() throws IOException {
-
+        //Arrange
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setHost("mail.host.com");
         String path = "src/main/resources/static/img/";
         int flightReservationId = 1;
         MailRequestDTO expectedMailRequestDTO = MailFactory.newMailRequestDTO();
         FileSystemResource file = new FileSystemResource(new File(path + "ticket.pdf"));
-
 
         //act
         when(pdfService.exportFlightTicket(flightReservationId)).thenReturn(file);
