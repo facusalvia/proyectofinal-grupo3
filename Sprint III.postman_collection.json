@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f620fadd-64e0-456c-809e-275f2254ce19",
-		"name": "Sprint III",
+		"_postman_id": "91a74e68-2d35-4ef9-b7ca-eb6abac1a634",
+		"name": "Sprint III Copy 3",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20490728"
+		"_exporter_id": "20470577"
 	},
 	"item": [
 		{
@@ -874,7 +874,7 @@
 								},
 								{
 									"key": "origin",
-									"value": "lugano 1 y 2"
+									"value": "lugano 1"
 								},
 								{
 									"key": "destiny",
