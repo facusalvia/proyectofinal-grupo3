@@ -1,4 +1,5 @@
 # Grupo 3
+
 Integrantes<br>
 <br>
 -Contrera Brian Andrés<br>
@@ -10,11 +11,9 @@ Integrantes<br>
 <br>
 <br>
 
-
-
 # US0001
 
-## Alta de un nuevo hotel (Caso exitoso) 
+## Alta de un nuevo hotel (Caso exitoso)
 
 `POST http://localhost:8080/api/v1/hotels/new`
 
@@ -159,8 +158,7 @@ Integrantes<br>
 
 `PUT http://localhost:8080/api/v1/hotels/edit?hotelCode=NUEVO-00012`
 
-PARAMS
-hotelCode: NUEVO-00012
+PARAMS hotelCode: NUEVO-00012
 
 <details>
 <summary>Request Body</summary>
@@ -193,8 +191,7 @@ hotelCode: NUEVO-00012
 
 `PUT http://localhost:8080/api/v1/hotels/edit?hotelCode=NOEXISTE-0001`
 
-PARAMS
-hotelCode: NOEXISTE-0001
+PARAMS hotelCode: NOEXISTE-0001
 
 <details>
 <summary>Request Body</summary>
@@ -222,15 +219,11 @@ hotelCode: NOEXISTE-0001
 </pre>
 </details>
 
-
 ## Obtener hoteles de acuerdo a fechas de disponibilidad y destino
 
 `GET http://localhost:8080/api/v1/hotels?dateFrom=10/02/2022&dateTo=19/03/2022&destination=Buenos Aires`
 
-PARAMS
-dateFrom: 10/02/2022
-dateTo: 19/03/2022
-destination: Buenos Aires
+PARAMS dateFrom: 10/02/2022 dateTo: 19/03/2022 destination: Buenos Aires
 
 <details>
 <summary>Response</summary>
@@ -264,14 +257,11 @@ destination: Buenos Aires
 </pre>
 </details>
 
-
-
 ## Eliminar un hotel (Caso exitoso)
 
 `DELETE http://localhost:8080/api/v1/hotels/delete?hotelCode=NUEVO-00012`
 
-PARAMS
-hotelCode: NUEVO-00012
+PARAMS hotelCode: NUEVO-00012
 
 
 <details>
@@ -288,8 +278,7 @@ hotelCode: NUEVO-00012
 
 `DELETE http://localhost:8080/api/v1/hotels/delete?hotelCode=NOEXISTE-0001`
 
-PARAMS
-hotelCode: NOEXISTE-0001
+PARAMS hotelCode: NOEXISTE-0001
 
 
 <details>
@@ -305,8 +294,7 @@ hotelCode: NOEXISTE-0001
 
 `DELETE http://localhost:8080/api/v1/hotels/delete?hotelCode=CH-0002`
 
-PARAMS
-hotelCode: CH-0002
+PARAMS hotelCode: CH-0002
 
 
 <details>
@@ -317,7 +305,6 @@ hotelCode: CH-0002
 }
 </pre>
 </details>
-
 
 ## Alta de una reserva de hotel
 
@@ -349,8 +336,8 @@ hotelCode: CH-0002
           "dues":6
       }
     }
-       
-   
+
+
 }
 </pre>
 </details>
@@ -366,13 +353,11 @@ hotelCode: CH-0002
 </pre>
 </details>
 
-
 ## Actualizar una reserva de hotel
 
 `PUT http://localhost:8080/api/v1/hotel-booking/edit?id=1`
 
-PARAMS
-id: 1
+PARAMS id: 1
 
 <details>
 <summary>Request Body</summary>
@@ -459,8 +444,7 @@ id: 1
 
 `DELETE http://localhost:8080/api/v1/hotel-booking/delete?idReservation=2`
 
-PARAMS
-idRservation: 2
+PARAMS idRservation: 2
 
 <details>
 <summary>Response</summary>
@@ -476,8 +460,7 @@ idRservation: 2
 
 `DELETE http://localhost:8080/api/v1/hotel-booking/delete?idReservation=100`
 
-PARAMS
-idRservation: 100
+PARAMS idRservation: 100
 
 <details>
 <summary>Response</summary>
@@ -522,8 +505,6 @@ idRservation: 100
 </pre>
 </details>
 
-
-
 ## Alta nuevo vuelo (Caso fallido - ya existe un vuelo con el número indicado)
 
 `POST http://localhost:8080/api/v1/flights/new`
@@ -553,7 +534,6 @@ idRservation: 100
 </pre>
 </details>
 
-
 ## Obtener todos los vuelos
 
 `GET localhost:8080/api/v1/flights`
@@ -581,8 +561,7 @@ idRservation: 100
 
 `PUT localhost:8080/api/v1/flights/edit?flightNumber=NUEVO-1233`
 
-PARAMS
-flightNumber: NUEVO-1233
+PARAMS flightNumber: NUEVO-1233
 
 <details>
 <summary>Request Body</summary>
@@ -614,8 +593,7 @@ flightNumber: NUEVO-1233
 
 `PUT localhost:8080/api/v1/flights/edit?flightNumber=NOEXISTE-1233`
 
-PARAMS
-flightNumber: NOEXISTE-1233
+PARAMS flightNumber: NOEXISTE-1233
 
 <details>
 <summary>Request Body</summary>
@@ -646,8 +624,7 @@ flightNumber: NOEXISTE-1233
 
 `DELETE http://localhost:8080/api/v1/flight/delete?flightNumber=NUEVO-1233`
 
-PARAMS
-flightNumber: NUEVO-1233
+PARAMS flightNumber: NUEVO-1233
 
 <details>
 <summary>Response</summary>
@@ -659,16 +636,11 @@ flightNumber: NUEVO-1233
 </pre>
 </details>
 
-
 ## Obtener todos los vuelos por fecha y destino
 
 `GET localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1&destiny=Pompeya`
 
-PARAMS
-dateFrom: 10/02/2022
-dateTo: 15/02/2022
-origin: lugano 1
-destinity: Pompeya
+PARAMS dateFrom: 10/02/2022 dateTo: 15/02/2022 origin: lugano 1 destinity: Pompeya
 
 <details>
 <summary>Response</summary>
@@ -707,8 +679,8 @@ destinity: Pompeya
           "dues":6
       }
     }
-       
-   
+
+
 }
 </pre>
 </details>
@@ -728,8 +700,7 @@ destinity: Pompeya
 
 `PUT http://localhost:8080/api/v1/flight-reservation/edit?id=1`
 
-PARAMS
-id: 1
+PARAMS id: 1
 
 <details>
 <summary>Request Body</summary>
@@ -757,8 +728,8 @@ id: 1
           "dues":6
       }
     }
-       
-   
+
+
 }
 </pre>
 </details>
@@ -778,8 +749,7 @@ id: 1
 
 `DELETE http://localhost:8080/api/v1/flight-reservation/delete?id=1`
 
-PARAMS
-id: 1
+PARAMS id: 1
 
 <details>
 <summary>Response</summary>
@@ -790,7 +760,6 @@ id: 1
 }
 </pre>
 </details>
-
 
 # US0002
 
@@ -822,7 +791,6 @@ id: 1
 }
 </pre>
 </details>
-
 
 ## Obtener todos los paquetes turísticos
 
@@ -856,8 +824,7 @@ id: 1
 
 `DELETE http://localhost:8080/api/v1/touristicpackage/delete?packageNumber=1234`
 
-PARAMS
-packageNumber: 1234
+PARAMS packageNumber: 1234
 
 <details>
 <summary>Response</summary>
@@ -869,15 +836,13 @@ packageNumber: 1234
 </pre>
 </details>
 
-
 # US0003
 
 ## Obtener ganancias diarias
 
 `GET http://localhost:8080/api/v1/dailyIncome?date=01/06/2022`
 
-PARAMS
-date: 02/06/2022
+PARAMS date: 02/06/2022
 
 <details>
 <summary>Response</summary>
@@ -893,9 +858,7 @@ date: 02/06/2022
 
 `GET http://localhost:8080/api/v1/monthlyIncome?month=06&year=2022`
 
-PARAMS
-month: 06
-year: 2022
+PARAMS month: 06 year: 2022
 
 <details>
 <summary>Response</summary>
@@ -908,8 +871,116 @@ year: 2022
 </pre>
 </details>
 
+# US0004
 
+## Top 3 de Clientes
 
+`GET http://localhost:8080/api/v1/clients/top-3`
 
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "clients": [
+   { "top_number": 1,
+     "year": 2022,
+     "booking_quantity": 5,
+     "total_amount": 25875,
+     "client_id": 1,
+     "client_name": Norberto,
+     "client_lastname": Bernardo
+   },
+  { "top_number": 2,
+     "year": 2022,
+     "booking_quantity": 4,
+     "total_amount": 22574,
+     "client_id": 2,
+     "client_name": Carlos,
+     "client_lastname": Juan
+   },
+  { "top_number": 3,
+     "year": 2022,
+     "booking_quantity": 3,
+     "total_amount": 9800,
+     "client_id": 3,
+     "client_name": Martin,
+     "client_lastname": Marcelo
+   }
+]
 
+}
+</pre>
+</details>
 
+# US0005
+
+## Requerimiento Libre
+
+### Generar comprobante de reserva de vuelo
+
+`GET http://localhost:8080/api/v1/tickets?flightReservationId=1`
+
+Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
+
+## Send mail
+
+`POST http://localhost:8080/api/v1/email/send`
+PARAMS id: 1
+<details>
+<summary>Request Body</summary>
+<pre>
+{
+    {
+    "subject":"Your Ticket",
+    "to":"brian.contrera@hotmail.com",
+    "content":"Congratulation",
+    "from":"contrerabrian@gmail.com"
+    }
+
+}
+</pre>
+</details>
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+ {
+    "message": "Send mail correct",
+    "code": 200
+}
+
+}
+</pre>
+</details>
+
+## User with more flight reservations
+`GET http://localhost:8080/api/v1/clients/userWithMoreFlightReservations`
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+   {
+    "name": "Carlos",
+    "lastname": "Juan"
+}
+
+}
+</pre>
+</details>
+
+## User with more bookings
+`http://localhost:8080/api/v1/clients/userWithMoreBookings`
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+   {
+    "name": "Carlos",
+    "lastname": "Juan"
+    }
+}
+</pre>
+</details>
