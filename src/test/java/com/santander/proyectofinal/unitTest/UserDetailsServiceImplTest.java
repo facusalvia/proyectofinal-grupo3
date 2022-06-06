@@ -3,6 +3,7 @@ package com.santander.proyectofinal.unitTest;
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.UserDTO;
 import com.santander.proyectofinal.dto.UserDTOResponseProtected;
+import com.santander.proyectofinal.dto.request.UserRequestDTO;
 import com.santander.proyectofinal.entity.FlightEntity;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.PaymentMethodDebitCanNotMoreThanOneDueException;
@@ -67,16 +68,16 @@ public class UserDetailsServiceImplTest {
     @Test
     void shouldReturnAnAddedUser(){
         //Arrange
-        UserDTO userDTOToAdd = UserEntityFactory.newUserDTO();
+        UserRequestDTO userRequestDTO = UserEntityFactory.newUserRequestDTO();
         UserEntity userEntity = UserEntityFactory.newUserEntity();
         //Act
         when(userEntityRepository.findByUsernameEquals(any())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(any())).thenReturn("pass");
         when(userEntityRepository.save(any())).thenReturn(userEntity);
 
-        UserDTO addedUser = userDetailsService.add(userDTOToAdd);
+        UserRequestDTO addedUser = userDetailsService.add(userRequestDTO);
         //Assert
-        assertAll(()->assertEquals(userDTOToAdd,addedUser));
+        assertAll(()->assertEquals(userRequestDTO,addedUser));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.santander.proyectofinal.util;
 
 import com.santander.proyectofinal.dto.UserDTO;
 import com.santander.proyectofinal.dto.UserDTOResponseProtected;
+import com.santander.proyectofinal.dto.request.UserRequestDTO;
 import com.santander.proyectofinal.entity.UserEntity;
 
 public class UserEntityFactory {
@@ -14,5 +15,8 @@ public class UserEntityFactory {
     }
     public static UserDTOResponseProtected newUserDTOProtected(){
         return new UserDTOResponseProtected(1,"username", "manager",true);
+    }
+    public static UserRequestDTO newUserRequestDTO(){
+        return new UserRequestDTO("username", "123");
     }
 }

@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<TaskMessage> addUser(@Valid @RequestBody UserDTO userDTO) {
-        userDetailsService.add(userDTO);
+    public ResponseEntity<TaskMessage> addUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
+        userDetailsService.add(userRequestDTO);
         return ResponseEntity.ok().body(new TaskMessage("Se agrego un nuevo Usuario", 201));
     }
 

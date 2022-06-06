@@ -3,6 +3,7 @@ package com.santander.proyectofinal.service;
 import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.UserDTO;
 import com.santander.proyectofinal.dto.UserDTOResponseProtected;
+import com.santander.proyectofinal.dto.request.UserRequestDTO;
 import com.santander.proyectofinal.dto.response.UserResponseDTO;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
@@ -50,25 +51,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
 
-    public UserDTO add(UserDTO userDTO) {
-       if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
+    public UserRequestDTO add(UserRequestDTO userRequestDTO) {
+       if(userEntityRepository.findByUsernameEquals(userRequestDTO.getUsername()).isPresent()){
            throw new UserAlreadyExistsException();
                }
-       UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
-       addUserEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+       UserEntity addUserEntity = modelMapper.map(userRequestDTO, UserEntity.class);
+       addUserEntity.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         addUserEntity.setAccountNonLocked(true);
+        addUserEntity.setRol("employee");
         addUserEntity = userEntityRepository.save(addUserEntity);
         if(addUserEntity.getId() == null){
             throw new RepositorySaveException();
         }
-       return userDTO;
+       return userRequestDTO;
     }
 
     public UserDTO update(Integer id, UserDTO userDTO) {
         UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+        String username = userEntity.getUsername();
         userEntity.setUsername(null);
         userEntityRepository.save(userEntity);
         if(userEntityRepository.findByUsernameEquals(userDTO.getUsername()).isPresent()){
+            userEntity.setUsername(username);
             throw new UserAlreadyExistsException();
         }
 
