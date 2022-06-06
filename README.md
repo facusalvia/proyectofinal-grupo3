@@ -965,6 +965,10 @@ Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
 
 Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
 
+### Generar comprobante de reserva Paquete Turístico
 
+`GET http://localhost:8080/api/v1/touristicPackage?touristicPackageId=1`
+
+Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
 
 
