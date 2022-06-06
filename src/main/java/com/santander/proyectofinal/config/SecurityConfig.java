@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(apiURL + "/user").permitAll()
                 .antMatchers(apiURL + "/hotels/**").hasRole(manager)
+                .antMatchers(apiURL + "/send/**").hasRole(manager)
                 .antMatchers(apiURL + "/hotel-booking/**").hasRole(manager)
                 .antMatchers(apiURL + "/flights/**").hasRole(manager)
                 .antMatchers(apiURL + "/flight-reservation/**").hasRole(manager)
