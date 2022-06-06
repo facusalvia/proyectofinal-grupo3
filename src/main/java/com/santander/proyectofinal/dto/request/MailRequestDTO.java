@@ -12,5 +12,5 @@ public class MailRequestDTO {
     private String mailSubject;
     private String mailTo;
     private String mailContent;
-
+    private String mailFrom;
 }

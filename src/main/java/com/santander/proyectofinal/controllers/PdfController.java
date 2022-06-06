@@ -28,6 +28,6 @@ public class PdfController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment;  filename = pdf_ "+currentDateTime+".pdf";
         response.setHeader(headerKey,headerValue);
-        this.pdfService.exportFlightTicket(response,flightReservationId);
+        this.pdfService.exportFlightTicket(flightReservationId);
     }
 }
