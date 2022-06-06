@@ -21,8 +21,8 @@ public class SendMailController {
     SendMailService sendMailService;
 
     @PostMapping("/send")
-    public ResponseEntity<SuccessDTO> sendMail(@RequestParam(value = "flightReservationId") Integer flightReservationId,@Valid @RequestBody MailRequestDTO  mailRequestDTO) {
-            sendMailService.sendEmail(flightReservationId,mailRequestDTO);
-        return ResponseEntity.ok().body(new SuccessDTO("Send mail correct", 201));
+    public ResponseEntity<SuccessDTO> sendMail(@RequestParam(value = "flightReservationId") Integer flightReservationId, @Valid @RequestBody MailRequestDTO mailRequestDTO) {
+        sendMailService.sendEmail(flightReservationId, mailRequestDTO);
+        return ResponseEntity.ok().body(new SuccessDTO("Send mail correct", 200));
     }
 }
