@@ -132,4 +132,10 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(HotelsNoAvailableException.class)
+    public ResponseEntity<ErrorDTO> handlerException(HotelsNoAvailableException hotelsNoAvailableException){
+        ErrorDTO errorDto = new ErrorDTO(hotelsNoAvailableException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }
