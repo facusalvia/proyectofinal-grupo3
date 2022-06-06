@@ -411,7 +411,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"juan\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"14/04/2022\",\r\n        \"dateTo\": \"10/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 38998262,\r\n                \"name\": \"juan\",\r\n                \"mail\": \"juan@juan.com\",\r\n                \"lastname\": \"Peréz\",\r\n                \"birthDate\": \"18/06/1992\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"CREDIT\",\r\n            \"number\": \"7567\",\r\n            \"dues\": 6\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"username\": \"juan\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"10/04/2022\",\r\n        \"dateTo\": \"15/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 38998262,\r\n                \"name\": \"juan\",\r\n                \"mail\": \"juan@juan.com\",\r\n                \"lastname\": \"Peréz\",\r\n                \"birthDate\": \"18/06/1992\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"CREDIT\",\r\n            \"number\": \"7567\",\r\n            \"dues\": 6\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -452,7 +452,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"nor\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"16/04/2022\",\r\n        \"dateTo\": \"17/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"username\": \"nor\",\r\n    \"booking\": {\r\n        \"dateFrom\": \"10/04/2022\",\r\n        \"dateTo\": \"11/04/2022\",\r\n        \"hotelCode\": \"CH-0002\",\r\n        \"destination\": \"Puerto Iguazú\",\r\n        \"peopleAmount\": 1,\r\n        \"roomType\": \"Single\",\r\n        \"people\": [\r\n            {\r\n                \"dni\": 109238123,\r\n                \"name\": \"marco\",\r\n                \"mail\": \"marco@gmail.com\",\r\n                \"lastname\": \"Azul\",\r\n                \"birthDate\": \"13/02/1987\"\r\n            }\r\n        ],\r\n        \"paymentMethod\":{\r\n            \"type\": \"DEBIT\",\r\n            \"number\": \"7567 5465\",\r\n            \"dues\": 0\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1070,7 +1070,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/dailyIncome?date=01/06/2022",
+							"raw": "http://localhost:8080/api/v1/dailyIncome?date=06/06/2022",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1084,7 +1084,7 @@
 							"query": [
 								{
 									"key": "date",
-									"value": "01/06/2022"
+									"value": "06/06/2022"
 								}
 							]
 						}
