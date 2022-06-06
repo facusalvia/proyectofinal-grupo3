@@ -6,7 +6,9 @@ import com.santander.proyectofinal.dto.response.FlightReservationResponseDTO;
 import com.santander.proyectofinal.dto.response.FlightReservationResponseListDTO;
 import com.santander.proyectofinal.dto.response.ListHotelBookingResponseDTO;
 import com.santander.proyectofinal.entity.*;
+import com.santander.proyectofinal.exceptions.BookingPeriodOutsideHotelDisponibilityPeriodException;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
+import com.santander.proyectofinal.exceptions.ReservationDatesDoNotMatchFlightDatesException;
 import com.santander.proyectofinal.exceptions.flightException.FlightDoesNotExistException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.flightException.FlightReservationDoesNotExistException;
@@ -44,6 +46,8 @@ public class FlightReservationService {
         FlightEntity flightEntity = flightEntityRepository.findByFlightNumberEquals(flightReservationRequestDTO.getFlightReservationDTO().getFlightNumber()).orElseThrow(FlightDoesNotExistException::new);
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
 
+        validateDates(flightReservationRequestDTO, flightEntity);
+
         flightReservationEntity.setClient(clientRepository.findByUsernameEquals(flightReservationRequestDTO.getUsername()).orElseThrow());
 
         flightReservationEntity.setFlightEntity(flightEntity);
@@ -74,6 +78,9 @@ public class FlightReservationService {
 
     public FlightReservationRequestDTO update(Integer id, FlightReservationRequestDTO flightReservationRequestDTO) {
         FlightReservationEntity flightReservationEntityRepo = flightReservationRepository.findById(id).orElseThrow(FlightReservationDoesNotExistException::new);
+
+        validateDates(flightReservationRequestDTO, flightReservationEntityRepo.getFlightEntity());
+
         FlightReservationEntity flightReservationEntity = buildFlightReservationEntity(id, flightReservationRequestDTO, flightReservationEntityRepo);
         flightReservationEntity.setCreatedAt(flightReservationEntityRepo.getCreatedAt());
         flightReservationEntity.setTotalAmount(flightReservationEntityRepo.getTotalAmount());
@@ -86,6 +93,7 @@ public class FlightReservationService {
 
 
     //TODO: Verificar porque duplica en la tabla intermerdia
+
     private FlightReservationEntity buildFlightReservationEntity(Integer id, FlightReservationRequestDTO flightReservationRequestDTO, FlightReservationEntity flightReservationEntityRepo) {
         FlightReservationEntity flightReservationEntity = modelMapper.map(flightReservationRequestDTO.getFlightReservationDTO(), FlightReservationEntity.class);
         flightReservationEntity.setId(id);
@@ -101,7 +109,6 @@ public class FlightReservationService {
         }
         return flightReservationEntity;
     }
-
     public FlightReservationResponseDTO deleteFlightReservation(Integer id) {
         FlightReservationEntity flightReservationEntity = flightReservationRepository.findById(id).orElseThrow(FlightReservationDoesNotExistException::new);
 
@@ -127,5 +134,20 @@ public class FlightReservationService {
 
         return new FlightReservationResponseListDTO(flightReservationResponseDTOS);
 
+    }
+
+    private void validateDates(FlightReservationRequestDTO flightReservationRequestDTO, FlightEntity flightEntity) {
+        //verifico que coincidan als fechas de vuelo
+        LocalDate flightFrom = flightEntity.getDateFrom();
+        LocalDate flightTo = flightEntity.getDateTo();
+
+        LocalDate reservationFrom = flightReservationRequestDTO.getFlightReservationDTO().getGoingDate();
+        LocalDate reservationTo = flightReservationRequestDTO.getFlightReservationDTO().getReturnDate();
+
+        boolean equalDeparture =  reservationFrom.isEqual(flightFrom);
+        boolean equalReturn = reservationTo.isEqual(flightTo);
+        if(!equalDeparture || !equalReturn){
+            throw new ReservationDatesDoNotMatchFlightDatesException();
+        }
     }
 }

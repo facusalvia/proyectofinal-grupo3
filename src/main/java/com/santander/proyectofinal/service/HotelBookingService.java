@@ -7,6 +7,7 @@ import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.BookingPeriodOutsideHotelDisponibilityPeriodException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
@@ -47,6 +48,9 @@ public class HotelBookingService {
 
     public HotelBookingDTORequest addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
+
+        validateBookingPeriod(hotelBookingDTORequest, hotelEntity);
+
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
         //valido que exista cliente
@@ -64,7 +68,7 @@ public class HotelBookingService {
         hotelBookingEntity.setCreatedAt(LocalDate.now());
         Double interest = interestService.interestCalculator(hotelBookingDTORequest.getBooking().getPaymentMethod());
         double amount = hotelEntity.getRoomPrice();
-        double day = ChronoUnit.DAYS.between(hotelBookingDTORequest.getBooking().getDateTo(), hotelBookingDTORequest.getBooking().getDateFrom());
+        double day = ChronoUnit.DAYS.between(hotelBookingDTORequest.getBooking().getDateFrom(), hotelBookingDTORequest.getBooking().getDateTo());
         double total = interest * amount * day;
         hotelBookingEntity.setTotalAmount((double) Math.round(total));
         hotelBookingEntity = hotelBookingRepository.save(hotelBookingEntity);
@@ -97,9 +101,14 @@ public class HotelBookingService {
     }
 
     // TODO: fix created_at y total_amount quedan en null
+
     public HotelBookingDTORequest updateHotelBooking(Integer bookingId, HotelBookingDTORequest hotelBookingDTORequest) {
         // verifico que exista el hotelBooking
         HotelBookingEntity savedHotelBookingEntity = hotelBookingRepository.findById(bookingId).orElseThrow(HotelBookingDoesNotExistException::new);
+
+        // verifico que el nuevo periodo sea valido
+        validateBookingPeriod(hotelBookingDTORequest, savedHotelBookingEntity.getHotel());
+
         BookingRequestDTO bookingRequestDTO = hotelBookingDTORequest.getBooking();
 
         HotelBookingEntity updatedHotelBookingEntity = modelMapper.map(bookingRequestDTO, HotelBookingEntity.class);
@@ -132,5 +141,19 @@ public class HotelBookingService {
 
     }
 
+    private void validateBookingPeriod(HotelBookingDTORequest hotelBookingDTORequest, HotelEntity hotelEntity) {
+        // valido que la fecha del request este dentro del periodo del hotel
+        LocalDate hotelFrom = hotelEntity.getDisponibilityDateFrom();
+        LocalDate hotelTo = hotelEntity.getDisponibilityDateTo();
+
+        LocalDate bookingFrom = hotelBookingDTORequest.getBooking().getDateFrom();
+        LocalDate bookingTo = hotelBookingDTORequest.getBooking().getDateTo();
+
+        boolean low = bookingFrom.isAfter(hotelFrom) || bookingFrom.isEqual(hotelFrom);
+        boolean high = bookingTo.isBefore(hotelTo) || bookingTo.isEqual(hotelTo);
+        if(!low || !high){
+            throw new BookingPeriodOutsideHotelDisponibilityPeriodException();
+        }
+    }
 
 }
