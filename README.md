@@ -957,10 +957,18 @@ year: 2022
 
 `GET http://localhost:8080/api/v1/tickets?flightReservationId=1`
 
+Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
+
 ### Generar comprobante de reserva de hotel
 
 `GET http://localhost:8080/api/v1/booking?bookingReservationId=1`
 
+Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
 
+### Generar comprobante de reserva Paquete Turístico
+
+`GET http://localhost:8080/api/v1/touristicPackage?touristicPackageId=1`
+
+Se descarga el PDF de la reserva correspondiente (ID indicado en URI)
 
 
