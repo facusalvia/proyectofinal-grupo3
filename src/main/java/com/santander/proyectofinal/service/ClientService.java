@@ -32,4 +32,10 @@ public class ClientService {
         ClientRespDTO clientResponseDTO = modelMapper.map(clients, ClientRespDTO.class);
         return clientResponseDTO;
     }
+
+    public ClientRespDTO getUserWithMoreBookings() {
+        ClientEntity clients =  clientRepository.findClientWithMoreFlightBookings();
+        ClientRespDTO clientResponseDTO = modelMapper.map(clients, ClientRespDTO.class);
+        return clientResponseDTO;
+    }
 }
