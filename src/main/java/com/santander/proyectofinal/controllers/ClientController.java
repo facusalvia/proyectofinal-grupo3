@@ -26,4 +26,9 @@ public class ClientController {
    public ResponseEntity<ClientRespDTO> getUserWithMoreFlightReservation(){
        return ResponseEntity.ok().body(clientService.getUserWithMoreFlightReservation());
     }
+
+    @GetMapping(value = "/userWithMoreBookings")
+    public ResponseEntity<ClientRespDTO> getUserWithMoreBookings(){
+        return ResponseEntity.ok().body(clientService.getUserWithMoreBookings());
+    }
 }
