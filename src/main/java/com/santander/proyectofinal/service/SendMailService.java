@@ -8,10 +8,8 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
@@ -24,16 +22,14 @@ public class SendMailService {
 
 
     public MailRequestDTO sendEmail(Integer flightReservationId, MailRequestDTO mailRequestDTO) {
-    MailEntity mail = buildMailEntity(mailRequestDTO);
+        MailEntity mail = buildMailEntity(mailRequestDTO);
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
             FileSystemResource file = pdfService.exportFlightTicket(flightReservationId);
             if (file == null) {
                 throw new FileNotFoundException();
             }
             MimeMessageHelper mimeMessageHelper = createMimeHelper(mimeMessage, mail, file);
-            messageBodyPart.setFileName(file.getFilename());
             mailSender.send(mimeMessageHelper.getMimeMessage());
             pdfService.deleteFile(file);
         } catch (MessagingException e) {
