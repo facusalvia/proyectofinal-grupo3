@@ -47,7 +47,7 @@ public class UserDetailsServiceImplTest {
     void shouldReturnAnUserDetails(){
 
 
-        UserEntity expectedUserEntity = new UserEntity(1,"Juan","1234","manager");
+        UserEntity expectedUserEntity = new UserEntity(1,"Juan","1234","manager", true);
         String userNameToAdd = "Juan";
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

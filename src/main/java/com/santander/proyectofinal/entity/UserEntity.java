@@ -24,4 +24,5 @@ public class UserEntity {
 
     private String rol;
 
+    private boolean accountNonLocked;
 }

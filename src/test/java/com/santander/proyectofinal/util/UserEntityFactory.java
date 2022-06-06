@@ -6,7 +6,7 @@ import com.santander.proyectofinal.entity.UserEntity;
 public class UserEntityFactory {
 
     public static UserEntity newUserEntity(){
-        return new UserEntity(1,"username", "123", "manager");
+        return new UserEntity(1,"username", "123", "manager", true);
     }
     public static UserDTO newUserDTO(){
         return new UserDTO("username", "123", "manager");

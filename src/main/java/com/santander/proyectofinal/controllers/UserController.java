@@ -70,5 +70,15 @@ public class UserController {
         userDetailsService.delete(id);
         return ResponseEntity.ok().body(new SuccessDTO( "Usuario dado de baja correctamente" , 200));
     }
+    @PutMapping(value ="/locked", params= {"id"})
+    public ResponseEntity<SuccessDTO> userLocked(@RequestParam(value="id") Integer id){
+        userDetailsService.userLocked(id);
+        return ResponseEntity.ok().body(new SuccessDTO( "Usuario bloqueado correctamente" , 200));
+    }
+    @PutMapping(value ="/nonlocked", params= {"id"})
+    public ResponseEntity<SuccessDTO> userNonLocked(@RequestParam(value="id") Integer id){
+        userDetailsService.userNonLocked(id);
+        return ResponseEntity.ok().body(new SuccessDTO( "Usuario desbloqueado correctamente" , 200));
+    }
 
 }

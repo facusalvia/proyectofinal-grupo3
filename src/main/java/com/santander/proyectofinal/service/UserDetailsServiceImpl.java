@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
         }
 
-        return new User(userEntity.getUsername(), userEntity.getPassword(), grantedAuthorities);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), true, true, true, userEntity.isAccountNonLocked(), grantedAuthorities);
     }
 
 
@@ -51,6 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                }
        UserEntity addUserEntity = modelMapper.map(userDTO, UserEntity.class);
        addUserEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        addUserEntity.setAccountNonLocked(true);
         addUserEntity = userEntityRepository.save(addUserEntity);
         if(addUserEntity.getId() == null){
             throw new RepositorySaveException();
@@ -79,6 +80,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         userEntityRepository.delete(userEntity);
 
+        UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
+        return userDTO;
+    }
+
+    public UserDTO userLocked(Integer id) {
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+        userEntity.setAccountNonLocked(false);
+        userEntityRepository.save(userEntity);
+        UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
+        return userDTO;
+    }
+    public UserDTO userNonLocked(Integer id) {
+        UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
+        userEntity.setAccountNonLocked(true);
+        userEntityRepository.save(userEntity);
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
         return userDTO;
     }
