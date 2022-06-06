@@ -37,8 +37,8 @@ public class PdfService {
         PdfWriter writer = PdfWriter.getInstance(ticketPDF, new FileOutputStream(path + "ticket.pdf"));
 
         //Fonts
-        Font font30 = createFontHelvetica(30,Color.green);
-        Font font15 = createFontHelvetica(15,Color.green);
+        Font font30 = createFontHelvetica(30,Color.black);
+        Font font15 = createFontHelvetica(15,Color.black);
 
         //Header del PDF
         Table tableHeader = configHeader(font30);
