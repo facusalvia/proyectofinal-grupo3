@@ -853,7 +853,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1 y 2&destiny=Pompeya",
+							"raw": "localhost:8080/api/v1/flights?dateFrom=10/02/2022&dateTo=15/02/2022&origin=lugano 1&destiny=Pompeya",
 							"host": [
 								"localhost"
 							],
