@@ -126,4 +126,10 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BookingPeriodOutsideHotelDisponibilityPeriodException.class)
+    public ResponseEntity<ErrorDTO> handlerException(BookingPeriodOutsideHotelDisponibilityPeriodException bookingPeriodOutsideHotelDisponibilityPeriod){
+        ErrorDTO errorDto = new ErrorDTO(bookingPeriodOutsideHotelDisponibilityPeriod.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }

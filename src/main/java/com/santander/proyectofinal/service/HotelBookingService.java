@@ -7,6 +7,7 @@ import com.santander.proyectofinal.entity.HotelBookingEntity;
 import com.santander.proyectofinal.entity.HotelEntity;
 import com.santander.proyectofinal.entity.PersonEntity;
 import com.santander.proyectofinal.entity.TouristicPackageEntity;
+import com.santander.proyectofinal.exceptions.BookingPeriodOutsideHotelDisponibilityPeriodException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingCanNotDeleteException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelBookingDoesNotExistException;
 import com.santander.proyectofinal.exceptions.hotelException.HotelDoesNotExistException;
@@ -47,6 +48,20 @@ public class HotelBookingService {
 
     public HotelBookingDTORequest addBooking(HotelBookingDTORequest hotelBookingDTORequest) {
         HotelEntity hotelEntity = hotelRepository.findByHotelCode(hotelBookingDTORequest.getBooking().getHotelCode()).orElseThrow(HotelDoesNotExistException::new);
+
+        // valido que la fecha del request este dentro del periodo del hotel
+        LocalDate hotelFrom = hotelEntity.getDisponibilityDateFrom();
+        LocalDate hotelTo = hotelEntity.getDisponibilityDateTo();
+
+        LocalDate bookingFrom = hotelBookingDTORequest.getBooking().getDateFrom();
+        LocalDate bookingTo = hotelBookingDTORequest.getBooking().getDateTo();
+
+        boolean low = bookingFrom.isAfter(hotelFrom) || bookingFrom.isEqual(hotelFrom);
+        boolean high = bookingTo.isBefore(hotelTo) || bookingTo.isEqual(hotelTo);
+        if(!low || !high){
+            throw new BookingPeriodOutsideHotelDisponibilityPeriodException();
+        }
+
         HotelBookingEntity hotelBookingEntity = modelMapper.map(hotelBookingDTORequest.getBooking(), HotelBookingEntity.class);
 
         //valido que exista cliente
