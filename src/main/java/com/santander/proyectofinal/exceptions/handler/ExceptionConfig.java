@@ -132,4 +132,10 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ReservationDatesDoNotMatchFlightDatesException.class)
+    public ResponseEntity<ErrorDTO> handlerException(ReservationDatesDoNotMatchFlightDatesException reservationDatesDoNotMatchFlightDatesException){
+        ErrorDTO errorDto = new ErrorDTO(reservationDatesDoNotMatchFlightDatesException.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
 }
