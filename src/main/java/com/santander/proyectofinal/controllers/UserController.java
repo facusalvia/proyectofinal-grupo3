@@ -1,14 +1,12 @@
 package com.santander.proyectofinal.controllers;
 
 import com.santander.proyectofinal.config.JwtUtils;
-import com.santander.proyectofinal.dto.FlightDTO;
-import com.santander.proyectofinal.dto.SuccessDTO;
-import com.santander.proyectofinal.dto.TaskMessage;
-import com.santander.proyectofinal.dto.UserDTO;
+import com.santander.proyectofinal.dto.*;
 import com.santander.proyectofinal.dto.request.UserRequestDTO;
 import com.santander.proyectofinal.dto.response.UserResponseDTO;
 import com.santander.proyectofinal.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.config.Task;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -75,10 +74,15 @@ public class UserController {
         userDetailsService.userLocked(id);
         return ResponseEntity.ok().body(new SuccessDTO( "Usuario bloqueado correctamente" , 200));
     }
-    @PutMapping(value ="/nonlocked", params= {"id"})
-    public ResponseEntity<SuccessDTO> userNonLocked(@RequestParam(value="id") Integer id){
-        userDetailsService.userNonLocked(id);
+    @PutMapping(value ="/unlocked", params= {"id"})
+    public ResponseEntity<SuccessDTO> userUnlocked(@RequestParam(value="id") Integer id){
+        userDetailsService.userUnlocked(id);
         return ResponseEntity.ok().body(new SuccessDTO( "Usuario desbloqueado correctamente" , 200));
+    }
+    @GetMapping(value ="/list")
+    public ResponseEntity<List<UserDTOResponseProtected>> userList(){
+        List<UserDTOResponseProtected> userResponseDTOList = userDetailsService.userList();
+        return new ResponseEntity<>(userResponseDTOList, HttpStatus.OK);
     }
 
 }

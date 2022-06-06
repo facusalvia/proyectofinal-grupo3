@@ -1,10 +1,14 @@
 package com.santander.proyectofinal.service;
 
+import com.santander.proyectofinal.dto.FlightDTO;
 import com.santander.proyectofinal.dto.UserDTO;
+import com.santander.proyectofinal.dto.UserDTOResponseProtected;
+import com.santander.proyectofinal.dto.response.UserResponseDTO;
 import com.santander.proyectofinal.entity.UserEntity;
 import com.santander.proyectofinal.exceptions.RepositorySaveException;
 import com.santander.proyectofinal.exceptions.UserAlreadyExistsException;
 import com.santander.proyectofinal.exceptions.UserDoesNotExistException;
+import com.santander.proyectofinal.exceptions.flightException.FlightNoAvailableException;
 import com.santander.proyectofinal.repository.IUserEntityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -91,11 +96,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
         return userDTO;
     }
-    public UserDTO userNonLocked(Integer id) {
+    public UserDTO userUnlocked(Integer id) {
         UserEntity userEntity = userEntityRepository.findById(id).orElseThrow(UserDoesNotExistException::new);
         userEntity.setAccountNonLocked(true);
         userEntityRepository.save(userEntity);
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
         return userDTO;
     }
+    public List<UserDTOResponseProtected> userList() {
+        List<UserEntity> userEntityList = userEntityRepository.findAll();
+        if (userEntityList.isEmpty())
+            throw new UserDoesNotExistException();
+        List<UserDTOResponseProtected> userResponseDTOList = userEntityList.stream().map(
+                        user -> modelMapper.map(user, UserDTOResponseProtected.class)
+                )
+                .collect(Collectors.toList());
+        return userResponseDTOList;
+    }
+
 }
