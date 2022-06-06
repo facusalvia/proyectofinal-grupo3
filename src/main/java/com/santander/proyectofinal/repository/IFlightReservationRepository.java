@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IFlightReservationRepository extends JpaRepository<FlightReservationEntity, Integer> {
-    @Query("SELECT SUM(fr.totalAmount) FROM FlightReservationEntity fr WHERE fr.createdAt=:date")
+    @Query("SELECT SUM(fr.totalAmount) FROM FlightReservationEntity fr WHERE fr.createdAt=:date AND fr.isActive=TRUE")
     Double obtainDailyBenefits(@Param("date") LocalDate date);
-    @Query("SELECT SUM(fr.totalAmount) FROM FlightReservationEntity fr WHERE year(fr.createdAt)=:year AND month(fr.createdAt)=:month")
+    @Query("SELECT SUM(fr.totalAmount) FROM FlightReservationEntity fr WHERE year(fr.createdAt)=:year AND month(fr.createdAt)=:month AND fr.isActive=TRUE")
     Double obtainMonthlyBenefits(@Param("month") Integer month,@Param("year") Integer year);
 
     List<FlightReservationEntity> findByIsActiveTrue();

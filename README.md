@@ -1041,6 +1041,46 @@ hotel_code: CH-0002
 </pre>
 </details>
 
+# US0004
+
+## Top 3 de Clientes
+
+`GET http://localhost:8080/api/v1/clients/top-3`
+
+<details>
+<summary>Response</summary>
+<pre>
+{
+    "clients": [
+   { "top_number": 1,
+     "year": 2022,
+     "booking_quantity": 5,
+     "total_amount": 25875,
+     "client_id": 1,
+     "client_name": Norberto,
+     "client_lastname": Bernardo
+   },
+  { "top_number": 2,
+     "year": 2022,
+     "booking_quantity": 4,
+     "total_amount": 22574,
+     "client_id": 2,
+     "client_name": Carlos,
+     "client_lastname": Juan
+   },
+  { "top_number": 3,
+     "year": 2022,
+     "booking_quantity": 3,
+     "total_amount": 9800,
+     "client_id": 3,
+     "client_name": Martin,
+     "client_lastname": Marcelo
+   }
+]
+    
+}
+</pre>
+</details>
 
 
 
